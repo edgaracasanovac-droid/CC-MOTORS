@@ -1,0 +1,151 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/common/Navbar.astro";
+import Footer from "../../components/common/Footer.astro";
+
+import {
+  getVehiculos,
+  getVehiculoPorId,
+  formatPrice,
+} from "../../services/api";
+
+export async function getStaticPaths() {
+  const vehiculos = await getVehiculos();
+
+  return vehiculos.map((vehiculo) => ({
+    params: {
+      id: String(vehiculo.id_vehiculo),
+    },
+  }));
+}
+
+const { id } = Astro.params;
+
+const vehiculo = await getVehiculoPorId(id);
+
+const imagenesVehiculos = {
+  Toyota:
+    "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1600",
+  Ford:
+    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600",
+  Chevrolet:
+    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600",
+  Hyundai:
+    "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1600",
+  BMW:
+    "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1600",
+};
+
+const imagenDefault =
+  "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1600";
+
+const imagenVehiculo =
+  vehiculo && (imagenesVehiculos[vehiculo.nombre_marca] || imagenDefault);
+---
+
+<MainLayout
+  title={vehiculo ? `${vehiculo.nombre_marca} ${vehiculo.nombre_modelo} | CC Motors` : "Vehículo | CC Motors"}
+  description="Detalle de vehículo disponible en Casanova Contreras Motors"
+>
+  <Navbar />
+
+  {
+    vehiculo ? (
+      <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <img
+                src={imagenVehiculo}
+                alt={`${vehiculo.nombre_marca} ${vehiculo.nombre_modelo}`}
+                class="w-full h-[480px] object-cover rounded-[2rem] shadow-xl"
+              />
+            </div>
+
+            <div>
+              <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold capitalize">
+                {vehiculo.estado}
+              </span>
+
+              <h1 class="text-5xl md:text-6xl font-black text-gray-950 mt-5 leading-tight">
+                {vehiculo.nombre_marca} {vehiculo.nombre_modelo}
+              </h1>
+
+              <p class="text-red-600 text-4xl font-black mt-4">
+                {formatPrice(vehiculo.precio_venta)}
+              </p>
+
+              <p class="text-gray-600 mt-6 leading-relaxed text-lg">
+                Vehículo registrado en el sistema administrativo de CC Motors.
+                Consulta sus características principales y solicita una cotización personalizada.
+              </p>
+
+              <div class="grid grid-cols-2 gap-4 mt-8">
+                <div class="bg-white p-5 rounded-2xl border border-gray-100">
+                  <p class="text-gray-500 text-sm">Año</p>
+                  <p class="font-black text-gray-950">{vehiculo.ano}</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-gray-100">
+                  <p class="text-gray-500 text-sm">Color</p>
+                  <p class="font-black text-gray-950 capitalize">{vehiculo.color}</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-gray-100">
+                  <p class="text-gray-500 text-sm">Kilometraje</p>
+                  <p class="font-black text-gray-950">{vehiculo.kilometraje}</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-gray-100">
+                  <p class="text-gray-500 text-sm">Placa</p>
+                  <p class="font-black text-gray-950">{vehiculo.placa}</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-gray-100">
+                  <p class="text-gray-500 text-sm">Proveedor</p>
+                  <p class="font-black text-gray-950">{vehiculo.nombre_proveedor || "No registrado"}</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-gray-100">
+                  <p class="text-gray-500 text-sm">Precio compra</p>
+                  <p class="font-black text-gray-950">{formatPrice(vehiculo.precio_compra)}</p>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-4 mt-10">
+                <a
+                  href="/cotizacion"
+                  class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold transition"
+                >
+                  Solicitar cotización
+                </a>
+
+                <a
+                  href="/catalogo"
+                  class="border border-gray-300 px-8 py-4 rounded-xl font-bold hover:bg-white transition"
+                >
+                  Volver al catálogo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    ) : (
+      <section class="py-32 text-center bg-gray-50">
+        <h1 class="text-4xl font-black text-gray-950">
+          Vehículo no encontrado
+        </h1>
+
+        <a
+          href="/catalogo"
+          class="inline-flex mt-8 bg-red-600 text-white px-6 py-3 rounded-xl font-bold"
+        >
+          Volver al catálogo
+        </a>
+      </section>
+    )
+  }
+
+  <Footer />
+</MainLayout>

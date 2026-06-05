@@ -1,0 +1,130 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+---
+
+<MainLayout
+  title="Nosotros | CC Motors"
+  description="Conoce la historia, misión y visión de Casanova Contreras Motors."
+>
+  <Navbar />
+
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-14 items-center">
+        <div>
+          <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
+            Sobre nosotros
+          </span>
+
+          <h1 class="text-5xl md:text-6xl font-black text-gray-950 mt-5 leading-tight">
+            Una concesionaria moderna, confiable y orientada al cliente
+          </h1>
+
+          <p class="text-gray-600 text-lg mt-6 leading-relaxed">
+            Casanova Contreras Motors nace como una propuesta empresarial enfocada
+            en la compra, venta y cotización de vehículos nuevos y usados, integrando
+            herramientas tecnológicas para mejorar la atención, organización y gestión
+            comercial de la concesionaria.
+          </p>
+
+          <p class="text-gray-600 text-lg mt-4 leading-relaxed">
+            Nuestro objetivo es ofrecer una experiencia transparente, rápida y segura,
+            permitiendo que cada cliente pueda conocer vehículos disponibles, solicitar
+            cotizaciones y recibir asesoría personalizada.
+          </p>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -top-8 -right-8 h-72 w-72 bg-red-100 rounded-full blur-3xl"></div>
+
+          <img
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1400"
+            alt="Equipo profesional CC Motors"
+            class="relative rounded-[2rem] shadow-xl w-full h-[480px] object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8">
+        <article class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+          <div class="h-12 w-12 rounded-2xl bg-red-600 text-white flex items-center justify-center font-black">
+            01
+          </div>
+
+          <h2 class="text-2xl font-black text-gray-950 mt-6">
+            Misión
+          </h2>
+
+          <p class="text-gray-600 mt-4 leading-relaxed">
+            Brindar soluciones comerciales en la venta de vehículos mediante atención
+            personalizada, procesos confiables y herramientas digitales que faciliten
+            la gestión de clientes, cotizaciones y operaciones.
+          </p>
+        </article>
+
+        <article class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+          <div class="h-12 w-12 rounded-2xl bg-red-600 text-white flex items-center justify-center font-black">
+            02
+          </div>
+
+          <h2 class="text-2xl font-black text-gray-950 mt-6">
+            Visión
+          </h2>
+
+          <p class="text-gray-600 mt-4 leading-relaxed">
+            Ser una concesionaria reconocida por su innovación tecnológica, calidad
+            de servicio y transparencia en los procesos de compra, venta y financiamiento
+            de vehículos.
+          </p>
+        </article>
+
+        <article class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+          <div class="h-12 w-12 rounded-2xl bg-red-600 text-white flex items-center justify-center font-black">
+            03
+          </div>
+
+          <h2 class="text-2xl font-black text-gray-950 mt-6">
+            Valores
+          </h2>
+
+          <p class="text-gray-600 mt-4 leading-relaxed">
+            Responsabilidad, honestidad, compromiso, atención al cliente, innovación,
+            seguridad y transparencia en cada operación comercial realizada.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="bg-gray-950 rounded-[2rem] p-10 md:p-14 text-white">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <span class="inline-flex bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold">
+              Proyecto universitario
+            </span>
+
+            <h2 class="text-4xl md:text-5xl font-black mt-5">
+              Tecnología aplicada a la gestión de concesionarias
+            </h2>
+          </div>
+
+          <p class="text-gray-300 text-lg leading-relaxed">
+            CC Motors forma parte de un sistema web desarrollado para la materia
+            Lenguaje de Programación III, integrando una API REST, un panel administrativo
+            y una website pública independiente orientada a clientes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>

@@ -1,0 +1,119 @@
+---
+const vehicles = [
+  {
+    name: "Toyota Corolla",
+    year: "2024",
+    type: "Sedán",
+    transmission: "Automático",
+    price: "$24,900",
+    image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200",
+  },
+  {
+    name: "Ford Mustang",
+    year: "2024",
+    type: "Deportivo",
+    transmission: "Automático",
+    price: "$49,900",
+    image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
+  },
+  {
+    name: "Chevrolet Tahoe",
+    year: "2025",
+    type: "SUV",
+    transmission: "Automático",
+    price: "$58,900",
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
+  },
+];
+---
+
+<section class="py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
+      <div>
+        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
+          Catálogo destacado
+        </span>
+
+        <h2 class="text-4xl md:text-5xl font-black text-gray-950 mt-4">
+          Vehículos seleccionados
+        </h2>
+
+        <p class="text-gray-600 mt-4 max-w-2xl text-lg">
+          Modelos destacados por diseño, rendimiento y disponibilidad.
+        </p>
+      </div>
+
+      <a
+        href="/catalogo"
+        class="inline-flex w-fit border border-gray-300 hover:bg-white px-6 py-3 rounded-xl font-bold transition"
+      >
+        Ver catálogo completo
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {vehicles.map((vehicle) => (
+        <article class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition duration-300 border border-gray-100">
+          <div class="relative">
+            <img
+              src={vehicle.image}
+              alt={vehicle.name}
+              class="h-64 w-full object-cover"
+            />
+
+            <span class="absolute top-5 left-5 bg-white/90 backdrop-blur-md text-gray-950 px-4 py-2 rounded-full text-sm font-bold">
+              Disponible
+            </span>
+          </div>
+
+          <div class="p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-2xl font-black text-gray-950">
+                  {vehicle.name}
+                </h3>
+
+                <p class="text-gray-500 mt-1">
+                  {vehicle.year} · {vehicle.type}
+                </p>
+              </div>
+
+              <span class="text-red-600 font-black text-xl whitespace-nowrap">
+                {vehicle.price}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-6">
+              <div class="bg-gray-50 rounded-xl p-3">
+                <p class="text-xs text-gray-500">Transmisión</p>
+                <p class="font-bold text-gray-900">{vehicle.transmission}</p>
+              </div>
+
+              <div class="bg-gray-50 rounded-xl p-3">
+                <p class="text-xs text-gray-500">Condición</p>
+                <p class="font-bold text-gray-900">Certificado</p>
+              </div>
+            </div>
+
+            <div class="flex gap-3 mt-7">
+              <a
+                href="/catalogo"
+                class="flex-1 text-center bg-gray-950 hover:bg-black text-white px-4 py-3 rounded-xl font-bold transition"
+              >
+                Ver detalles
+              </a>
+
+              <a
+                href="/cotizacion"
+                class="flex-1 text-center bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-xl font-bold transition"
+              >
+                Cotizar
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

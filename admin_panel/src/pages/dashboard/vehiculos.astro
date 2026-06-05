@@ -1,0 +1,13 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ProtectedRoute from "../../components/auth/ProtectedRoute.jsx";
+import VehiculosList from "../../components/vehiculos/VehiculosList.jsx";
+---
+
+<DashboardLayout>
+  <ProtectedRoute client:load />
+
+  <h1 class="mb-6 text-4xl font-bold">Gestión de vehículos</h1>
+
+  <VehiculosList client:load />
+</DashboardLayout>

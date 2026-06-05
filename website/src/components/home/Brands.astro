@@ -1,0 +1,38 @@
+---
+const brands = [
+  "Toyota",
+  "Ford",
+  "Chevrolet",
+  "Nissan",
+  "Hyundai",
+  "Kia",
+];
+---
+
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
+        Marcas disponibles
+      </span>
+
+      <h2 class="text-3xl md:text-4xl font-black text-gray-950 mt-4">
+        Trabajamos con marcas reconocidas
+      </h2>
+
+      <p class="text-gray-600 mt-4">
+        Vehículos seleccionados de fabricantes confiables.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      {brands.map((brand) => (
+        <div class="bg-white border border-gray-100 rounded-2xl py-6 px-4 text-center shadow-sm hover:shadow-md transition">
+          <span class="font-black text-gray-800">
+            {brand}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

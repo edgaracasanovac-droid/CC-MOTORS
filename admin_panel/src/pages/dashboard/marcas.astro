@@ -1,0 +1,20 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ProtectedRoute from "../../components/auth/ProtectedRoute.jsx";
+import MarcasList from "../../components/marcas/MarcasList.jsx";
+---
+
+<DashboardLayout>
+  <ProtectedRoute client:load />
+
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold">Gestión de marcas</h1>
+      <p class="mt-2 text-slate-600">
+        Administra las marcas disponibles para los vehículos.
+      </p>
+    </div>
+
+    <MarcasList client:load />
+  </div>
+</DashboardLayout>

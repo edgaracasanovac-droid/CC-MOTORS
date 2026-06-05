@@ -1,0 +1,20 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ProtectedRoute from "../../components/auth/ProtectedRoute.jsx";
+import PagosList from "../../components/pagos/PagosList.jsx";
+---
+
+<DashboardLayout>
+  <ProtectedRoute client:load />
+
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold">Gestión de pagos</h1>
+      <p class="mt-2 text-slate-600">
+        Registra y consulta pagos asociados a ventas o cuotas.
+      </p>
+    </div>
+
+    <PagosList client:load />
+  </div>
+</DashboardLayout>

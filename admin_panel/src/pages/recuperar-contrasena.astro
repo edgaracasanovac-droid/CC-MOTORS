@@ -1,0 +1,39 @@
+---
+import PublicLayout from "../layouts/PublicLayout.astro";
+import RecuperarContrasenaForm from "../components/auth/RecuperarPasswordForm.jsx";
+---
+
+<PublicLayout title="Recuperar contraseña">
+  <section class="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-10">
+    <div class="grid w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl lg:grid-cols-2">
+      <div class="hidden bg-black p-10 text-white lg:flex lg:flex-col lg:justify-between">
+        <div>
+          <p class="mb-3 text-sm font-bold uppercase tracking-widest text-red-500">
+            CC Motors
+          </p>
+
+          <h1 class="text-5xl font-bold leading-tight">
+            Recupera tu <br />
+            acceso
+          </h1>
+
+          <p class="mt-6 text-slate-300">
+            Ingresa tu correo para solicitar las instrucciones de recuperación de contraseña.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <p class="text-sm text-slate-300">
+            Sistema Administrativo de Casanova Contreras Motors.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center p-6 sm:p-10">
+        <div class="w-full max-w-md">
+          <RecuperarContrasenaForm client:load />
+        </div>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

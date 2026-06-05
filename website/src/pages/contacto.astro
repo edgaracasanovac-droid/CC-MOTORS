@@ -1,0 +1,145 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+---
+
+<MainLayout
+  title="Contacto | CC Motors"
+  description="Contacta a Casanova Contreras Motors para información, cotizaciones y atención personalizada."
+>
+  <Navbar />
+
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
+          Contacto
+        </span>
+
+        <h1 class="text-5xl md:text-6xl font-black text-gray-950 mt-4">
+          Hablemos de tu próximo vehículo
+        </h1>
+
+        <p class="text-gray-600 text-lg mt-4 max-w-3xl mx-auto">
+          Escríbenos para recibir información sobre disponibilidad, precios,
+          financiamiento o cotizaciones personalizadas.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10">
+        <div class="bg-white rounded-[2rem] p-8 md:p-10 border border-gray-100 shadow-sm">
+          <h2 class="text-3xl font-black text-gray-950">
+            Envíanos un mensaje
+          </h2>
+
+          <form class="space-y-6 mt-8">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-bold mb-2">Nombre</label>
+                <input
+                  type="text"
+                  placeholder="Tu nombre"
+                  class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2">Apellido</label>
+                <input
+                  type="text"
+                  placeholder="Tu apellido"
+                  class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold mb-2">Correo</label>
+              <input
+                type="email"
+                placeholder="correo@ejemplo.com"
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold mb-2">Teléfono</label>
+              <input
+                type="tel"
+                placeholder="+58 424 0000000"
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold mb-2">Mensaje</label>
+              <textarea
+                rows="5"
+                placeholder="Escribe tu mensaje..."
+                class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition"
+            >
+              Enviar mensaje
+            </button>
+          </form>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-gray-950 text-white rounded-[2rem] p-8 md:p-10">
+            <h2 class="text-3xl font-black">
+              Información de contacto
+            </h2>
+
+            <div class="space-y-6 mt-8">
+              <div>
+                <p class="text-gray-400 text-sm">Ubicación</p>
+                <p class="font-bold mt-1">San Cristóbal, estado Táchira</p>
+              </div>
+
+              <div>
+                <p class="text-gray-400 text-sm">Teléfono</p>
+                <p class="font-bold mt-1">+58 424 0000000</p>
+              </div>
+
+              <div>
+                <p class="text-gray-400 text-sm">Correo</p>
+                <p class="font-bold mt-1">info@ccmotors.com</p>
+              </div>
+
+              <div>
+                <p class="text-gray-400 text-sm">Horario</p>
+                <p class="font-bold mt-1">Lunes a sábado · 8:00 AM - 5:00 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+            <h3 class="text-2xl font-black text-gray-950">
+              Atención personalizada
+            </h3>
+
+            <p class="text-gray-600 mt-4 leading-relaxed">
+              Nuestro equipo puede ayudarte a seleccionar el vehículo ideal,
+              revisar disponibilidad y orientarte sobre opciones de compra o financiamiento.
+            </p>
+
+            <a
+              href="/cotizacion"
+              class="inline-flex mt-6 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition"
+            >
+              Solicitar cotización
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>

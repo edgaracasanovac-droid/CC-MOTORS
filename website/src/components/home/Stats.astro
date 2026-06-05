@@ -1,0 +1,42 @@
+---
+const stats = [
+  {
+    value: "500+",
+    label: "Vehículos registrados",
+  },
+  {
+    value: "1.200+",
+    label: "Clientes atendidos",
+  },
+  {
+    value: "10+",
+    label: "Años de experiencia",
+  },
+  {
+    value: "24h",
+    label: "Respuesta a cotizaciones",
+  },
+];
+---
+
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="bg-white border border-gray-100 rounded-[2rem] shadow-sm p-8 md:p-12">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {stats.map((stat) => (
+          <div class="text-center lg:text-left">
+            <h3 class="text-4xl md:text-5xl font-black text-gray-950">
+              {stat.value}
+            </h3>
+
+            <p class="text-gray-500 font-medium mt-2">
+              {stat.label}
+            </p>
+
+            <div class="h-1 w-12 bg-red-600 mt-5 mx-auto lg:mx-0 rounded-full"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

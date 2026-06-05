@@ -1,0 +1,79 @@
+---
+const benefits = [
+  {
+    number: "01",
+    title: "Vehículos certificados",
+    description: "Cada unidad pasa por revisión antes de ser publicada en nuestro catálogo.",
+  },
+  {
+    number: "02",
+    title: "Financiamiento flexible",
+    description: "Opciones de pago adaptadas al perfil y necesidad de cada cliente.",
+  },
+  {
+    number: "03",
+    title: "Asesoría personalizada",
+    description: "Te acompañamos desde la búsqueda inicial hasta la entrega del vehículo.",
+  },
+  {
+    number: "04",
+    title: "Proceso transparente",
+    description: "Información clara sobre precios, disponibilidad, pagos y condiciones.",
+  },
+];
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
+          Ventajas CC Motors
+        </span>
+
+        <h2 class="text-4xl md:text-5xl font-black text-gray-950 mt-4 leading-tight">
+          Una experiencia de compra más segura, clara y profesional
+        </h2>
+
+        <p class="text-gray-600 mt-5 text-lg leading-relaxed">
+          En Casanova Contreras Motors combinamos tecnología, atención personalizada
+          y control administrativo para ofrecer una compra moderna y confiable.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="/cotizacion"
+            class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition"
+          >
+            Solicitar cotización
+          </a>
+
+          <a
+            href="/nosotros"
+            class="border border-gray-300 hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-xl font-bold transition"
+          >
+            Conocer más
+          </a>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        {benefits.map((benefit) => (
+          <article class="group bg-gray-50 hover:bg-gray-950 p-7 rounded-[2rem] transition duration-300 border border-gray-100">
+            <div class="h-12 w-12 rounded-2xl bg-red-600 text-white flex items-center justify-center font-black">
+              {benefit.number}
+            </div>
+
+            <h3 class="text-xl font-black mt-6 text-gray-950 group-hover:text-white transition">
+              {benefit.title}
+            </h3>
+
+            <p class="text-gray-600 group-hover:text-gray-300 mt-3 leading-relaxed transition">
+              {benefit.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

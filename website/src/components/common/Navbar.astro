@@ -1,0 +1,67 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+    <Logo />
+
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-gray-700">
+      <a href="/" class="hover:text-red-600 transition">
+        Inicio
+      </a>
+
+      <a href="/catalogo" class="hover:text-red-600 transition">
+        Catálogo
+      </a>
+
+      <a href="/nosotros" class="hover:text-red-600 transition">
+        Nosotros
+      </a>
+
+      <a href="/contacto" class="hover:text-red-600 transition">
+        Contacto
+      </a>
+    </nav>
+
+    <div class="hidden md:flex items-center">
+      <a
+        href="/cotizacion"
+        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-sm"
+      >
+        Cotizar
+      </a>
+    </div>
+
+    <button
+      class="lg:hidden h-10 w-10 rounded-xl border border-gray-200 flex items-center justify-center"
+      aria-label="Abrir menú"
+    >
+      <span class="text-2xl leading-none">☰</span>
+    </button>
+  </div>
+
+  <div class="lg:hidden border-t border-gray-100 bg-white px-6 py-4">
+    <nav class="grid gap-3 text-sm font-semibold text-gray-700">
+      <a href="/" class="hover:text-red-600 transition">
+        Inicio
+      </a>
+
+      <a href="/catalogo" class="hover:text-red-600 transition">
+        Catálogo
+      </a>
+
+      <a href="/nosotros" class="hover:text-red-600 transition">
+        Nosotros
+      </a>
+
+      <a href="/contacto" class="hover:text-red-600 transition">
+        Contacto
+      </a>
+
+      <a href="/cotizacion" class="text-red-600 font-bold">
+        Cotizar
+      </a>
+    </nav>
+  </div>
+</header>

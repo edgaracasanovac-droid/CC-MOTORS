@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Casanova Contreras Motors | CC Motors",
+  description = "Concesionaria moderna de vehículos nuevos y usados certificados. Cotiza tu próximo vehículo con CC Motors.",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <meta name="theme-color" content="#dc2626" />
+  </head>
+
+  <body class="bg-white text-gray-950 antialiased">
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,22 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Casanova Contreras Motors",
+  description = "Concesionaria moderna de vehículos. Compra, cotiza y encuentra tu próximo auto con CC Motors.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>

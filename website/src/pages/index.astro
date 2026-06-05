@@ -1,0 +1,38 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+import Navbar from "../components/common/Navbar.astro";
+import Hero from "../components/home/Hero.astro";
+import Footer from "../components/common/Footer.astro";
+import FeaturedVehicles from "../components/home/FeaturedVehicles.astro";
+import Benefits from "../components/home/Benefits.astro";
+import Stats from "../components/home/Stats.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import CTA from "../components/home/CTA.astro";
+import Brands from "../components/home/Brands.astro";
+
+---
+
+<MainLayout
+  title="CC Motors"
+  description="Casanova Contreras Motors"
+>
+  <Navbar />
+
+  <Hero />
+
+  <FeaturedVehicles />
+ 
+  <Benefits />
+  
+  <Stats />
+
+  <Brands />
+
+  <Testimonials />
+
+  <CTA />
+
+  <Footer />
+
+</MainLayout>

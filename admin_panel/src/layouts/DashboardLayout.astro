@@ -1,0 +1,136 @@
+---
+import "../styles/global.css";
+import ToastProvider from "../components/ui/ToastProvider.jsx";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>CC Motors | Sistema Administrativo</title>
+  </head>
+
+  <body class="bg-slate-100">
+    <div class="min-h-screen">
+      <div class="fixed left-0 right-0 top-0 z-40 flex items-center justify-between bg-black px-4 py-4 text-white shadow lg:hidden">
+        <div class="flex items-center gap-3">
+          <img src="/logo-cc-motors.png" alt="CC Motors" class="h-12 w-12 object-contain" />
+          <div>
+            <h1 class="text-xl font-bold text-white">CC Motors</h1>
+            <p class="text-xs text-slate-400">Sistema Administrativo</p>
+          </div>
+        </div>
+
+        <button id="openSidebarBtn" class="rounded-xl bg-red-600 px-4 py-2 font-semibold text-white">
+          ☰
+        </button>
+      </div>
+
+      <div id="sidebarOverlay" class="fixed inset-0 z-40 hidden bg-black/60 lg:hidden"></div>
+
+      <aside
+        id="sidebar"
+        class="fixed left-0 top-0 z-50 flex h-screen w-72 -translate-x-full flex-col bg-black text-white shadow-2xl transition-transform duration-300 lg:translate-x-0"
+      >
+        <div class="border-b border-red-600 p-6">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <img src="/logo-cc-motors.png" alt="CC Motors" class="h-12 w-12 rounded-lg object-contain" />
+
+              <div>
+                <h1 class="text-xl font-bold text-white">CC Motors</h1>
+                <p class="text-xs text-slate-400">Casanova Contreras Motors</p>
+                <p class="mt-1 text-xs text-slate-500">Sistema Administrativo</p>
+              </div>
+            </div>
+
+            <button id="closeSidebarBtn" class="rounded-lg bg-red-600 px-3 py-2 text-white lg:hidden">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4">
+          <div class="mb-6">
+            <p class="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-red-500">General</p>
+            <a href="/dashboard" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">📊 Dashboard</a>
+            <a href="/dashboard/perfil" class="block rounded-xl px-4 py-3 transition hover:bg-red-600">⚙️ Perfil</a>
+          </div>
+
+          <div class="mb-6">
+            <p class="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-red-500">Personas</p>
+            <a href="/dashboard/clientes" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">👥 Clientes</a>
+            <a href="/dashboard/usuarios" class="block rounded-xl px-4 py-3 transition hover:bg-red-600">👤 Usuarios</a>
+          </div>
+
+          <div class="mb-6">
+            <p class="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-red-500">Inventario</p>
+            <a href="/dashboard/vehiculos" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">🚗 Vehículos</a>
+            <a href="/dashboard/marcas" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">🏷️ Marcas</a>
+            <a href="/dashboard/modelos" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">🚙 Modelos</a>
+            <a href="/dashboard/proveedores" class="block rounded-xl px-4 py-3 transition hover:bg-red-600">🏭 Proveedores</a>
+          </div>
+
+          <div class="mb-6">
+            <p class="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-red-500">Operaciones</p>
+            <a href="/dashboard/cotizaciones" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">🧾 Cotizaciones</a>
+            <a href="/dashboard/ventas" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">💰 Ventas</a>
+            <a href="/dashboard/pagos" class="block rounded-xl px-4 py-3 transition hover:bg-red-600">💳 Pagos</a>
+          </div>
+
+          <div class="mb-6">
+            <p class="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-red-500">Financiamiento</p>
+            <a href="/dashboard/cuotas" class="mb-1 block rounded-xl px-4 py-3 transition hover:bg-red-600">📆 Cuotas</a>
+            <a href="/dashboard/planes-financiamiento" class="block rounded-xl px-4 py-3 transition hover:bg-red-600">🏦 Planes de Financiamiento</a>
+          </div>
+        </nav>
+
+        <div class="border-t border-slate-800 p-4">
+          <button id="logoutBtn" class="w-full rounded-xl bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700">
+            🚪 Cerrar sesión
+          </button>
+        </div>
+      </aside>
+
+      <main class="px-4 pb-8 pt-24 sm:px-6 lg:ml-72 lg:p-8">
+        <slot />
+      </main>
+    </div>
+
+    <script>
+      const logoutBtn = document.getElementById("logoutBtn");
+      const openSidebarBtn = document.getElementById("openSidebarBtn");
+      const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+      const openSidebar = () => {
+        sidebar?.classList.remove("-translate-x-full");
+        sidebarOverlay?.classList.remove("hidden");
+      };
+
+      const closeSidebar = () => {
+        sidebar?.classList.add("-translate-x-full");
+        sidebarOverlay?.classList.add("hidden");
+      };
+
+      openSidebarBtn?.addEventListener("click", openSidebar);
+      closeSidebarBtn?.addEventListener("click", closeSidebar);
+      sidebarOverlay?.addEventListener("click", closeSidebar);
+
+      document.querySelectorAll("#sidebar a").forEach((link) => {
+        link.addEventListener("click", () => {
+          if (window.innerWidth < 1024) closeSidebar();
+        });
+      });
+
+      logoutBtn?.addEventListener("click", () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      });
+    </script>
+
+    <ToastProvider client:load />
+  </body>
+</html>

@@ -1,0 +1,43 @@
+---
+import PublicLayout from "../layouts/PublicLayout.astro";
+---
+
+<PublicLayout title="Página no encontrada">
+  <section class="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-10">
+    <div class="w-full max-w-xl rounded-3xl bg-white p-10 text-center shadow-2xl">
+      <img
+        src="/logo-cc-motors.png"
+        alt="CC Motors"
+        class="mx-auto mb-6 h-24 w-24 object-contain"
+      />
+
+      <p class="mb-2 text-sm font-bold uppercase tracking-widest text-red-600">
+        Error 404
+      </p>
+
+      <h1 class="text-4xl font-bold text-black">
+        Página no encontrada
+      </h1>
+
+      <p class="mt-4 text-slate-500">
+        La ruta que intentas visitar no existe o fue movida.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <a
+          href="/dashboard"
+          class="rounded-xl bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
+        >
+          Volver al Dashboard
+        </a>
+
+        <a
+          href="/login"
+          class="rounded-xl bg-black px-6 py-3 font-semibold text-white transition hover:bg-slate-800"
+        >
+          Ir al Login
+        </a>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

@@ -1,0 +1,20 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ProtectedRoute from "../../components/auth/ProtectedRoute.jsx";
+import CuotasList from "../../components/cuotas/CuotasList.jsx";
+---
+
+<DashboardLayout>
+  <ProtectedRoute client:load />
+
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold">Gestión de cuotas</h1>
+      <p class="mt-2 text-slate-600">
+        Registra y consulta cuotas asociadas a planes de financiamiento.
+      </p>
+    </div>
+
+    <CuotasList client:load />
+  </div>
+</DashboardLayout>

@@ -1,0 +1,82 @@
+---
+const testimonials = [
+  {
+    name: "Carlos Mendoza",
+    role: "Cliente",
+    text: "Excelente atención desde el primer contacto. El proceso fue rápido y transparente.",
+  },
+  {
+    name: "María González",
+    role: "Cliente",
+    text: "Me ayudaron a conseguir financiamiento y encontré exactamente el vehículo que buscaba.",
+  },
+  {
+    name: "José Ramírez",
+    role: "Cliente",
+    text: "Vehículos en excelente estado y un trato profesional durante toda la compra.",
+  },
+];
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16">
+      <span
+        class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold"
+      >
+        Testimonios
+      </span>
+
+      <h2
+        class="text-4xl md:text-5xl font-black text-gray-950 mt-4"
+      >
+        Nuestros clientes nos recomiendan
+      </h2>
+
+      <p
+        class="text-gray-600 text-lg mt-4 max-w-2xl mx-auto"
+      >
+        La confianza de nuestros clientes es el reflejo de nuestro compromiso.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      {testimonials.map((item) => (
+        <article
+          class="bg-gray-50 rounded-[2rem] p-8 border border-gray-100 hover:shadow-xl transition"
+        >
+          <div class="flex gap-1 text-red-600 text-xl">
+            ★★★★★
+          </div>
+
+          <p
+            class="text-gray-600 mt-5 leading-relaxed"
+          >
+            "{item.text}"
+          </p>
+
+          <div class="flex items-center gap-4 mt-8">
+            <div
+              class="h-14 w-14 rounded-full bg-red-600 text-white flex items-center justify-center font-black text-lg"
+            >
+              {item.name.charAt(0)}
+            </div>
+
+            <div>
+              <h4 class="font-black text-gray-950">
+                {item.name}
+              </h4>
+
+              <p class="text-sm text-gray-500">
+                {item.role}
+              </p>
+            </div>
+          </div>
+        </article>
+      ))}
+
+    </div>
+  </div>
+</section>

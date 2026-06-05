@@ -1,0 +1,23 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ProtectedRoute from "../../components/auth/ProtectedRoute.jsx";
+import VentasList from "../../components/ventas/VentasList.jsx";
+---
+
+<DashboardLayout>
+  <ProtectedRoute client:load />
+
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold">
+        Gestión de ventas
+      </h1>
+
+      <p class="mt-2 text-slate-600">
+        Registra y consulta las ventas de vehículos.
+      </p>
+    </div>
+
+    <VentasList client:load />
+  </div>
+</DashboardLayout>

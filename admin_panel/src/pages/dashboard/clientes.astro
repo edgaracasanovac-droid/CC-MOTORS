@@ -1,0 +1,23 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ProtectedRoute from "../../components/auth/ProtectedRoute.jsx";
+import ClientesList from "../../components/clientes/ClientesList.jsx";
+---
+
+<DashboardLayout>
+  <ProtectedRoute client:load />
+
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold">
+        Gestión de clientes
+      </h1>
+
+      <p class="mt-2 text-slate-600">
+        Administra los clientes registrados en la concesionaria.
+      </p>
+    </div>
+
+    <ClientesList client:load />
+  </div>
+</DashboardLayout>
