@@ -1,11 +1,24 @@
 const cotizacionModel = require('../models/cotizacionModel');
+const emailService = require('./emailService');
 
 const registrarCotizacion = async (cotizacion) => {
   return await cotizacionModel.crearCotizacion(cotizacion);
 };
 
 const registrarCotizacionPublica = async (datos) => {
-  return await cotizacionModel.crearCotizacionPublica(datos);
+  const resultado = await cotizacionModel.crearCotizacionPublica(datos);
+
+  try {
+    await emailService.enviarCorreoCotizacionPublica({
+      cliente: resultado.cliente,
+      cotizacion: resultado.cotizacion,
+      datos
+    });
+  } catch (error) {
+    console.error('Error al enviar correo de cotización pública:', error.message);
+  }
+
+  return resultado;
 };
 
 const listarCotizaciones = async () => {
