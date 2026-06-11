@@ -18,8 +18,22 @@ const profileUpdateSchema = z.object({
   correo: z.string().email()
 });
 
+const registerSchema = z.object({
+  nombre: z.string().min(2),
+  apellido: z.string().min(2),
+  correo: z.string().email(),
+  contrasena: z.string().min(6)
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(20),
+  nueva_contrasena: z.string().min(6)
+});
+
 module.exports = {
   loginSchema,
   recoverPasswordSchema,
-  profileUpdateSchema
+  profileUpdateSchema,
+  registerSchema,
+  resetPasswordSchema
 };

@@ -1,82 +1,71 @@
 ---
 const testimonials = [
   {
-    name: "Carlos Mendoza",
-    role: "Cliente",
-    text: "Excelente atención desde el primer contacto. El proceso fue rápido y transparente.",
+    name: "Carlos Ramírez",
+    vehicle: "Toyota Corolla",
+    comment:
+      "Excelente atención. Todo el proceso fue rápido, transparente y el vehículo estaba exactamente como fue publicado.",
   },
   {
     name: "María González",
-    role: "Cliente",
-    text: "Me ayudaron a conseguir financiamiento y encontré exactamente el vehículo que buscaba.",
+    vehicle: "Ford Mustang",
+    comment:
+      "La asesoría fue increíble. Me ayudaron durante todo el proceso y la entrega fue impecable.",
   },
   {
-    name: "José Ramírez",
-    role: "Cliente",
-    text: "Vehículos en excelente estado y un trato profesional durante toda la compra.",
+    name: "José Contreras",
+    vehicle: "Chevrolet Tahoe",
+    comment:
+      "Muy satisfecho con la compra. El vehículo estaba certificado y en excelentes condiciones.",
   },
 ];
 ---
 
-<section class="py-24 bg-white">
-  <div class="max-w-7xl mx-auto px-6">
+<section class="relative py-28 bg-[#07070a] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.10),transparent_40%)]"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6">
 
     <div class="text-center mb-16">
-      <span
-        class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold"
-      >
-        Testimonios
-      </span>
+      <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+        Opiniones reales
+      </p>
 
-      <h2
-        class="text-4xl md:text-5xl font-black text-gray-950 mt-4"
-      >
-        Nuestros clientes nos recomiendan
+      <h2 class="text-5xl md:text-6xl font-black mt-5">
+        Lo que dicen nuestros
+        <span class="text-red-600"> clientes</span>
       </h2>
 
-      <p
-        class="text-gray-600 text-lg mt-4 max-w-2xl mx-auto"
-      >
-        La confianza de nuestros clientes es el reflejo de nuestro compromiso.
+      <p class="text-gray-400 text-lg mt-5 max-w-3xl mx-auto">
+        La confianza de nuestros clientes es el motor que impulsa a CC Motors.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      {testimonials.map((item) => (
+    <div class="grid lg:grid-cols-3 gap-8">
+      {testimonials.map((testimonial) => (
         <article
-          class="bg-gray-50 rounded-[2rem] p-8 border border-gray-100 hover:shadow-xl transition"
+          class="bg-[#171820] border border-white/10 rounded-3xl p-8 transition-all duration-500 hover:-translate-y-2 hover:border-red-500 hover:shadow-[0_0_40px_rgba(220,38,38,0.20)]"
         >
-          <div class="flex gap-1 text-red-600 text-xl">
+          <div class="flex gap-1 text-red-500 text-xl mb-5">
             ★★★★★
           </div>
 
-          <p
-            class="text-gray-600 mt-5 leading-relaxed"
-          >
-            "{item.text}"
+          <p class="text-gray-300 leading-relaxed text-lg">
+            "{testimonial.comment}"
           </p>
 
-          <div class="flex items-center gap-4 mt-8">
-            <div
-              class="h-14 w-14 rounded-full bg-red-600 text-white flex items-center justify-center font-black text-lg"
-            >
-              {item.name.charAt(0)}
-            </div>
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <h3 class="font-black text-xl">
+              {testimonial.name}
+            </h3>
 
-            <div>
-              <h4 class="font-black text-gray-950">
-                {item.name}
-              </h4>
-
-              <p class="text-sm text-gray-500">
-                {item.role}
-              </p>
-            </div>
+            <p class="text-gray-500 mt-1">
+              Cliente de {testimonial.vehicle}
+            </p>
           </div>
         </article>
       ))}
-
     </div>
+
   </div>
 </section>

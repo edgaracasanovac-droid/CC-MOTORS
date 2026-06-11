@@ -8,5 +8,105 @@ body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
   background: #ffffff;
-  color: #111111;
+  color: #111827;
+}
+
+::selection {
+  background: #dc2626;
+  color: white;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.reveal {
+  animation: revealUp 0.8s ease both;
+}
+
+.float-soft {
+  animation: floatSoft 4s ease-in-out infinite;
+}
+
+.glow-red {
+  box-shadow: 0 20px 80px rgba(220, 38, 38, 0.18);
+}
+
+.card-hover {
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.image-hover {
+  transition: transform 0.6s ease;
+}
+
+.image-hover:hover {
+  transform: scale(1.05);
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatSoft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1.12);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero-kicker {
+  animation: fadeUp 0.9s ease both;
+}
+
+.hero-title {
+  animation: fadeUp 1s ease both 0.2s;
+}
+
+.hero-text {
+  animation: fadeUp 1s ease both 0.45s;
+}
+
+.hero-actions {
+  animation: fadeUp 1s ease both 0.65s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

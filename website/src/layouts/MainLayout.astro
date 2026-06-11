@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import WhatsappButton from "../components/common/WhatsappButton.astro";
 
 const {
   title = "Casanova Contreras Motors | CC Motors",
@@ -25,5 +26,31 @@ const {
 
   <body class="bg-white text-gray-950 antialiased">
     <slot />
+
+    <script>
+  const elements = document.querySelectorAll("section");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-scroll", "active");
+        }
+      });
+    },
+    {
+      threshold: 0.15,
+    }
+  );
+
+  elements.forEach((el) => {
+    el.classList.add("reveal-scroll");
+    observer.observe(el);
+  });
+</script>
+
+<WhatsappButton />
+
+
   </body>
 </html>

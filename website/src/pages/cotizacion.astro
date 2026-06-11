@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 
-import { getVehiculos } from "../services/api";
+import { getVehiculos, API_URL } from "../services/api";
 
 const vehiculos = await getVehiculos();
 ---
@@ -14,112 +14,185 @@ const vehiculos = await getVehiculos();
 >
   <Navbar />
 
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="text-center mb-14">
-        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
-          Cotización Online
-        </span>
+  <section class="relative min-h-screen bg-[#07070a] text-white overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.16),transparent_35%)]"></div>
 
-        <h1 class="text-5xl md:text-6xl font-black text-gray-950 mt-4">
-          Solicita tu cotización
-        </h1>
+    <div class="grid lg:grid-cols-2 min-h-screen">
+      <div class="relative hidden lg:block">
+        <img
+          src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=1800"
+          alt="Cotización CC Motors"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
 
-        <p class="text-gray-600 text-lg mt-4 max-w-3xl mx-auto">
-          Completa el formulario y uno de nuestros asesores te contactará.
-        </p>
+        <div class="absolute inset-0 bg-black/65"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent"></div>
+
+        <div class="relative z-10 h-full flex items-end p-12">
+          <div>
+            <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+              CC Motors
+            </p>
+
+            <h1 class="text-6xl xl:text-7xl font-black mt-5 leading-[0.9] uppercase">
+              Solicita
+              <span class="block text-red-600">
+                tu cotización
+              </span>
+            </h1>
+
+            <p class="text-gray-300 text-lg mt-6 max-w-xl leading-relaxed">
+              Completa tus datos, elige tu vehículo de interés y nuestro equipo
+              recibirá tu solicitud directamente en el sistema.
+            </p>
+
+            <div class="grid grid-cols-3 gap-4 mt-10 max-w-xl">
+              <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-md">
+                <p class="text-2xl font-black">24h</p>
+                <p class="text-gray-400 text-sm">Respuesta</p>
+              </div>
+
+              <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-md">
+                <p class="text-2xl font-black">100%</p>
+                <p class="text-gray-400 text-sm">Online</p>
+              </div>
+
+              <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-md">
+                <p class="text-2xl font-black">✓</p>
+                <p class="text-gray-400 text-sm">Seguro</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-white rounded-[2rem] p-8 md:p-12 border border-gray-100 shadow-sm">
-        <form id="cotizacionForm" class="space-y-6">
-          <div class="grid md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-bold mb-2">Nombre</label>
-              <input name="nombre" required type="text" class="w-full border border-gray-300 rounded-xl px-4 py-3" />
-            </div>
+      <div class="relative flex items-center justify-center px-4 sm:px-6 py-28 lg:py-20">
+        <div class="w-full max-w-2xl">
+          <div class="mb-10 lg:hidden">
+            <p class="text-red-500 uppercase tracking-[0.35em] text-xs font-black">
+              CC Motors
+            </p>
 
-            <div>
-              <label class="block text-sm font-bold mb-2">Apellido</label>
-              <input name="apellido" required type="text" class="w-full border border-gray-300 rounded-xl px-4 py-3" />
-            </div>
+            <h1 class="text-5xl font-black mt-4 leading-tight">
+              Solicita tu
+              <span class="text-red-600"> cotización</span>
+            </h1>
+
+            <p class="text-gray-400 mt-4">
+              Completa el formulario y un asesor se pondrá en contacto contigo.
+            </p>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-bold mb-2">Documento</label>
-              <input name="documento" required type="text" placeholder="V12345678" class="w-full border border-gray-300 rounded-xl px-4 py-3" />
+          <div class="bg-white/5 border border-white/10 rounded-[2rem] p-6 sm:p-8 md:p-10 backdrop-blur-xl shadow-[0_0_60px_rgba(220,38,38,0.10)]">
+            <div class="mb-8 hidden lg:block">
+              <p class="text-red-500 uppercase tracking-[0.35em] text-xs font-black">
+                Cotización online
+              </p>
+
+              <h2 class="text-3xl md:text-4xl font-black mt-3">
+                Datos de solicitud
+              </h2>
+
+              <p class="text-gray-400 mt-3">
+                El administrador recibirá tu solicitud por correo y en el sistema.
+              </p>
             </div>
 
-            <div>
-              <label class="block text-sm font-bold mb-2">Teléfono</label>
-              <input name="telefono" required type="tel" class="w-full border border-gray-300 rounded-xl px-4 py-3" />
-            </div>
-          </div>
+            <form id="cotizacionForm" class="space-y-5">
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
+                  <input name="nombre" required type="text" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+                </div>
 
-          <div class="grid md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-bold mb-2">Correo</label>
-              <input name="correo" required type="email" class="w-full border border-gray-300 rounded-xl px-4 py-3" />
-            </div>
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Apellido</label>
+                  <input name="apellido" required type="text" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+                </div>
+              </div>
 
-            <div>
-              <label class="block text-sm font-bold mb-2">Dirección</label>
-              <input name="direccion" required type="text" class="w-full border border-gray-300 rounded-xl px-4 py-3" />
-            </div>
-          </div>
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Documento</label>
+                  <input name="documento" required type="text" placeholder="V12345678" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+                </div>
 
-          <div>
-            <label class="block text-sm font-bold mb-2">Vehículo de interés</label>
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Teléfono</label>
+                  <input name="telefono" required type="tel" placeholder="0414 0000000" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+                </div>
+              </div>
 
-            <select name="id_vehiculo" required class="w-full border border-gray-300 rounded-xl px-4 py-3">
-              <option value="">Seleccione un vehículo</option>
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Correo</label>
+                  <input name="correo" required type="email" placeholder="correo@ejemplo.com" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+                </div>
 
-              {
-                vehiculos.map((vehiculo) => (
-                  <option value={vehiculo.id_vehiculo}>
-                    {vehiculo.nombre_marca} {vehiculo.nombre_modelo} - ${vehiculo.precio_venta}
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Dirección</label>
+                  <input name="direccion" required type="text" placeholder="San Cristóbal" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Vehículo de interés</label>
+
+                <select name="id_vehiculo" required class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500">
+                  <option value="" class="bg-[#171820]">
+                    Seleccione un vehículo
                   </option>
-                ))
-              }
-            </select>
+
+                  {
+                    vehiculos.map((vehiculo) => (
+                      <option value={vehiculo.id_vehiculo} class="bg-[#171820]">
+                        {vehiculo.nombre_marca} {vehiculo.nombre_modelo} - ${vehiculo.precio_venta}
+                      </option>
+                    ))
+                  }
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Tipo de compra</label>
+
+                <select name="tipo_compra" required class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500">
+                  <option value="" class="bg-[#171820]">
+                    Seleccione una opción
+                  </option>
+                  <option value="contado" class="bg-[#171820]">Contado</option>
+                  <option value="financiamiento" class="bg-[#171820]">Financiamiento</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Mensaje</label>
+                <textarea name="mensaje" rows="4" placeholder="Cuéntanos qué necesitas..." class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"></textarea>
+              </div>
+
+              <button
+                id="submitBtn"
+                type="submit"
+                class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-60 disabled:cursor-not-allowed shadow-2xl shadow-red-600/20"
+              >
+                Solicitar cotización
+              </button>
+            </form>
+
+            <div
+              id="successMessage"
+              class="hidden mt-8 bg-green-500/10 border border-green-500/30 text-green-300 p-5 rounded-xl"
+            >
+              ✅ Su solicitud fue enviada correctamente. Un asesor de CC Motors se pondrá en contacto con usted.
+            </div>
+
+            <div
+              id="errorMessage"
+              class="hidden mt-8 bg-red-500/10 border border-red-500/30 text-red-300 p-5 rounded-xl"
+            >
+              ❌ Ocurrió un error al registrar la cotización. Intente nuevamente.
+            </div>
           </div>
-
-          <div>
-            <label class="block text-sm font-bold mb-2">Tipo de compra</label>
-
-            <select name="tipo_compra" required class="w-full border border-gray-300 rounded-xl px-4 py-3">
-              <option value="">Seleccione una opción</option>
-              <option value="contado">Contado</option>
-              <option value="financiamiento">Financiamiento</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-bold mb-2">Mensaje</label>
-            <textarea name="mensaje" rows="5" class="w-full border border-gray-300 rounded-xl px-4 py-3"></textarea>
-          </div>
-
-          <button
-            id="submitBtn"
-            type="submit"
-            class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition"
-          >
-            Solicitar cotización
-          </button>
-        </form>
-
-        <div
-          id="successMessage"
-          class="hidden mt-8 bg-green-100 border border-green-300 text-green-800 p-5 rounded-xl"
-        >
-          ✅ Tu solicitud fue registrada correctamente en el sistema. El administrador recibirá una notificación por correo.
-        </div>
-
-        <div
-          id="errorMessage"
-          class="hidden mt-8 bg-red-100 border border-red-300 text-red-800 p-5 rounded-xl"
-        >
-          ❌ Ocurrió un error al registrar la cotización.
         </div>
       </div>
     </div>
@@ -128,10 +201,7 @@ const vehiculos = await getVehiculos();
   <Footer />
 </MainLayout>
 
-<script>
-  const API_URL =
-    import.meta.env.PUBLIC_API_URL || "https://cc-motors.onrender.com/api";
-
+<script define:vars={{ API_URL }}>
   const form = document.getElementById("cotizacionForm");
   const btn = document.getElementById("submitBtn");
   const success = document.getElementById("successMessage");
@@ -143,10 +213,13 @@ const vehiculos = await getVehiculos();
     success.classList.add("hidden");
     errorBox.classList.add("hidden");
 
-    btn.textContent = "Enviando...";
+    btn.textContent = "Enviando solicitud...";
     btn.disabled = true;
 
     const formData = new FormData(form);
+
+    const tipoCompra = formData.get("tipo_compra");
+    const mensajeUsuario = formData.get("mensaje");
 
     const datosCotizacion = {
       nombre: formData.get("nombre"),
@@ -156,7 +229,9 @@ const vehiculos = await getVehiculos();
       correo: formData.get("correo"),
       direccion: formData.get("direccion"),
       id_vehiculo: Number(formData.get("id_vehiculo")),
-      mensaje: formData.get("mensaje") || `Tipo de compra: ${formData.get("tipo_compra")}`,
+      mensaje: mensajeUsuario
+        ? `${mensajeUsuario} | Tipo de compra: ${tipoCompra}`
+        : `Tipo de compra: ${tipoCompra}`,
     };
 
     try {

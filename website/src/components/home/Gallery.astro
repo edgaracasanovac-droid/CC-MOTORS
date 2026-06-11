@@ -1,0 +1,92 @@
+---
+const images = [
+  {
+    src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600",
+    alt: "Vehículo deportivo CC Motors",
+    title: "Diseño deportivo",
+    size: "lg:col-span-2 lg:row-span-2",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400",
+    alt: "Vehículo premium CC Motors",
+    title: "Presencia premium",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1400",
+    alt: "Detalle frontal vehículo CC Motors",
+    title: "Detalles modernos",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=1400",
+    alt: "Vehículo elegante CC Motors",
+    title: "Estilo ejecutivo",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
+    alt: "SUV CC Motors",
+    title: "Potencia y confort",
+    size: "",
+  },
+];
+---
+
+<section id="galeria" class="relative py-28 bg-[#07070a] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.10),transparent_40%)]"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+      <div>
+        <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+          Experiencia visual
+        </p>
+
+        <h2 class="text-5xl md:text-6xl font-black mt-5">
+          Galería
+          <span class="text-red-600"> CC Motors</span>
+        </h2>
+
+        <p class="text-gray-400 text-lg mt-5 max-w-2xl">
+          Una vista premium de los vehículos que forman parte de nuestra selección.
+        </p>
+      </div>
+
+      <a
+        href="/catalogo"
+        class="inline-flex bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-black transition shadow-2xl shadow-red-600/20"
+      >
+        Ver modelos
+      </a>
+    </div>
+
+    <div class="grid lg:grid-cols-4 auto-rows-[260px] gap-6">
+      {images.map((image) => (
+        <article class={`group relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 ${image.size}`}>
+          <img
+            src={image.src}
+            alt={image.alt}
+            class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+          />
+
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+          <div class="absolute left-6 bottom-6 right-6">
+            <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black mb-2">
+              CC Motors
+            </p>
+
+            <h3 class="text-2xl font-black">
+              {image.title}
+            </h3>
+          </div>
+
+          <div class="absolute right-5 top-5 h-12 w-12 rounded-full bg-black/50 border border-white/20 backdrop-blur-md flex items-center justify-center text-xl group-hover:bg-red-600 transition">
+            +
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

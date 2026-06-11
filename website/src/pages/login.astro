@@ -1,0 +1,345 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import { API_URL } from "../services/api";
+---
+
+<MainLayout title="Mi Cuenta | CC Motors" description="Acceso y registro de usuario CC Motors">
+  <Navbar />
+
+  <section class="relative min-h-screen bg-[#07070a] text-white flex items-center justify-center px-6 py-28 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%)]"></div>
+
+    <div class="relative w-full max-w-md bg-[#171820] border border-white/10 rounded-[2rem] p-8 shadow-[0_0_70px_rgba(220,38,38,0.12)]">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-black">
+          CC <span class="text-red-600">Motors</span>
+        </h1>
+
+        <div class="mx-auto mt-6 h-16 w-16 rounded-full border border-red-600 flex items-center justify-center text-red-600">
+          👤
+        </div>
+
+        <h2 id="formTitle" class="text-3xl font-black mt-5">
+          Iniciar Sesión
+        </h2>
+
+        <p id="formSubtitle" class="text-gray-400 mt-2">
+          Accede a tu cuenta de cliente.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 mb-8 bg-white/5 p-2 rounded-2xl border border-white/10">
+        <button
+          id="loginTab"
+          class="bg-red-600 text-white py-3 rounded-xl font-black text-sm"
+        >
+          Iniciar
+        </button>
+
+        <button
+          id="registerTab"
+          class="text-gray-300 hover:text-white py-3 rounded-xl font-black text-sm transition"
+        >
+          Registro
+        </button>
+      </div>
+
+      <form id="loginForm" class="space-y-5">
+        <div>
+          <label class="block text-sm font-bold mb-2 text-gray-300">
+            Correo
+          </label>
+
+          <input
+            name="correo"
+            required
+            type="email"
+            placeholder="tu@email.com"
+            class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold mb-2 text-gray-300">
+            Contraseña
+          </label>
+
+          <input
+            name="contrasena"
+            required
+            type="password"
+            placeholder="Tu contraseña"
+            class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-60"
+        >
+          Iniciar sesión
+        </button>
+
+        <div class="text-center mt-4">
+          <a
+            href="/recuperar-contrasena"
+            class="text-sm text-red-500 hover:text-red-400 transition font-bold"
+          >
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+      </form>
+
+      <form id="registerForm" class="hidden space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-bold mb-2 text-gray-300">
+              Nombre
+            </label>
+
+            <input
+              name="nombre"
+              required
+              type="text"
+              class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold mb-2 text-gray-300">
+              Apellido
+            </label>
+
+            <input
+              name="apellido"
+              required
+              type="text"
+              class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold mb-2 text-gray-300">
+            Correo
+          </label>
+
+          <input
+            name="correo"
+            required
+            type="email"
+            placeholder="tu@email.com"
+            class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold mb-2 text-gray-300">
+            Contraseña
+          </label>
+
+          <input
+            name="contrasena"
+            required
+            minlength="6"
+            type="password"
+            placeholder="Mínimo 6 caracteres"
+            class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold mb-2 text-gray-300">
+            Confirmar contraseña
+          </label>
+
+          <input
+            name="confirmar"
+            required
+            minlength="6"
+            type="password"
+            placeholder="Repite tu contraseña"
+            class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-60"
+        >
+          Crear cuenta
+        </button>
+      </form>
+
+      <div
+        id="successMessage"
+        class="hidden mt-6 bg-green-500/10 border border-green-500/30 text-green-300 p-4 rounded-xl text-sm"
+      ></div>
+
+      <div
+        id="errorMessage"
+        class="hidden mt-6 bg-red-500/10 border border-red-500/30 text-red-300 p-4 rounded-xl text-sm"
+      ></div>
+    </div>
+  </section>
+</MainLayout>
+
+<script define:vars={{ API_URL }}>
+  const tokenGuardado = localStorage.getItem("cc_motors_token");
+  const usuarioGuardado = localStorage.getItem("cc_motors_usuario");
+
+  if (tokenGuardado && usuarioGuardado) {
+    window.location.href = "/mi-cuenta";
+  }
+
+  const loginTab = document.getElementById("loginTab");
+  const registerTab = document.getElementById("registerTab");
+
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+
+  const formTitle = document.getElementById("formTitle");
+  const formSubtitle = document.getElementById("formSubtitle");
+  const successMessage = document.getElementById("successMessage");
+  const errorMessage = document.getElementById("errorMessage");
+
+  function clearMessages() {
+    successMessage.classList.add("hidden");
+    errorMessage.classList.add("hidden");
+  }
+
+  function inactiveTab() {
+    return "text-gray-300 hover:text-white py-3 rounded-xl font-black text-sm transition";
+  }
+
+  function activeTab() {
+    return "bg-red-600 text-white py-3 rounded-xl font-black text-sm";
+  }
+
+  function showLogin() {
+    clearMessages();
+
+    loginForm.classList.remove("hidden");
+    registerForm.classList.add("hidden");
+
+    loginTab.className = activeTab();
+    registerTab.className = inactiveTab();
+
+    formTitle.textContent = "Iniciar Sesión";
+    formSubtitle.textContent = "Accede a tu cuenta de cliente.";
+  }
+
+  function showRegister() {
+    clearMessages();
+
+    registerForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+
+    registerTab.className = activeTab();
+    loginTab.className = inactiveTab();
+
+    formTitle.textContent = "Crear Cuenta";
+    formSubtitle.textContent = "Regístrate como cliente de CC Motors.";
+  }
+
+  loginTab?.addEventListener("click", showLogin);
+  registerTab?.addEventListener("click", showRegister);
+
+  loginForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearMessages();
+
+    const formData = new FormData(loginForm);
+
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          correo: formData.get("correo"),
+          contrasena: formData.get("contrasena"),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.mensaje || "Login inválido");
+      }
+
+      const usuario = data.usuario || data.user || null;
+      const token = data.token || data.accessToken || null;
+
+      if (!token || !usuario) {
+        throw new Error("Respuesta de login incompleta");
+      }
+
+      localStorage.setItem("cc_motors_token", token);
+      localStorage.setItem("cc_motors_usuario", JSON.stringify(usuario));
+
+      window.location.href = "/mi-cuenta";
+    } catch (error) {
+      console.error(error);
+      errorMessage.textContent = "❌ Correo o contraseña incorrectos.";
+      errorMessage.classList.remove("hidden");
+    }
+  });
+
+  registerForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearMessages();
+
+    const formData = new FormData(registerForm);
+    const contrasena = formData.get("contrasena");
+    const confirmar = formData.get("confirmar");
+
+    if (contrasena.length < 6) {
+      errorMessage.textContent =
+        "❌ La contraseña debe tener mínimo 6 caracteres.";
+      errorMessage.classList.remove("hidden");
+      return;
+    }
+
+    if (contrasena !== confirmar) {
+      errorMessage.textContent = "❌ Las contraseñas no coinciden.";
+      errorMessage.classList.remove("hidden");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: formData.get("nombre"),
+          apellido: formData.get("apellido"),
+          correo: formData.get("correo"),
+          contrasena,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.mensaje || "Error al registrar usuario");
+      }
+
+      registerForm.reset();
+      showLogin();
+
+      successMessage.textContent =
+        "✅ Cuenta creada correctamente. Ya puedes iniciar sesión.";
+      successMessage.classList.remove("hidden");
+    } catch (error) {
+      console.error(error);
+      errorMessage.textContent =
+        "❌ No se pudo crear la cuenta. Verifica si el correo ya existe.";
+      errorMessage.classList.remove("hidden");
+    }
+  });
+</script>

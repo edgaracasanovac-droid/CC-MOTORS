@@ -36,7 +36,14 @@ La cotización quedó registrada en el sistema administrativo para su revisión.
     `
   };
 
-  await transporter.sendMail(mailOptions);
+  console.log('Intentando enviar correo...');
+  console.log('ADMIN_EMAIL:', adminEmail);
+  console.log('SMTP_HOST:', process.env.SMTP_HOST);
+  console.log('SMTP_USER:', process.env.SMTP_USER);
+
+  const info = await transporter.sendMail(mailOptions);
+
+  console.log('Correo enviado correctamente:', info.messageId);
 };
 
 module.exports = {

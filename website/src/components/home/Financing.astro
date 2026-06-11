@@ -1,0 +1,84 @@
+---
+const steps = [
+  {
+    title: "Inicial",
+    percent: "50%",
+    label: "Reserva del vehículo",
+    description:
+      "El cliente realiza un pago inicial para reservar el vehículo seleccionado y comenzar el proceso de compra.",
+  },
+  {
+    title: "Gestión",
+    percent: "30%",
+    label: "Trámite y documentación",
+    description:
+      "Se completa la revisión de documentos, verificación del vehículo y gestión administrativa correspondiente.",
+    featured: true,
+  },
+  {
+    title: "Entrega",
+    percent: "20%",
+    label: "Pago final",
+    description:
+      "Al finalizar el proceso, el cliente realiza el pago restante y recibe su vehículo con la documentación correspondiente.",
+  },
+];
+---
+
+<section id="financiamiento" class="relative py-28 bg-[#07070a] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.12),transparent_35%)]"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-5xl md:text-6xl font-black">
+        Compra <span class="text-red-600">Programada</span>
+      </h2>
+
+      <p class="text-gray-300 text-lg mt-6 leading-relaxed">
+        En CC Motors puedes iniciar la compra de tu vehículo con un plan dividido
+        en etapas simples, claras y adaptadas a tus necesidades.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      {steps.map((step) => (
+        <article class={`relative bg-[#171820] border rounded-3xl p-8 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_0_50px_rgba(220,38,38,0.25)] ${
+          step.featured
+            ? "border-red-500"
+            : "border-red-600/35"
+        }`}>
+          {step.featured && (
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-5 py-1 rounded-full text-sm font-black">
+              ★
+            </div>
+          )}
+
+          <h3 class="text-2xl font-black uppercase">
+            {step.title}
+          </h3>
+
+          <div class="mt-8 bg-[#090a0f] rounded-2xl p-8 text-center">
+            <p class="text-5xl font-black text-red-600">
+              {step.percent}
+            </p>
+
+            <p class="text-gray-400 uppercase tracking-[0.25em] text-sm mt-2">
+              {step.label}
+            </p>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mt-8">
+            {step.description}
+          </p>
+
+          <a
+            href="/cotizacion"
+            class="mt-10 flex items-center justify-center w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition shadow-lg shadow-red-600/20"
+          >
+            Cotizar
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

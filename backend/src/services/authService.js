@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
 
 const usuarioModel = require('../models/usuarioModel');
 
@@ -48,20 +50,27 @@ const generarContrasenaTemporal = () => {
 };
 
 const recuperarContrasena = async (correo) => {
+  const mensajeGenerico = {
+    mensaje: 'Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.'
+  };
+
   const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo);
 
   if (!usuario) {
-    return {
-      mensaje: 'El correo no se encuentra registrado en el sistema'
-    };
+    return mensajeGenerico;
   }
 
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    throw new Error('No se han configurado las credenciales de correo en el servidor');
-  }
+  const token = crypto.randomBytes(32).toString('hex');
+  const resetTokenExpira = new Date(Date.now() + 15 * 60 * 1000);
 
-  const nuevaContrasena = generarContrasenaTemporal();
-  const nuevaContrasenaEncriptada = await bcrypt.hash(nuevaContrasena, 10);
+  await usuarioModel.guardarResetToken(
+    correo,
+    token,
+    resetTokenExpira
+  );
+
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4322';
+  const enlace = `${frontendUrl}/restablecer-contrasena?token=${token}`;
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -73,27 +82,26 @@ const recuperarContrasena = async (correo) => {
     }
   });
 
-  await transporter.verify();
+  await transporter.sendMail({
+    from: `"CC Motors" <${process.env.EMAIL_USER}>`,
+    to: correo,
+    subject: 'Restablecer contraseña - CC Motors',
+    text: `
+Hola,
 
-  try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: correo,
-      subject: 'Recuperación de contraseña - Concesionaria',
-      text: `Hola ${usuario.nombre}, tu nueva contraseña temporal es: ${nuevaContrasena}`
-    });
-  } catch (error) {
-    throw new Error(`No se pudo enviar el correo de recuperación: ${error.message}`);
-  }
+Recibimos una solicitud para restablecer la contraseña de tu cuenta en CC Motors.
 
-  await usuarioModel.actualizarContrasenaPorCorreo(
-    correo,
-    nuevaContrasenaEncriptada
-  );
+Haz clic en el siguiente enlace para crear una nueva contraseña:
 
-  return {
-    mensaje: 'Se envió una nueva contraseña al correo registrado'
-  };
+${enlace}
+
+Este enlace expirará en 15 minutos.
+
+Si no solicitaste este cambio, puedes ignorar este mensaje.
+    `
+  });
+
+  return mensajeGenerico;
 };
 
 const obtenerPerfil = async (idUsuario) => {
@@ -116,9 +124,51 @@ const actualizarPerfil = async (idUsuario, datos) => {
   return perfil;
 };
 
+const register = async (datos) => {
+  const usuarioExistente = await usuarioModel.obtenerUsuarioPorCorreo(datos.correo);
+
+  if (usuarioExistente) {
+    throw new Error('El correo ya está registrado');
+  }
+
+  const contrasenaEncriptada = await bcrypt.hash(datos.contrasena, 10);
+
+  const nuevoUsuario = await usuarioModel.crearUsuario({
+    nombre: datos.nombre,
+    apellido: datos.apellido,
+    correo: datos.correo,
+    contrasena: contrasenaEncriptada,
+    id_rol: 2
+  });
+
+  return nuevoUsuario;
+};
+
+const restablecerContrasena = async (token, nuevaContrasena) => {
+  const usuario = await usuarioModel.obtenerUsuarioPorResetToken(token);
+
+  if (!usuario) {
+    throw new Error('Token inválido o vencido');
+  }
+
+  const nuevaContrasenaEncriptada = await bcrypt.hash(nuevaContrasena, 10);
+
+  await usuarioModel.actualizarContrasenaPorId(
+    usuario.id_usuario,
+    nuevaContrasenaEncriptada
+  );
+
+  return {
+    mensaje: 'Contraseña restablecida correctamente'
+  };
+};
+
+
 module.exports = {
   login,
   recuperarContrasena,
   obtenerPerfil,
-  actualizarPerfil
+  actualizarPerfil,
+  register,
+  restablecerContrasena
 };

@@ -10,136 +10,259 @@ import Footer from "../components/common/Footer.astro";
 >
   <Navbar />
 
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
-          Contacto
-        </span>
+  <main class="bg-[#07070a] text-white overflow-hidden">
+    <section class="relative min-h-[80vh] flex items-end">
+      <img
+        src="https://images.unsplash.com/photo-1562141961-3086c9cf9d9a?q=80&w=2200"
+        alt="Contacto CC Motors"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
 
-        <h1 class="text-5xl md:text-6xl font-black text-gray-950 mt-4">
-          Hablemos de tu próximo vehículo
+      <div class="absolute inset-0 bg-black/75"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#07070a] via-black/55 to-black/10"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
+        <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+          Contacto
+        </p>
+
+        <h1 class="text-6xl md:text-8xl font-black mt-5 leading-[0.9] uppercase max-w-5xl">
+          Hablemos de tu
+          <span class="block text-red-600">
+            próximo vehículo
+          </span>
         </h1>
 
-        <p class="text-gray-600 text-lg mt-4 max-w-3xl mx-auto">
+        <p class="text-gray-300 text-lg md:text-xl mt-8 max-w-3xl leading-relaxed">
           Escríbenos para recibir información sobre disponibilidad, precios,
           financiamiento o cotizaciones personalizadas.
         </p>
       </div>
+    </section>
 
-      <div class="grid lg:grid-cols-2 gap-10">
-        <div class="bg-white rounded-[2rem] p-8 md:p-10 border border-gray-100 shadow-sm">
-          <h2 class="text-3xl font-black text-gray-950">
-            Envíanos un mensaje
-          </h2>
+    <section class="relative py-28">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.14),transparent_35%)]"></div>
 
-          <form class="space-y-6 mt-8">
-            <div class="grid md:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-sm font-bold mb-2">Nombre</label>
-                <input
-                  type="text"
-                  placeholder="Tu nombre"
-                  class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-                />
-              </div>
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-10">
+          <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-[0_0_60px_rgba(220,38,38,0.10)]">
+            <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">
+              Escríbenos
+            </p>
 
-              <div>
-                <label class="block text-sm font-bold mb-2">Apellido</label>
-                <input
-                  type="text"
-                  placeholder="Tu apellido"
-                  class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold mb-2">Correo</label>
-              <input
-                type="email"
-                placeholder="correo@ejemplo.com"
-                class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-              />
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold mb-2">Teléfono</label>
-              <input
-                type="tel"
-                placeholder="+58 424 0000000"
-                class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-              />
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold mb-2">Mensaje</label>
-              <textarea
-                rows="5"
-                placeholder="Escribe tu mensaje..."
-                class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-red-600"
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition"
-            >
-              Enviar mensaje
-            </button>
-          </form>
-        </div>
-
-        <div class="space-y-6">
-          <div class="bg-gray-950 text-white rounded-[2rem] p-8 md:p-10">
-            <h2 class="text-3xl font-black">
-              Información de contacto
+            <h2 class="text-4xl font-black mt-4">
+              Envíanos un mensaje
             </h2>
 
-            <div class="space-y-6 mt-8">
-              <div>
-                <p class="text-gray-400 text-sm">Ubicación</p>
-                <p class="font-bold mt-1">San Cristóbal, estado Táchira</p>
+            <p class="text-gray-400 mt-4">
+              Nuestro equipo revisará tu solicitud y te contactará para brindarte atención personalizada.
+            </p>
+
+            <form id="contactForm" class="space-y-5 mt-8">
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
+                  <input
+                    name="nombre"
+                    required
+                    type="text"
+                    placeholder="Tu nombre"
+                    class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-bold mb-2 text-gray-300">Apellido</label>
+                  <input
+                    name="apellido"
+                    required
+                    type="text"
+                    placeholder="Tu apellido"
+                    class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+                  />
+                </div>
               </div>
 
               <div>
-                <p class="text-gray-400 text-sm">Teléfono</p>
-                <p class="font-bold mt-1">+58 424 0000000</p>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Correo</label>
+                <input
+                  name="correo"
+                  required
+                  type="email"
+                  placeholder="correo@ejemplo.com"
+                  class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+                />
               </div>
 
               <div>
-                <p class="text-gray-400 text-sm">Correo</p>
-                <p class="font-bold mt-1">info@ccmotors.com</p>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Teléfono</label>
+                <input
+                  name="telefono"
+                  required
+                  type="tel"
+                  placeholder="+58 424 0000000"
+                  class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+                />
               </div>
 
               <div>
-                <p class="text-gray-400 text-sm">Horario</p>
-                <p class="font-bold mt-1">Lunes a sábado · 8:00 AM - 5:00 PM</p>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Mensaje</label>
+                <textarea
+                  name="mensaje"
+                  required
+                  rows="5"
+                  placeholder="Escribe tu mensaje..."
+                  class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+                ></textarea>
               </div>
+
+              <button
+                id="submitBtn"
+                type="submit"
+                class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-60 shadow-2xl shadow-red-600/20"
+              >
+                Enviar mensaje
+              </button>
+            </form>
+
+            <div
+              id="successMessage"
+              class="hidden mt-6 bg-green-500/10 border border-green-500/30 text-green-300 p-5 rounded-xl"
+            >
+              ✅ Mensaje enviado correctamente. Nuestro equipo se comunicará contigo pronto.
             </div>
           </div>
 
-          <div class="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
-            <h3 class="text-2xl font-black text-gray-950">
-              Atención personalizada
-            </h3>
+          <div class="space-y-6">
+            <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-8 md:p-10">
+              <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">
+                Información
+              </p>
 
-            <p class="text-gray-600 mt-4 leading-relaxed">
-              Nuestro equipo puede ayudarte a seleccionar el vehículo ideal,
-              revisar disponibilidad y orientarte sobre opciones de compra o financiamiento.
-            </p>
+              <h2 class="text-4xl font-black mt-4">
+                Contacto directo
+              </h2>
 
-            <a
-              href="/cotizacion"
-              class="inline-flex mt-6 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition"
-            >
-              Solicitar cotización
-            </a>
+              <div class="space-y-6 mt-8">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+                  <p class="text-gray-500 text-sm">Ubicación</p>
+                  <p class="font-black mt-1">San Cristóbal, estado Táchira</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+                  <p class="text-gray-500 text-sm">Teléfono</p>
+                  <p class="font-black mt-1">+58 424 0000000</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+                  <p class="text-gray-500 text-sm">Correo</p>
+                  <p class="font-black mt-1">info@ccmotors.com</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+                  <p class="text-gray-500 text-sm">Horario</p>
+                  <p class="font-black mt-1">Lunes a sábado · 8:00 AM - 5:00 PM</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative min-h-[320px] rounded-[2rem] overflow-hidden border border-white/10">
+              <img
+                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600"
+                alt="Atención personalizada CC Motors"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+
+              <div class="absolute inset-0 bg-black/70"></div>
+
+              <div class="relative z-10 p-8 md:p-10 h-full flex flex-col justify-end">
+                <h3 class="text-3xl font-black">
+                  Atención personalizada
+                </h3>
+
+                <p class="text-gray-300 mt-4 leading-relaxed">
+                  Nuestro equipo puede ayudarte a seleccionar el vehículo ideal,
+                  revisar disponibilidad y orientarte sobre opciones de compra.
+                </p>
+
+                <a
+                  href="/cotizacion"
+                  class="inline-flex w-fit mt-6 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-black transition"
+                >
+                  Solicitar cotización
+                </a>
+              </div>
+            </div>
+
+            <div class="bg-red-600 rounded-[2rem] p-8 md:p-10">
+              <h3 class="text-3xl font-black">
+                ¿Prefieres una prueba?
+              </h3>
+
+              <p class="text-red-50 mt-4">
+                Agenda una visita o test drive y nuestro equipo confirmará tu solicitud.
+              </p>
+
+              <a
+                href="/test-drive"
+                class="inline-flex mt-6 bg-white text-black px-6 py-3 rounded-xl font-black hover:bg-gray-100 transition"
+              >
+                Agendar Test Drive
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 bg-[#171820] border border-white/10 rounded-[2rem] p-8 md:p-10">
+          <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">
+                Ubicación
+              </p>
+
+              <h2 class="text-4xl font-black mt-4">
+                Visítanos en San Cristóbal
+              </h2>
+
+              <p class="text-gray-400 mt-4 leading-relaxed">
+                Nuestro punto de atención se encuentra en San Cristóbal, estado Táchira.
+                Desde allí gestionamos cotizaciones, atención al cliente y seguimiento de solicitudes.
+              </p>
+            </div>
+
+            <div class="min-h-[260px] bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center text-center p-8">
+              <div>
+                <p class="text-6xl mb-4">📍</p>
+                <p class="text-2xl font-black">San Cristóbal, Táchira</p>
+                <p class="text-gray-400 mt-2">Mapa referencial de ubicación</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <Footer />
 </MainLayout>
+
+<script>
+  const form = document.getElementById("contactForm");
+  const btn = document.getElementById("submitBtn");
+  const success = document.getElementById("successMessage");
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    success.classList.add("hidden");
+    btn.textContent = "Enviando...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+      form.reset();
+      success.classList.remove("hidden");
+      btn.textContent = "Enviar mensaje";
+      btn.disabled = false;
+    }, 1000);
+  });
+</script>

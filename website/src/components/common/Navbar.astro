@@ -2,66 +2,155 @@
 import Logo from "./Logo.astro";
 ---
 
-<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100">
-  <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+<header class="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-xl">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-between">
     <Logo />
 
-    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-gray-700">
-      <a href="/" class="hover:text-red-600 transition">
-        Inicio
-      </a>
-
-      <a href="/catalogo" class="hover:text-red-600 transition">
-        Catálogo
-      </a>
-
-      <a href="/nosotros" class="hover:text-red-600 transition">
-        Nosotros
-      </a>
-
-      <a href="/contacto" class="hover:text-red-600 transition">
-        Contacto
-      </a>
+    <nav class="hidden lg:flex items-center gap-9 text-sm font-black tracking-wide uppercase text-white">
+      <a href="/" class="hover:text-red-500 transition">Inicio</a>
+      <a href="/catalogo" class="hover:text-red-500 transition">Catálogo</a>
+      <a href="/configurar" class="hover:text-red-500 transition">Mi Compra</a>
+      <a href="/galeria" class="hover:text-red-500 transition">Galería</a>
+      <a href="/nosotros" class="hover:text-red-500 transition">Nosotros</a>
+      <a href="/contacto" class="hover:text-red-500 transition">Contacto</a>
     </nav>
 
     <div class="hidden md:flex items-center">
-      <a
-        href="/cotizacion"
-        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-sm"
-      >
-        Cotizar
-      </a>
+      <div class="flex items-center gap-3">
+        <a
+          href="/cotizacion"
+          class="border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition"
+        >
+          Cotizar
+        </a>
+
+        <a
+          href="/test-drive"
+          class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition"
+        >
+          Test Drive
+        </a>
+      </div>
+
+      <div class="ml-8 pl-6 border-l border-white/10">
+        <a
+          id="accountLink"
+          href="/login"
+          class="h-11 min-w-11 px-3 rounded-xl border border-white/20 hover:border-red-500 hover:text-red-500 text-white flex items-center justify-center gap-2 transition"
+          title="Mi Cuenta"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5.121 17.804A9 9 0 1118.879 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+
+          <span id="accountText" class="hidden xl:inline text-sm font-bold">
+            Iniciar sesión
+          </span>
+        </a>
+      </div>
     </div>
 
     <button
-      class="lg:hidden h-10 w-10 rounded-xl border border-gray-200 flex items-center justify-center"
+      id="menuBtn"
+      class="lg:hidden h-10 w-10 rounded-xl border border-white/30 text-white flex items-center justify-center"
       aria-label="Abrir menú"
     >
       <span class="text-2xl leading-none">☰</span>
     </button>
   </div>
 
-  <div class="lg:hidden border-t border-gray-100 bg-white px-6 py-4">
-    <nav class="grid gap-3 text-sm font-semibold text-gray-700">
-      <a href="/" class="hover:text-red-600 transition">
-        Inicio
-      </a>
+  <div
+    id="mobileMenu"
+    class="hidden lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/10 px-6 py-6"
+  >
+    <nav class="grid gap-5 text-sm font-black uppercase tracking-wide text-white">
+      <a href="/" class="hover:text-red-500 transition">Inicio</a>
+      <a href="/catalogo" class="hover:text-red-500 transition">Catálogo</a>
+      <a href="/configurar" class="hover:text-red-500 transition">Mi Compra</a>
+      <a href="/galeria" class="hover:text-red-500 transition">Galería</a>
+      <a href="/nosotros" class="hover:text-red-500 transition">Nosotros</a>
+      <a href="/contacto" class="hover:text-red-500 transition">Contacto</a>
 
-      <a href="/catalogo" class="hover:text-red-600 transition">
-        Catálogo
-      </a>
-
-      <a href="/nosotros" class="hover:text-red-600 transition">
-        Nosotros
-      </a>
-
-      <a href="/contacto" class="hover:text-red-600 transition">
-        Contacto
-      </a>
-
-      <a href="/cotizacion" class="text-red-600 font-bold">
+      <a href="/cotizacion" class="bg-red-600 text-white text-center py-3 rounded-xl">
         Cotizar
+      </a>
+
+      <a href="/test-drive" class="border border-white/20 text-white text-center py-3 rounded-xl">
+        Test Drive
+      </a>
+
+      <a
+        id="mobileAccountLink"
+        href="/login"
+        class="border border-white/20 text-white text-center py-3 rounded-xl"
+      >
+        Iniciar sesión
       </a>
     </nav>
   </div>
 </header>
+
+<script>
+  const menuBtn = document.getElementById("menuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  const accountLink = document.getElementById("accountLink");
+  const accountText = document.getElementById("accountText");
+  const mobileAccountLink = document.getElementById("mobileAccountLink");
+
+  menuBtn?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("hidden");
+  });
+
+  function getStoredUser() {
+    try {
+      const rawUser =
+        localStorage.getItem("cc_motors_usuario") ||
+        localStorage.getItem("cc_motors_user");
+
+      return rawUser ? JSON.parse(rawUser) : null;
+    } catch (error) {
+      console.error("Error leyendo usuario:", error);
+      return null;
+    }
+  }
+
+  function updateNavbarSession() {
+    const token = localStorage.getItem("cc_motors_token");
+    const user = getStoredUser();
+
+    if (!token) {
+      accountLink?.setAttribute("href", "/login");
+      mobileAccountLink?.setAttribute("href", "/login");
+
+      if (accountText) accountText.textContent = "Iniciar sesión";
+      if (mobileAccountLink) mobileAccountLink.textContent = "Iniciar sesión";
+
+      return;
+    }
+
+    const nombre = user?.nombre || "Mi Cuenta";
+
+    accountLink?.setAttribute("href", "/mi-cuenta");
+    mobileAccountLink?.setAttribute("href", "/mi-cuenta");
+
+    if (accountText) accountText.textContent = nombre;
+    if (mobileAccountLink) mobileAccountLink.textContent = `Mi Cuenta${user?.nombre ? ` · ${user.nombre}` : ""}`;
+  }
+
+  updateNavbarSession();
+
+  window.addEventListener("storage", updateNavbarSession);
+  window.addEventListener("focus", updateNavbarSession);
+</script>

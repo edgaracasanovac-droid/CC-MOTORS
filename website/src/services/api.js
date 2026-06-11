@@ -1,33 +1,49 @@
 const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3000/api";
 
-export async function getVehiculos() {
+async function request(endpoint, options = {}) {
   try {
-    const response = await fetch(`${API_URL}/vehiculos`);
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+      ...options,
+    });
+
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Error al obtener vehículos");
+      throw new Error(data?.mensaje || "Error en la petición al backend");
     }
 
-    return await response.json();
+    return data;
   } catch (error) {
-    console.error("Error al obtener vehículos:", error);
+    console.error(`Error en ${endpoint}:`, error);
+    throw error;
+  }
+}
+
+export async function getVehiculos() {
+  try {
+    return await request("/vehiculos");
+  } catch {
     return [];
   }
 }
 
 export async function getVehiculoPorId(id) {
   try {
-    const response = await fetch(`${API_URL}/vehiculos/${id}`);
-
-    if (!response.ok) {
-      throw new Error("Error al obtener vehículo");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error al obtener vehículo:", error);
+    return await request(`/vehiculos/${id}`);
+  } catch {
     return null;
   }
+}
+
+export async function crearCotizacionPublica(datosCotizacion) {
+  return await request("/cotizaciones/publica", {
+    method: "POST",
+    body: JSON.stringify(datosCotizacion),
+  });
 }
 
 export function formatPrice(value) {
@@ -43,34 +59,26 @@ export function formatPrice(value) {
   })}`;
 }
 
-export async function crearCliente(cliente) {
-  const response = await fetch(`${API_URL}/clientes`, {
+export async function loginUsuario(credenciales) {
+  return await request("/auth/login", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(cliente),
+    body: JSON.stringify(credenciales),
   });
-
-  if (!response.ok) {
-    throw new Error("Error al crear cliente");
-  }
-
-  return await response.json();
 }
 
-export async function crearCotizacion(cotizacion) {
-  const response = await fetch(`${API_URL}/cotizaciones`, {
+export async function registrarUsuario(datosUsuario) {
+  return await request("/auth/register", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(cotizacion),
+    body: JSON.stringify(datosUsuario),
   });
-
-  if (!response.ok) {
-    throw new Error("Error al crear cotización");
-  }
-
-  return await response.json();
 }
+
+
+export async function recuperarContrasena(correo) {
+  return await request("/auth/recuperar-contrasena", {
+    method: "POST",
+    body: JSON.stringify({ correo }),
+  });
+}
+
+export { API_URL };

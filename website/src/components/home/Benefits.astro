@@ -1,79 +1,93 @@
 ---
 const benefits = [
   {
-    number: "01",
-    title: "Vehículos certificados",
-    description: "Cada unidad pasa por revisión antes de ser publicada en nuestro catálogo.",
+    icon: "🚗",
+    title: "Vehículos Certificados",
+    description:
+      "Cada vehículo es inspeccionado y verificado antes de ser publicado en nuestro catálogo.",
   },
   {
-    number: "02",
-    title: "Financiamiento flexible",
-    description: "Opciones de pago adaptadas al perfil y necesidad de cada cliente.",
+    icon: "💳",
+    title: "Financiamiento Flexible",
+    description:
+      "Opciones de pago adaptadas a las necesidades y presupuesto de cada cliente.",
   },
   {
-    number: "03",
-    title: "Asesoría personalizada",
-    description: "Te acompañamos desde la búsqueda inicial hasta la entrega del vehículo.",
+    icon: "🤝",
+    title: "Asesoría Personalizada",
+    description:
+      "Acompañamiento profesional durante todo el proceso de compra.",
   },
   {
-    number: "04",
-    title: "Proceso transparente",
-    description: "Información clara sobre precios, disponibilidad, pagos y condiciones.",
+    icon: "⚡",
+    title: "Proceso Rápido",
+    description:
+      "Cotización, evaluación y gestión en el menor tiempo posible.",
   },
 ];
 ---
 
-<section class="py-24 bg-white">
-  <div class="max-w-7xl mx-auto px-6">
+<section id="beneficios" class="relative py-28 bg-[#0b0c11] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.10),transparent_40%)]"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6">
     <div class="grid lg:grid-cols-2 gap-16 items-center">
+
       <div>
-        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
+        <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
           Ventajas CC Motors
-        </span>
-
-        <h2 class="text-4xl md:text-5xl font-black text-gray-950 mt-4 leading-tight">
-          Una experiencia de compra más segura, clara y profesional
-        </h2>
-
-        <p class="text-gray-600 mt-5 text-lg leading-relaxed">
-          En Casanova Contreras Motors combinamos tecnología, atención personalizada
-          y control administrativo para ofrecer una compra moderna y confiable.
         </p>
 
-        <div class="mt-8 flex flex-wrap gap-4">
+        <h2 class="text-5xl md:text-6xl font-black mt-5 leading-tight">
+          Una experiencia de compra
+          <span class="text-red-600"> superior</span>
+        </h2>
+
+        <p class="text-gray-300 text-lg mt-8 leading-relaxed">
+          En CC Motors combinamos tecnología, confianza y atención
+          personalizada para ayudarte a encontrar el vehículo ideal
+          con total seguridad.
+        </p>
+
+        <div class="flex gap-4 mt-10">
           <a
-            href="/cotizacion"
-            class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold transition"
+            href="/catalogo"
+            class="bg-red-600 hover:bg-red-700 text-white px-7 py-4 rounded-xl font-black transition"
           >
-            Solicitar cotización
+            Explorar vehículos
           </a>
 
           <a
-            href="/nosotros"
-            class="border border-gray-300 hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-xl font-bold transition"
+            href="/cotizacion"
+            class="border border-white/20 hover:bg-white hover:text-black text-white px-7 py-4 rounded-xl font-black transition"
           >
-            Conocer más
+            Cotizar ahora
           </a>
         </div>
       </div>
 
       <div class="grid sm:grid-cols-2 gap-6">
         {benefits.map((benefit) => (
-          <article class="group bg-gray-50 hover:bg-gray-950 p-7 rounded-[2rem] transition duration-300 border border-gray-100">
-            <div class="h-12 w-12 rounded-2xl bg-red-600 text-white flex items-center justify-center font-black">
-              {benefit.number}
+          <article
+            class="group bg-[#171820] border border-white/10 rounded-3xl p-7 transition-all duration-500 hover:-translate-y-2 hover:border-red-500 hover:shadow-[0_0_40px_rgba(220,38,38,0.20)]"
+          >
+            <div
+              class="h-14 w-14 rounded-2xl bg-red-600/15 border border-red-600/30 flex items-center justify-center text-2xl mb-5 group-hover:bg-red-600 group-hover:text-white transition"
+            >
+              {benefit.icon}
             </div>
 
-            <h3 class="text-xl font-black mt-6 text-gray-950 group-hover:text-white transition">
+            <h3 class="text-xl font-black">
               {benefit.title}
             </h3>
 
-            <p class="text-gray-600 group-hover:text-gray-300 mt-3 leading-relaxed transition">
+            <p class="text-gray-400 mt-4 leading-relaxed">
               {benefit.description}
             </p>
           </article>
         ))}
       </div>
+
     </div>
   </div>
 </section>

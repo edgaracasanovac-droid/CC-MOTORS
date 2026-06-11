@@ -1,11 +1,12 @@
 const authService = require('../services/authService');
 
 
-
 const {
   loginSchema,
   recoverPasswordSchema,
-  profileUpdateSchema
+  profileUpdateSchema,
+  registerSchema,
+  resetPasswordSchema
 } = require('../validations/authValidation');
 
 const login = async (req, res) => {
@@ -118,10 +119,61 @@ const profileUpdate = async (req, res) => {
   }
 };
 
+
+
+const register = async (req, res) => {
+  try {
+    const validacion = registerSchema.safeParse(req.body);
+
+    if (!validacion.success) {
+      return res.status(400).json(validacion.error);
+    }
+
+    const usuario = await authService.register(req.body);
+
+    res.status(201).json({
+      mensaje: 'Usuario registrado correctamente',
+      usuario
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      mensaje: error.message
+    });
+  }
+};
+
+const restablecerContrasena = async (req, res) => {
+  try {
+    const validacion = resetPasswordSchema.safeParse(req.body);
+
+    if (!validacion.success) {
+      return res.status(400).json(validacion.error);
+    }
+
+    const { token, nueva_contrasena } = req.body;
+
+    const resultado = await authService.restablecerContrasena(
+      token,
+      nueva_contrasena
+    );
+
+    res.json(resultado);
+
+  } catch (error) {
+    res.status(400).json({
+      mensaje: error.message
+    });
+  }
+};
+
+
 module.exports = {
   login,
   perfil,
   recuperarContrasena,
+  restablecerContrasena,
   profile,
-  profileUpdate
+  profileUpdate,
+  register
 };

@@ -1,0 +1,496 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+
+import { getVehiculos, API_URL, formatPrice } from "../services/api";
+
+const vehiculos = await getVehiculos();
+
+const imagenesVehiculos = {
+  Toyota: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1600",
+  Ford: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600",
+  Chevrolet: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600",
+  Hyundai: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1600",
+  BMW: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1600",
+};
+
+const imagenDefault =
+  "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1600";
+---
+
+<MainLayout title="Mi Compra | CC Motors" description="Configura tu compra y solicita una cotización">
+  <Navbar />
+
+  <section class="relative min-h-screen bg-[#07070a] text-white overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.16),transparent_35%)]"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 md:px-6">
+      <div class="text-center max-w-4xl mx-auto mb-10 md:mb-14">
+        <p class="text-red-500 uppercase tracking-[0.25em] sm:tracking-[0.35em] text-xs sm:text-sm font-black">
+          Mi Compra CC Motors
+        </p>
+
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-black mt-5 leading-tight">
+          Configura tu
+          <span class="text-red-600"> compra</span>
+        </h1>
+
+        <p class="text-gray-400 text-base sm:text-lg mt-5">
+          Selecciona vehículo, inicial, plazo y modalidad de compra. Luego envía tu solicitud directamente al sistema.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start">
+        <div class="bg-[#171820] border border-white/10 rounded-[2rem] overflow-hidden">
+          <div class="relative h-[260px] sm:h-[320px] lg:h-[420px] bg-black">
+            <img
+              id="vehicleImage"
+              src={vehiculos[0] ? (imagenesVehiculos[vehiculos[0].nombre_marca] || imagenDefault) : imagenDefault}
+              alt="Vehículo seleccionado"
+              class="h-full w-full object-cover"
+            />
+
+            <div class="absolute inset-0 bg-gradient-to-t from-[#171820] via-transparent to-transparent"></div>
+
+            <div class="absolute left-4 sm:left-6 bottom-5 sm:bottom-6 right-4">
+              <p class="text-red-500 uppercase tracking-[0.22em] sm:tracking-[0.30em] text-[10px] sm:text-xs font-black">
+                Vehículo seleccionado
+              </p>
+
+              <h2 id="vehicleTitle" class="text-2xl sm:text-3xl lg:text-4xl font-black mt-2 leading-tight">
+                {vehiculos[0] ? `${vehiculos[0].nombre_marca} ${vehiculos[0].nombre_modelo}` : "Sin vehículos"}
+              </h2>
+
+              <p id="vehiclePrice" class="text-red-600 text-2xl sm:text-3xl font-black mt-2">
+                {vehiculos[0] ? formatPrice(vehiculos[0].precio_venta) : "$0.00"}
+              </p>
+            </div>
+          </div>
+
+          <div class="p-5 sm:p-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-gray-500 text-xs uppercase font-black">Año</p>
+                <p id="vehicleYear" class="text-lg sm:text-xl font-black mt-2">{vehiculos[0]?.ano || "-"}</p>
+              </div>
+
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-gray-500 text-xs uppercase font-black">Color</p>
+                <p id="vehicleColor" class="text-lg sm:text-xl font-black mt-2 capitalize">{vehiculos[0]?.color || "-"}</p>
+              </div>
+
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-gray-500 text-xs uppercase font-black">Estado</p>
+                <p id="vehicleStatus" class="text-lg sm:text-xl font-black mt-2 capitalize">{vehiculos[0]?.estado || "-"}</p>
+              </div>
+            </div>
+
+            <div class="mt-6 bg-black/30 border border-white/10 rounded-3xl p-5 sm:p-6">
+              <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">
+                Resumen financiero
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <p class="text-gray-500 text-xs uppercase font-black">Inicial</p>
+                  <p id="initialAmount" class="text-xl sm:text-2xl font-black text-red-500 mt-2">$0.00</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <p class="text-gray-500 text-xs uppercase font-black">Financiar</p>
+                  <p id="financeAmount" class="text-xl sm:text-2xl font-black mt-2">$0.00</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <p class="text-gray-500 text-xs uppercase font-black">Cuota</p>
+                  <p id="monthlyAmount" class="text-xl sm:text-2xl font-black text-green-400 mt-2">$0.00</p>
+                </div>
+              </div>
+
+              <p id="financeNote" class="text-gray-400 text-sm mt-5 leading-relaxed">
+                La cuota mensual es una estimación referencial para la solicitud.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-5 sm:p-8">
+          <form id="configForm" class="space-y-5">
+            <div>
+              <label class="block text-sm font-bold mb-2 text-gray-300">Vehículo</label>
+
+              <select
+                name="vehiculo"
+                required
+                class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+              >
+                {vehiculos.map((vehiculo) => (
+                  <option class="bg-[#171820]" value={JSON.stringify(vehiculo)}>
+                    {vehiculo.nombre_marca} {vehiculo.nombre_modelo} - {formatPrice(vehiculo.precio_venta)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Tipo de compra</label>
+                <select name="tipo_compra" required class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500">
+                  <option class="bg-[#171820]" value="financiamiento">Financiamiento</option>
+                  <option class="bg-[#171820]" value="contado">Contado</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Plazo</label>
+                <select id="meses" name="meses" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500">
+                  <option class="bg-[#171820]" value="12">12 meses</option>
+                  <option class="bg-[#171820]" value="24">24 meses</option>
+                  <option class="bg-[#171820]" value="36">36 meses</option>
+                  <option class="bg-[#171820]" value="48">48 meses</option>
+                  <option class="bg-[#171820]" value="60">60 meses</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="inicialBox" class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                <label class="block text-sm font-bold text-gray-300">
+                  Inicial
+                </label>
+
+                <span class="text-xs text-gray-400">
+                  Ajusta el monto de entrada
+                </span>
+              </div>
+
+              <input
+                id="inicial"
+                name="inicial"
+                type="range"
+                min="0"
+                max="50000"
+                step="500"
+                value="5000"
+                class="w-full accent-red-600"
+              />
+
+              <div class="flex items-center justify-between gap-3 mt-3">
+                <span class="text-gray-500 text-sm">$0</span>
+
+                <p id="inicialText" class="text-red-500 font-black text-lg sm:text-xl">
+                  $5,000.00
+                </p>
+
+                <span id="maxInicialText" class="text-gray-500 text-sm">
+                  $0.00
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold mb-2 text-gray-300">Color preferido</label>
+              <select name="color_preferido" required class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500">
+                <option class="bg-[#171820]" value="Mismo color del vehículo">Mismo color</option>
+                <option class="bg-[#171820]" value="Negro">Negro</option>
+                <option class="bg-[#171820]" value="Blanco">Blanco</option>
+                <option class="bg-[#171820]" value="Rojo">Rojo</option>
+                <option class="bg-[#171820]" value="Gris">Gris</option>
+              </select>
+            </div>
+
+            <div class="bg-red-600/10 border border-red-600/30 rounded-2xl p-4 text-sm text-red-100">
+              Si tienes sesión iniciada, tus datos básicos se completarán automáticamente.
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
+                <input name="nombre" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Apellido</label>
+                <input name="apellido" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Documento</label>
+                <input name="documento" required type="text" placeholder="V12345678" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold mb-2 text-gray-300">Teléfono</label>
+                <input name="telefono" required type="tel" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold mb-2 text-gray-300">Correo</label>
+              <input name="correo" required type="email" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold mb-2 text-gray-300">Dirección</label>
+              <input name="direccion" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+            </div>
+
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <p class="text-gray-500 text-xs uppercase font-black">Resumen</p>
+              <p id="summaryText" class="text-gray-300 mt-3 break-words leading-relaxed">
+                Selecciona tus opciones para generar una solicitud de compra personalizada.
+              </p>
+            </div>
+
+            <button
+              id="submitBtn"
+              type="submit"
+              class="w-full text-base sm:text-lg bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black transition disabled:opacity-60 shadow-2xl shadow-red-600/20"
+            >
+              Enviar configuración
+            </button>
+          </form>
+
+          <div id="successMessage" class="hidden mt-6 bg-green-500/10 border border-green-500/30 text-green-300 p-5 rounded-xl">
+            ✅ Configuración enviada correctamente. Un asesor de CC Motors se pondrá en contacto contigo.
+          </div>
+
+          <div id="errorMessage" class="hidden mt-6 bg-red-500/10 border border-red-500/30 text-red-300 p-5 rounded-xl">
+            ❌ Ocurrió un error al enviar la configuración.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>
+
+<script define:vars={{ API_URL, imagenesVehiculos, imagenDefault }}>
+  const form = document.getElementById("configForm");
+  const vehicleSelect = form?.querySelector('select[name="vehiculo"]');
+
+  const vehicleImage = document.getElementById("vehicleImage");
+  const vehicleTitle = document.getElementById("vehicleTitle");
+  const vehiclePrice = document.getElementById("vehiclePrice");
+  const vehicleYear = document.getElementById("vehicleYear");
+  const vehicleColor = document.getElementById("vehicleColor");
+  const vehicleStatus = document.getElementById("vehicleStatus");
+
+  const inicialBox = document.getElementById("inicialBox");
+  const inicial = document.getElementById("inicial");
+  const meses = document.getElementById("meses");
+  const inicialText = document.getElementById("inicialText");
+  const maxInicialText = document.getElementById("maxInicialText");
+  const initialAmount = document.getElementById("initialAmount");
+  const financeAmount = document.getElementById("financeAmount");
+  const monthlyAmount = document.getElementById("monthlyAmount");
+  const financeNote = document.getElementById("financeNote");
+
+  const summaryText = document.getElementById("summaryText");
+  const successMessage = document.getElementById("successMessage");
+  const errorMessage = document.getElementById("errorMessage");
+  const submitBtn = document.getElementById("submitBtn");
+
+  const nombreInput = form?.querySelector('input[name="nombre"]');
+  const apellidoInput = form?.querySelector('input[name="apellido"]');
+  const correoInput = form?.querySelector('input[name="correo"]');
+
+  function formatMoney(value) {
+    const number = Number(value);
+    if (Number.isNaN(number)) return "$0.00";
+
+    return `$${number.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+
+  function getSelectedVehicle() {
+    if (!vehicleSelect?.value) return null;
+    return JSON.parse(vehicleSelect.value);
+  }
+
+  function cargarUsuarioGuardado() {
+    try {
+      const rawUser =
+        localStorage.getItem("cc_motors_usuario") ||
+        localStorage.getItem("cc_motors_user");
+
+      return rawUser ? JSON.parse(rawUser) : null;
+    } catch (error) {
+      console.error("Error leyendo usuario guardado:", error);
+      return null;
+    }
+  }
+
+  async function autocompletarUsuario() {
+    const token = localStorage.getItem("cc_motors_token");
+
+    const usuarioGuardado = cargarUsuarioGuardado();
+
+    if (usuarioGuardado) {
+      nombreInput.value = usuarioGuardado.nombre || "";
+      apellidoInput.value = usuarioGuardado.apellido || "";
+      correoInput.value = usuarioGuardado.correo || usuarioGuardado.email || "";
+    }
+
+    if (!token) return;
+
+    try {
+      const response = await fetch(`${API_URL}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) return;
+
+      const perfil = data.perfil;
+
+      nombreInput.value = perfil?.nombre || nombreInput.value || "";
+      apellidoInput.value = perfil?.apellido || apellidoInput.value || "";
+      correoInput.value = perfil?.email || perfil?.correo || correoInput.value || "";
+
+      localStorage.setItem("cc_motors_usuario", JSON.stringify({
+        id: perfil?.id,
+        nombre: perfil?.nombre || "",
+        apellido: perfil?.apellido || "",
+        correo: perfil?.email || perfil?.correo || "",
+        email: perfil?.email || perfil?.correo || "",
+        rol: perfil?.rol || "cliente",
+      }));
+    } catch (error) {
+      console.error("No se pudo autocompletar usuario:", error);
+    }
+  }
+
+  function updatePreview() {
+    const vehiculo = getSelectedVehicle();
+    if (!vehiculo) return;
+
+    const tipoCompra = form.tipo_compra?.value || "financiamiento";
+    const color = form.color_preferido?.value || "Mismo color del vehículo";
+    const precio = Number(vehiculo.precio_venta || 0);
+    const mesesValue = Number(meses?.value || 12);
+
+    inicial.max = precio;
+    maxInicialText.textContent = formatMoney(precio);
+
+    if (Number(inicial.value) > precio) {
+      inicial.value = precio;
+    }
+
+    let inicialValue = Number(inicial?.value || 0);
+    let financiar = Math.max(precio - inicialValue, 0);
+    let cuota = financiar / mesesValue;
+
+    if (tipoCompra === "contado") {
+      inicialValue = precio;
+      financiar = 0;
+      cuota = 0;
+      inicialBox.classList.add("opacity-60");
+      inicial.disabled = true;
+    } else {
+      inicialBox.classList.remove("opacity-60");
+      inicial.disabled = false;
+    }
+
+    vehicleImage.src = imagenesVehiculos[vehiculo.nombre_marca] || imagenDefault;
+    vehicleTitle.textContent = `${vehiculo.nombre_marca} ${vehiculo.nombre_modelo}`;
+    vehiclePrice.textContent = formatMoney(precio);
+    vehicleYear.textContent = vehiculo.ano || "-";
+    vehicleColor.textContent = vehiculo.color || "-";
+    vehicleStatus.textContent = vehiculo.estado || "-";
+
+    inicialText.textContent = formatMoney(inicialValue);
+    initialAmount.textContent = formatMoney(inicialValue);
+    financeAmount.textContent = formatMoney(financiar);
+    monthlyAmount.textContent = formatMoney(cuota);
+
+    if (tipoCompra === "contado") {
+      financeNote.textContent = "Modalidad contado: se estima como pago completo del vehículo.";
+    } else {
+      financeNote.textContent = `Financiamiento estimado a ${mesesValue} meses. La cuota mensual es referencial.`;
+    }
+
+    summaryText.textContent =
+      `Estás configurando un ${vehiculo.nombre_marca} ${vehiculo.nombre_modelo}, modalidad ${tipoCompra}, inicial ${formatMoney(inicialValue)}, plazo ${mesesValue} meses, cuota estimada ${formatMoney(cuota)}, color preferido: ${color}.`;
+  }
+
+  vehicleSelect?.addEventListener("change", updatePreview);
+  form?.tipo_compra?.addEventListener("change", updatePreview);
+  form?.color_preferido?.addEventListener("change", updatePreview);
+  inicial?.addEventListener("input", updatePreview);
+  meses?.addEventListener("change", updatePreview);
+
+  updatePreview();
+  autocompletarUsuario();
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    successMessage.classList.add("hidden");
+    errorMessage.classList.add("hidden");
+
+    submitBtn.textContent = "Enviando...";
+    submitBtn.disabled = true;
+
+    const formData = new FormData(form);
+    const vehiculo = getSelectedVehicle();
+
+    const tipoCompra = formData.get("tipo_compra");
+    const precio = Number(vehiculo.precio_venta || 0);
+    const mesesValue = Number(formData.get("meses") || 12);
+    const inicialValue = tipoCompra === "contado" ? precio : Number(formData.get("inicial") || 0);
+    const financiar = tipoCompra === "contado" ? 0 : Math.max(precio - inicialValue, 0);
+    const cuota = tipoCompra === "contado" ? 0 : financiar / mesesValue;
+
+    const datosCotizacion = {
+      nombre: formData.get("nombre"),
+      apellido: formData.get("apellido"),
+      documento: formData.get("documento"),
+      telefono: formData.get("telefono"),
+      correo: formData.get("correo"),
+      direccion: formData.get("direccion"),
+      id_vehiculo: Number(vehiculo.id_vehiculo),
+      mensaje:
+        `Mi Compra | Tipo de compra: ${tipoCompra} | Vehículo: ${vehiculo.nombre_marca} ${vehiculo.nombre_modelo} | Precio: ${formatMoney(precio)} | Inicial: ${formatMoney(inicialValue)} | Monto financiado: ${formatMoney(financiar)} | Plazo: ${mesesValue} meses | Cuota estimada: ${formatMoney(cuota)} | Color preferido: ${formData.get("color_preferido")}`,
+    };
+
+    try {
+      const response = await fetch(`${API_URL}/cotizaciones/publica`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datosCotizacion),
+      });
+
+      if (!response.ok) {
+        throw new Error("No se pudo enviar la configuración");
+      }
+
+      successMessage.classList.remove("hidden");
+      form.reset();
+      updatePreview();
+      autocompletarUsuario();
+
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    } catch (error) {
+      console.error(error);
+      errorMessage.classList.remove("hidden");
+    } finally {
+      submitBtn.textContent = "Enviar configuración";
+      submitBtn.disabled = false;
+    }
+  });
+</script>

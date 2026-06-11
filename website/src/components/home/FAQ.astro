@@ -1,0 +1,65 @@
+---
+const faqs = [
+  {
+    question: "¿Los vehículos del catálogo están disponibles?",
+    answer:
+      "Sí. El catálogo se conecta directamente con el backend de CC Motors y muestra los vehículos registrados en el sistema administrativo.",
+  },
+  {
+    question: "¿Puedo solicitar una cotización online?",
+    answer:
+      "Sí. El formulario de cotización envía la solicitud al backend, registra la información en PostgreSQL y notifica automáticamente al administrador por correo.",
+  },
+  {
+    question: "¿CC Motors ofrece financiamiento?",
+    answer:
+      "Sí. Puedes indicar si deseas comprar de contado o mediante financiamiento al momento de solicitar tu cotización.",
+  },
+  {
+    question: "¿La website está separada del panel administrativo?",
+    answer:
+      "Sí. La website es pública para clientes, mientras que el panel administrativo se utiliza internamente para gestionar vehículos, clientes, cotizaciones, ventas y pagos.",
+  },
+];
+---
+
+<section class="relative py-28 bg-[#0b0c11] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.10),transparent_40%)]"></div>
+
+  <div class="relative max-w-5xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+        Preguntas frecuentes
+      </p>
+
+      <h2 class="text-5xl md:text-6xl font-black mt-5">
+        Resolvemos tus
+        <span class="text-red-600"> dudas</span>
+      </h2>
+
+      <p class="text-gray-400 text-lg mt-5">
+        Información importante antes de solicitar una cotización.
+      </p>
+    </div>
+
+    <div class="space-y-5">
+      {faqs.map((faq) => (
+        <details class="group bg-[#171820] border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:border-red-500">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-6">
+            <span class="text-lg md:text-xl font-black">
+              {faq.question}
+            </span>
+
+            <span class="h-10 w-10 shrink-0 rounded-full bg-red-600 flex items-center justify-center text-white font-black group-open:rotate-45 transition">
+              +
+            </span>
+          </summary>
+
+          <p class="text-gray-400 mt-5 leading-relaxed">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

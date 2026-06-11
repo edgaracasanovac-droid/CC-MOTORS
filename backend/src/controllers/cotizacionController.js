@@ -136,10 +136,30 @@ const deleteCotizacion = async (req, res) => {
   }
 };
 
+const getMisCotizaciones = async (req, res) => {
+  try {
+    const correo = req.usuario.correo;
+
+    const cotizaciones = await cotizacionService.listarMisCotizaciones(correo);
+
+    res.json({
+      mensaje: 'Cotizaciones del cliente obtenidas correctamente',
+      cotizaciones
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al obtener cotizaciones del cliente',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   postCotizacion,
   postCotizacionPublica,
   getCotizaciones,
+  getMisCotizaciones,
   getCotizacionPorId,
   putCotizacion,
   deleteCotizacion

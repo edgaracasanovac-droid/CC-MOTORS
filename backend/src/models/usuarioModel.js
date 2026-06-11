@@ -169,6 +169,64 @@ const actualizarPerfilPorId = async (id, datos) => {
   return result.rows[0];
 };
 
+const guardarResetToken = async (correo, resetToken, resetTokenExpira) => {
+  const result = await pool.query(
+    `
+    UPDATE usuario
+    SET reset_token = $1,
+        reset_token_expira = $2
+    WHERE correo = $3
+    RETURNING id_usuario, nombre, apellido, correo
+    `,
+    [resetToken, resetTokenExpira, correo]
+  );
+
+  return result.rows[0];
+};
+
+const obtenerUsuarioPorResetToken = async (resetToken) => {
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM usuario
+    WHERE reset_token = $1
+    `,
+    [resetToken]
+  );
+
+  const usuario = result.rows[0];
+
+  if (!usuario) {
+    return null;
+  }
+
+  const ahora = new Date();
+  const expira = new Date(usuario.reset_token_expira);
+
+  if (expira < ahora) {
+    return null;
+  }
+
+  return usuario;
+};
+
+const actualizarContrasenaPorId = async (idUsuario, nuevaContrasena) => {
+  const result = await pool.query(
+    `
+    UPDATE usuario
+    SET contrasena = $1,
+        reset_token = NULL,
+        reset_token_expira = NULL
+    WHERE id_usuario = $2
+    RETURNING id_usuario, nombre, apellido, correo
+    `,
+    [nuevaContrasena, idUsuario]
+  );
+
+  return result.rows[0];
+};
+
+
 module.exports = {
   obtenerUsuarios,
   obtenerUsuarioPorId,
@@ -177,6 +235,9 @@ module.exports = {
   actualizarUsuario,
   eliminarUsuario,
   actualizarContrasenaPorCorreo,
+  guardarResetToken,
+  obtenerUsuarioPorResetToken,
+  actualizarContrasenaPorId,
   obtenerPerfilPorId,
   actualizarPerfilPorId
 };

@@ -1,0 +1,268 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+
+const images = [
+  {
+    src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600",
+    title: "Ford Mustang",
+    category: "Deportivo",
+    size: "lg:col-span-2 lg:row-span-2",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1400",
+    title: "Toyota Corolla",
+    category: "Sedán",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400",
+    title: "Chevrolet Tahoe",
+    category: "SUV",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
+    title: "Hyundai Premium",
+    category: "SUV",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1400",
+    title: "BMW Series",
+    category: "Premium",
+    size: "",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1400",
+    title: "CC Motors Selection",
+    category: "Premium",
+    size: "lg:col-span-2",
+  },
+];
+---
+
+<MainLayout
+  title="Galería | CC Motors"
+  description="Galería premium de vehículos CC Motors"
+>
+  <Navbar />
+
+  <main class="bg-[#07070a] text-white overflow-hidden">
+    <section class="relative min-h-[80vh] flex items-end">
+      <img
+        src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=2200"
+        alt="Galería CC Motors"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-black/75"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#07070a] via-black/55 to-black/10"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
+        <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+          Galería Premium
+        </p>
+
+        <h1 class="text-6xl md:text-8xl font-black mt-5 leading-[0.9] uppercase max-w-5xl">
+          Experiencia visual
+          <span class="block text-red-600">
+            CC Motors
+          </span>
+        </h1>
+
+        <p class="text-gray-300 text-lg md:text-xl mt-8 max-w-3xl leading-relaxed">
+          Explora una selección visual de vehículos destacados con diseño,
+          presencia y estilo profesional.
+        </p>
+      </div>
+    </section>
+
+    <section class="relative py-28">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.14),transparent_35%)]"></div>
+
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+          <div>
+            <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+              Colección
+            </p>
+
+            <h2 class="text-5xl md:text-6xl font-black mt-5">
+              Vehículos en
+              <span class="text-red-600"> exhibición</span>
+            </h2>
+
+            <p class="text-gray-400 text-lg mt-5 max-w-2xl">
+              Imágenes seleccionadas para representar la experiencia visual de la concesionaria.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button data-filter="Todos" class="filter-btn bg-red-600 text-white px-5 py-3 rounded-xl font-black">
+              Todos
+            </button>
+
+            <button data-filter="Deportivo" class="filter-btn border border-white/20 text-white px-5 py-3 rounded-xl font-black hover:border-red-500 transition">
+              Deportivo
+            </button>
+
+            <button data-filter="SUV" class="filter-btn border border-white/20 text-white px-5 py-3 rounded-xl font-black hover:border-red-500 transition">
+              SUV
+            </button>
+
+            <button data-filter="Premium" class="filter-btn border border-white/20 text-white px-5 py-3 rounded-xl font-black hover:border-red-500 transition">
+              Premium
+            </button>
+          </div>
+        </div>
+
+        <div id="galleryGrid" class="grid md:grid-cols-2 lg:grid-cols-4 auto-rows-[260px] gap-6">
+          {images.map((image) => (
+            <article
+              class={`gallery-item group relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 cursor-pointer ${image.size}`}
+              data-category={image.category}
+              data-src={image.src}
+              data-title={image.title}
+            >
+              <img
+                src={image.src}
+                alt={image.title}
+                class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+              />
+
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent"></div>
+
+              <div class="absolute left-6 bottom-6 right-6">
+                <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black mb-2">
+                  {image.category}
+                </p>
+
+                <h3 class="text-2xl font-black">
+                  {image.title}
+                </h3>
+              </div>
+
+              <div class="absolute right-5 top-5 h-12 w-12 rounded-full bg-black/50 border border-white/20 backdrop-blur-md flex items-center justify-center text-xl group-hover:bg-red-600 transition">
+                +
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div id="noResults" class="hidden text-center py-20 mt-10 bg-[#171820] border border-white/10 rounded-3xl">
+          <h3 class="text-3xl font-black">
+            No hay imágenes en esta categoría
+          </h3>
+        </div>
+
+        <div class="mt-16 grid md:grid-cols-2 gap-6">
+          <a
+            href="/catalogo"
+            class="bg-red-600 hover:bg-red-700 text-white text-center py-5 rounded-xl font-black text-lg transition shadow-2xl shadow-red-600/20"
+          >
+            Ver catálogo
+          </a>
+
+          <a
+            href="/test-drive"
+            class="border border-white/20 hover:bg-white hover:text-black text-white text-center py-5 rounded-xl font-black text-lg transition"
+          >
+            Agendar Test Drive
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="lightbox"
+      class="hidden fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl items-center justify-center px-6"
+    >
+      <button
+        id="closeLightbox"
+        class="absolute top-6 right-6 h-12 w-12 rounded-full bg-red-600 text-white text-2xl font-black"
+      >
+        ×
+      </button>
+
+      <div class="max-w-5xl w-full">
+        <img
+          id="lightboxImage"
+          src=""
+          alt=""
+          class="w-full max-h-[75vh] object-cover rounded-3xl border border-white/10"
+        />
+
+        <h3 id="lightboxTitle" class="text-3xl font-black mt-6">
+          Vehículo
+        </h3>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</MainLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const items = document.querySelectorAll(".gallery-item");
+  const noResults = document.getElementById("noResults");
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImage = document.getElementById("lightboxImage");
+  const lightboxTitle = document.getElementById("lightboxTitle");
+  const closeLightbox = document.getElementById("closeLightbox");
+
+  function activeButton(button) {
+    filterButtons.forEach((btn) => {
+      btn.className =
+        "filter-btn border border-white/20 text-white px-5 py-3 rounded-xl font-black hover:border-red-500 transition";
+    });
+
+    button.className =
+      "filter-btn bg-red-600 text-white px-5 py-3 rounded-xl font-black";
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter;
+      let visibleCount = 0;
+
+      activeButton(button);
+
+      items.forEach((item) => {
+        const category = item.dataset.category;
+        const show = filter === "Todos" || category === filter;
+
+        item.classList.toggle("hidden", !show);
+
+        if (show) visibleCount++;
+      });
+
+      noResults.classList.toggle("hidden", visibleCount > 0);
+    });
+  });
+
+  items.forEach((item) => {
+    item.addEventListener("click", () => {
+      lightboxImage.src = item.dataset.src;
+      lightboxTitle.textContent = item.dataset.title;
+
+      lightbox.classList.remove("hidden");
+      lightbox.classList.add("flex");
+    });
+  });
+
+  closeLightbox?.addEventListener("click", () => {
+    lightbox.classList.add("hidden");
+    lightbox.classList.remove("flex");
+  });
+
+  lightbox?.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.add("hidden");
+      lightbox.classList.remove("flex");
+    }
+  });
+</script>

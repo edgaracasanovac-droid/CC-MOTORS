@@ -3,25 +3,22 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 
-import { getVehiculos, formatPrice } from "../services/api";
+import { getVehiculos, formatPrice, API_URL } from "../services/api";
 
 const vehiculos = await getVehiculos();
 
 const imagenesVehiculos = {
-  Toyota:
-    "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200",
-  Ford:
-    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
-  Chevrolet:
-    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
-  Hyundai:
-    "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200",
-  BMW:
-    "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1200",
+  Toyota: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1400",
+  Ford: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1400",
+  Chevrolet: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400",
+  Hyundai: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
+  BMW: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1400",
 };
 
 const imagenDefault =
-  "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200";
+  "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1400";
+
+const marcas = [...new Set(vehiculos.map((v) => v.nombre_marca).filter(Boolean))];
 ---
 
 <MainLayout
@@ -30,130 +27,206 @@ const imagenDefault =
 >
   <Navbar />
 
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
-          Catálogo Oficial
-        </span>
+  <section class="relative min-h-screen bg-[#07070a] text-white overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.16),transparent_35%)]"></div>
 
-        <h1 class="text-5xl md:text-6xl font-black text-gray-950 mt-4">
-          Vehículos disponibles
+    <div class="relative max-w-7xl mx-auto px-4 md:px-6">
+      <div class="text-center max-w-4xl mx-auto mb-10 md:mb-14">
+        <p class="text-red-500 uppercase tracking-[0.25em] sm:tracking-[0.35em] text-xs sm:text-sm font-black">
+          Catálogo oficial
+        </p>
+
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-black mt-5 leading-tight">
+          Elige tu
+          <span class="text-red-600"> vehículo</span>
         </h1>
 
-        <p class="text-gray-600 text-lg mt-4 max-w-3xl mx-auto">
-          Todos los vehículos publicados desde el sistema administrativo.
+        <p class="text-gray-400 text-base sm:text-lg mt-5">
+          Vehículos reales publicados desde el sistema administrativo de CC Motors.
         </p>
+      </div>
+
+      <div class="mb-8 bg-white/5 border border-white/10 rounded-3xl p-5 backdrop-blur-xl">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div class="md:col-span-2">
+            <label class="block text-xs font-black text-gray-400 uppercase mb-2">
+              Buscar
+            </label>
+
+            <input
+              id="buscarInput"
+              type="text"
+              placeholder="Buscar por marca, modelo o año..."
+              class="w-full bg-[#111217] border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-black text-gray-400 uppercase mb-2">
+              Marca
+            </label>
+
+            <select
+              id="marcaFilter"
+              class="w-full bg-[#111217] border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+            >
+              <option value="">Todas</option>
+              {marcas.map((marca) => (
+                <option value={marca}>{marca}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-black text-gray-400 uppercase mb-2">
+              Ordenar
+            </label>
+
+            <select
+              id="ordenFilter"
+              class="w-full bg-[#111217] border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500"
+            >
+              <option value="">Recientes</option>
+              <option value="precio-asc">Más baratos</option>
+              <option value="precio-desc">Más caros</option>
+              <option value="ano-desc">Más nuevos</option>
+              <option value="ano-asc">Más antiguos</option>
+            </select>
+          </div>
+
+          <div class="flex items-end">
+            <button
+              id="limpiarFiltros"
+              class="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl px-4 py-3 font-black transition"
+            >
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <p id="contadorVehiculos" class="text-gray-400 font-bold">
+          {vehiculos.length} vehículos encontrados
+        </p>
+
+        <a
+          href="/configurar"
+          class="inline-flex justify-center bg-white text-black hover:bg-gray-200 px-5 py-3 rounded-xl font-black transition"
+        >
+          Configurar compra
+        </a>
       </div>
 
       {
         vehiculos.length === 0 ? (
-          <div class="text-center py-20">
-            <h2 class="text-3xl font-black text-gray-900">
+          <div class="text-center py-20 bg-white/5 border border-white/10 rounded-3xl">
+            <h2 class="text-3xl font-black">
               No hay vehículos disponibles
             </h2>
 
-            <p class="text-gray-500 mt-4">
+            <p class="text-gray-400 mt-4">
               Agrega vehículos desde el panel administrativo.
             </p>
           </div>
         ) : (
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div id="catalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {vehiculos.map((vehiculo) => (
-              <article class="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition">
-                <div class="relative h-64 bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
+              <article
+                class="vehicle-card group bg-[#171820] border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-red-500 hover:shadow-[0_0_50px_rgba(220,38,38,0.25)]"
+                data-marca={vehiculo.nombre_marca}
+                data-modelo={vehiculo.nombre_modelo}
+                data-estado={vehiculo.estado}
+                data-precio={Number(vehiculo.precio_venta)}
+                data-ano={vehiculo.ano}
+                data-search={`${vehiculo.nombre_marca} ${vehiculo.nombre_modelo} ${vehiculo.ano} ${vehiculo.color} ${vehiculo.estado}`.toLowerCase()}
+              >
+                <div class="relative h-56 sm:h-64 lg:h-72 bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
                   <img
                     src={imagenesVehiculos[vehiculo.nombre_marca] || imagenDefault}
                     alt={`${vehiculo.nombre_marca} ${vehiculo.nombre_modelo}`}
-                    class="h-full w-full object-cover"
+                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                   />
 
                   <div class="hidden absolute inset-0 items-center justify-center text-white text-center p-6">
                     <div>
                       <div class="text-6xl mb-3">🚘</div>
-
-                      <p class="font-black text-xl">
-                        {vehiculo.nombre_marca}
-                      </p>
-
-                      <p class="text-gray-300">
-                        {vehiculo.nombre_modelo}
-                      </p>
+                      <p class="font-black text-xl">{vehiculo.nombre_marca}</p>
+                      <p class="text-gray-300">{vehiculo.nombre_modelo}</p>
                     </div>
                   </div>
+
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#171820] via-transparent to-transparent"></div>
+
+                  <span class="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-full text-xs font-black uppercase">
+                    {vehiculo.estado}
+                  </span>
                 </div>
 
-                <div class="p-6">
-                  <div class="flex justify-between items-start gap-4">
-                    <div>
-                      <h3 class="text-2xl font-black text-gray-950">
-                        {vehiculo.nombre_marca}
-                      </h3>
+                <div class="p-5 sm:p-7">
+                  <div>
+                    <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">
+                      {vehiculo.ano}
+                    </p>
 
-                      <p class="text-gray-500">
-                        {vehiculo.nombre_modelo}
-                      </p>
-                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-black mt-2">
+                      {vehiculo.nombre_marca}
+                    </h3>
 
-                    <span class="text-red-600 font-black text-xl">
-                      {formatPrice(vehiculo.precio_venta)}
-                    </span>
+                    <p class="text-gray-400 mt-1">
+                      {vehiculo.nombre_modelo}
+                    </p>
                   </div>
 
+                  <p class="text-gray-300 mt-5 leading-relaxed text-sm sm:text-base">
+                    Vehículo registrado en el sistema de CC Motors, disponible
+                    para consulta, revisión y cotización online.
+                  </p>
+
                   <div class="grid grid-cols-2 gap-3 mt-6">
-                    <div class="bg-gray-50 rounded-xl p-3">
-                      <p class="text-xs text-gray-500">
-                        Año
-                      </p>
-
-                      <p class="font-bold text-gray-900">
-                        {vehiculo.ano}
-                      </p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-xl p-3">
-                      <p class="text-xs text-gray-500">
+                    <div class="bg-white/5 border border-white/10 rounded-xl p-3">
+                      <p class="text-xs text-gray-500 uppercase font-bold">
                         Color
                       </p>
 
-                      <p class="font-bold text-gray-900">
+                      <p class="font-black text-white capitalize">
                         {vehiculo.color}
                       </p>
                     </div>
 
-                    <div class="bg-gray-50 rounded-xl p-3">
-                      <p class="text-xs text-gray-500">
-                        Estado
+                    <div class="bg-white/5 border border-white/10 rounded-xl p-3">
+                      <p class="text-xs text-gray-500 uppercase font-bold">
+                        Km
                       </p>
 
-                      <p class="font-bold text-gray-900 capitalize">
-                        {vehiculo.estado}
-                      </p>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-xl p-3">
-                      <p class="text-xs text-gray-500">
-                        Kilometraje
-                      </p>
-
-                      <p class="font-bold text-gray-900">
+                      <p class="font-black text-white">
                         {vehiculo.kilometraje}
                       </p>
                     </div>
                   </div>
 
-                  <div class="flex gap-3 mt-6">
+                  <div class="border-t border-white/10 mt-7 pt-6">
+                    <p class="text-gray-500 text-xs uppercase font-bold">
+                      Precio de venta
+                    </p>
+
+                    <p class="text-3xl sm:text-4xl font-black text-red-600 mt-1">
+                      {formatPrice(vehiculo.precio_venta)}
+                    </p>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-7">
                     <a
                       href={`/vehiculo/${vehiculo.id_vehiculo}`}
-                      class="flex-1 text-center bg-gray-950 text-white py-3 rounded-xl font-bold hover:bg-black transition"
+                      class="text-center bg-white text-black py-3 rounded-xl font-black hover:bg-gray-200 transition"
                     >
                       Ver detalles
                     </a>
 
                     <a
                       href="/cotizacion"
-                      class="flex-1 text-center bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition"
+                      class="text-center bg-red-600 text-white py-3 rounded-xl font-black hover:bg-red-700 transition"
                     >
                       Cotizar
                     </a>
@@ -164,14 +237,24 @@ const imagenDefault =
           </div>
         )
       }
+
+      <div id="noResults" class="hidden text-center py-20 mt-8 bg-white/5 border border-white/10 rounded-3xl">
+        <h2 class="text-3xl font-black">
+          No se encontraron vehículos
+        </h2>
+
+        <p class="text-gray-400 mt-4">
+          Intenta con otra marca, modelo, año u ordenamiento.
+        </p>
+      </div>
     </div>
   </section>
 
   <Footer />
 </MainLayout>
 
-<script>
-  fetch("http://localhost:3000/api/vehiculos")
+<script define:vars={{ API_URL }}>
+  fetch(`${API_URL}/vehiculos`)
     .then((response) => response.json())
     .then((data) => {
       console.log("Vehículos traídos desde el backend:", data);
@@ -179,4 +262,76 @@ const imagenDefault =
     .catch((error) => {
       console.error("Error consultando backend:", error);
     });
+
+  const buscarInput = document.getElementById("buscarInput");
+  const marcaFilter = document.getElementById("marcaFilter");
+  const ordenFilter = document.getElementById("ordenFilter");
+  const limpiarFiltros = document.getElementById("limpiarFiltros");
+  const grid = document.getElementById("catalogGrid");
+  const noResults = document.getElementById("noResults");
+  const contadorVehiculos = document.getElementById("contadorVehiculos");
+
+  const cards = Array.from(document.querySelectorAll(".vehicle-card"));
+
+  function actualizarContador(total) {
+    if (!contadorVehiculos) return;
+
+    contadorVehiculos.textContent =
+      total === 1 ? "1 vehículo encontrado" : `${total} vehículos encontrados`;
+  }
+
+  function aplicarFiltros() {
+    const busqueda = buscarInput?.value.trim().toLowerCase() || "";
+    const marca = marcaFilter?.value || "";
+    const orden = ordenFilter?.value || "";
+
+    let visibles = cards.filter((card) => {
+      const coincideBusqueda =
+        !busqueda || card.dataset.search.includes(busqueda);
+
+      const coincideMarca =
+        !marca || card.dataset.marca === marca;
+
+      return coincideBusqueda && coincideMarca;
+    });
+
+    cards.forEach((card) => {
+      card.classList.add("hidden");
+    });
+
+    visibles.sort((a, b) => {
+      const precioA = Number(a.dataset.precio);
+      const precioB = Number(b.dataset.precio);
+      const anoA = Number(a.dataset.ano);
+      const anoB = Number(b.dataset.ano);
+
+      if (orden === "precio-asc") return precioA - precioB;
+      if (orden === "precio-desc") return precioB - precioA;
+      if (orden === "ano-desc") return anoB - anoA;
+      if (orden === "ano-asc") return anoA - anoB;
+
+      return 0;
+    });
+
+    visibles.forEach((card) => {
+      card.classList.remove("hidden");
+      grid?.appendChild(card);
+    });
+
+    noResults?.classList.toggle("hidden", visibles.length > 0);
+    actualizarContador(visibles.length);
+  }
+
+  buscarInput?.addEventListener("input", aplicarFiltros);
+  marcaFilter?.addEventListener("change", aplicarFiltros);
+  ordenFilter?.addEventListener("change", aplicarFiltros);
+
+  limpiarFiltros?.addEventListener("click", () => {
+    if (buscarInput) buscarInput.value = "";
+    if (marcaFilter) marcaFilter.value = "";
+    if (ordenFilter) ordenFilter.value = "";
+    aplicarFiltros();
+  });
+
+  aplicarFiltros();
 </script>

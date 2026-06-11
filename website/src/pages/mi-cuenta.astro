@@ -1,0 +1,619 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+import { API_URL } from "../services/api";
+---
+
+<MainLayout title="Mi Cuenta | CC Motors" description="Panel de cliente CC Motors">
+  <Navbar />
+<section class="relative min-h-screen bg-[#07070a] text-white px-4 md:px-6 py-24 md:py-32 overflow-hidden">  
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.16),transparent_35%)]"></div>
+
+    <div class="relative max-w-7xl mx-auto">
+      <div class="mb-12">
+        <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">Área de cliente</p>
+
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-black mt-5">
+          Mi <span class="text-red-600">Cuenta</span>
+        </h1>
+
+        <p id="welcomeText" class="text-gray-400 text-lg mt-5">
+          Cargando perfil...
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8 mb-12">
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-8">
+          <div class="h-20 w-20 rounded-full bg-red-600/15 border border-red-600/30 flex items-center justify-center text-4xl mb-6">
+            👤
+          </div>
+
+          <h2 id="userName" class="text-3xl font-black">Cargando...</h2>
+          <p id="userEmail" class="text-gray-400 mt-2">correo@cliente.com</p>
+
+          <p id="userRole" class="mt-4 inline-flex bg-red-600/15 border border-red-600/30 text-red-400 px-4 py-2 rounded-full text-sm font-black">
+            Cliente
+          </p>
+
+          <button id="openSettingsBtn" class="mt-8 w-full bg-white text-black hover:bg-gray-200 py-4 rounded-xl font-black transition">
+            ⚙️ Configurar cuenta
+          </button>
+
+          <button id="logoutBtn" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black transition">
+            Cerrar sesión
+          </button>
+        </div>
+
+        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+            <p class="text-gray-400 text-sm uppercase tracking-wider">Cotizaciones</p>
+            <p id="cotizacionesCount" class="text-4xl font-black text-red-500 mt-3">0</p>
+          </div>
+
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+            <p class="text-gray-400 text-sm uppercase tracking-wider">Compras</p>
+            <p id="comprasCount" class="text-4xl font-black text-red-500 mt-3">0</p>
+          </div>
+
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+            <p class="text-gray-400 text-sm uppercase tracking-wider">Test Drive</p>
+            <p id="testDriveCount" class="text-4xl font-black text-red-500 mt-3">0</p>
+          </div>
+
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+            <p class="text-gray-400 text-sm uppercase tracking-wider">Cuenta</p>
+            <p class="text-xl font-black text-green-500 mt-4">Activa</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="mb-12">
+        <h2 class="text-3xl font-black mb-6">Actividad Reciente</h2>
+
+        <div id="actividadContainer" class="grid gap-4">
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+            Cargando actividad reciente...
+          </div>
+        </div>
+      </section>
+
+      <div class="space-y-10">
+        <section>
+          <h2 class="text-3xl font-black mb-6">Mis Cotizaciones</h2>
+          <div id="cotizacionesContainer" class="grid gap-5">
+            <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+              Cargando cotizaciones...
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-3xl font-black mb-6">Mis Configuraciones de Compra</h2>
+          <div id="configuracionesContainer" class="grid gap-5">
+            <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+              Cargando configuraciones...
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-3xl font-black mb-6">Mis Test Drive</h2>
+          <div id="testDriveContainer" class="grid gap-5">
+            <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+              Cargando solicitudes...
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <div id="settingsModal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl items-center justify-center px-6">
+    <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#171820] border border-white/10 rounded-[2rem] p-8 shadow-[0_0_70px_rgba(220,38,38,0.18)]">
+      <div class="flex items-start justify-between gap-6 mb-8">
+        <div>
+          <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">Configuración</p>
+          <h2 class="text-4xl font-black mt-3">Configurar cuenta</h2>
+          <p class="text-gray-400 mt-3">Actualiza tus datos personales registrados en CC Motors.</p>
+        </div>
+
+        <button id="closeSettingsBtn" class="h-11 w-11 rounded-xl border border-white/20 hover:bg-red-600 hover:border-red-600 text-white transition text-2xl">
+          ×
+        </button>
+      </div>
+
+      <form id="profileForm" class="space-y-5">
+        <div class="grid md:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
+            <input id="nombreInput" name="nombre" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold mb-2 text-gray-300">Apellido</label>
+            <input id="apellidoInput" name="apellido" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold mb-2 text-gray-300">Correo</label>
+          <input id="correoInput" name="correo" required type="email" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
+        </div>
+
+        <button id="saveProfileBtn" type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black transition disabled:opacity-60">
+          Guardar cambios
+        </button>
+      </form>
+
+      <div id="profileSuccess" class="hidden mt-6 bg-green-500/10 border border-green-500/30 text-green-300 p-4 rounded-xl text-sm">
+        ✅ Perfil actualizado correctamente.
+      </div>
+
+      <div id="profileError" class="hidden mt-6 bg-red-500/10 border border-red-500/30 text-red-300 p-4 rounded-xl text-sm">
+        ❌ No se pudo actualizar el perfil.
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+</MainLayout>
+
+<script define:vars={{ API_URL }}>
+  const token = localStorage.getItem("cc_motors_token");
+
+  if (!token) {
+    window.location.href = "/login";
+  }
+
+  const userName = document.getElementById("userName");
+  const userEmail = document.getElementById("userEmail");
+  const userRole = document.getElementById("userRole");
+  const welcomeText = document.getElementById("welcomeText");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const settingsModal = document.getElementById("settingsModal");
+  const openSettingsBtn = document.getElementById("openSettingsBtn");
+  const closeSettingsBtn = document.getElementById("closeSettingsBtn");
+
+  const profileForm = document.getElementById("profileForm");
+  const nombreInput = document.getElementById("nombreInput");
+  const apellidoInput = document.getElementById("apellidoInput");
+  const correoInput = document.getElementById("correoInput");
+  const saveProfileBtn = document.getElementById("saveProfileBtn");
+  const profileSuccess = document.getElementById("profileSuccess");
+  const profileError = document.getElementById("profileError");
+
+  const actividadContainer = document.getElementById("actividadContainer");
+  const cotizacionesContainer = document.getElementById("cotizacionesContainer");
+  const configuracionesContainer = document.getElementById("configuracionesContainer");
+  const testDriveContainer = document.getElementById("testDriveContainer");
+
+  const cotizacionesCount = document.getElementById("cotizacionesCount");
+  const comprasCount = document.getElementById("comprasCount");
+  const testDriveCount = document.getElementById("testDriveCount");
+
+  let cotizacionesRecientes = [];
+  let configuracionesRecientes = [];
+  let testDrivesRecientes = [];
+
+  function cerrarSesion() {
+    localStorage.removeItem("cc_motors_token");
+    localStorage.removeItem("cc_motors_usuario");
+    localStorage.removeItem("cc_motors_user");
+    window.location.href = "/login";
+  }
+
+  function abrirModal() {
+    settingsModal.classList.remove("hidden");
+    settingsModal.classList.add("flex");
+  }
+
+  function cerrarModal() {
+    settingsModal.classList.add("hidden");
+    settingsModal.classList.remove("flex");
+    profileSuccess.classList.add("hidden");
+    profileError.classList.add("hidden");
+  }
+
+  function formatMoney(value) {
+    const number = Number(value);
+    if (Number.isNaN(number)) return "$0.00";
+
+    return `$${number.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+
+  function formatDate(value) {
+    if (!value) return "Sin fecha";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+
+    return date.toLocaleDateString("es-VE", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  function getDateValue(value) {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+  }
+
+  function pintarPerfil(perfil) {
+    const nombre = perfil?.nombre || "Cliente";
+    const apellido = perfil?.apellido || "";
+    const correo = perfil?.email || perfil?.correo || "";
+    const rol = perfil?.rol || "cliente";
+
+    userName.textContent = `${nombre} ${apellido}`.trim();
+    userEmail.textContent = correo || "Correo no disponible";
+    userRole.textContent = rol;
+    welcomeText.textContent = `Bienvenido, ${nombre}. Gestiona tu experiencia con CC Motors.`;
+
+    nombreInput.value = nombre;
+    apellidoInput.value = apellido;
+    correoInput.value = correo;
+
+    localStorage.setItem("cc_motors_usuario", JSON.stringify({
+      id: perfil?.id,
+      nombre,
+      apellido,
+      correo,
+      email: correo,
+      rol,
+    }));
+  }
+
+  async function cargarPerfil() {
+    try {
+      const response = await fetch(`${API_URL}/auth/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.mensaje || "Token inválido");
+      }
+
+      pintarPerfil(data.perfil);
+    } catch (error) {
+      console.error(error);
+      cerrarSesion();
+    }
+  }
+
+  async function cargarHistorial() {
+    try {
+      const response = await fetch(`${API_URL}/cotizaciones/mis-cotizaciones`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.mensaje || "Error cargando historial");
+      }
+
+      const registros = Array.isArray(data.cotizaciones) ? data.cotizaciones : [];
+
+      const cotizaciones = registros.filter((item) => item.tipo_historial === "cotizacion");
+      const configuraciones = registros.filter((item) => item.tipo_historial === "configuracion_compra");
+
+      cotizacionesRecientes = cotizaciones;
+      configuracionesRecientes = configuraciones;
+
+      cotizacionesCount.textContent = cotizaciones.length;
+      comprasCount.textContent = configuraciones.length;
+
+      renderHistorial(cotizaciones, cotizacionesContainer, "No tienes cotizaciones registradas.");
+      renderHistorial(configuraciones, configuracionesContainer, "No tienes configuraciones de compra registradas.");
+      renderActividadReciente();
+    } catch (error) {
+      console.error(error);
+
+      cotizacionesCount.textContent = "0";
+      comprasCount.textContent = "0";
+
+      cotizacionesContainer.innerHTML = `
+        <div class="bg-red-500/10 border border-red-500/30 rounded-3xl p-8 text-center text-red-300">
+          No se pudo cargar el historial.
+        </div>
+      `;
+
+      configuracionesContainer.innerHTML = `
+        <div class="bg-red-500/10 border border-red-500/30 rounded-3xl p-8 text-center text-red-300">
+          No se pudo cargar el historial.
+        </div>
+      `;
+
+      renderActividadReciente();
+    }
+  }
+
+  async function cargarTestDrives() {
+    try {
+      const response = await fetch(`${API_URL}/test-drive/mis-solicitudes`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.mensaje || "Error cargando test drives");
+      }
+
+      const registros = Array.isArray(data.testDrives) ? data.testDrives : [];
+
+      testDrivesRecientes = registros;
+      testDriveCount.textContent = registros.length;
+
+      if (!registros.length) {
+        testDriveContainer.innerHTML = `
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+            No tienes solicitudes de test drive registradas.
+          </div>
+        `;
+        renderActividadReciente();
+        return;
+      }
+
+      testDriveContainer.innerHTML = registros
+        .map((item) => {
+          const vehiculo = item.vehiculo || {};
+          const marca = vehiculo.marca || "Marca no disponible";
+          const modelo = vehiculo.modelo || "Modelo no disponible";
+          const ano = vehiculo.ano || "-";
+          const precioVehiculo = vehiculo.precio_venta || 0;
+
+          return `
+            <article class="bg-[#171820] border border-white/10 rounded-3xl p-6 hover:border-red-500 transition">
+              <div class="flex justify-between flex-wrap gap-4">
+                <div>
+                  <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">Test Drive</p>
+                  <h3 class="text-2xl font-black mt-2">${marca} ${modelo}</h3>
+                  <p class="text-gray-400 mt-1">Año ${ano}</p>
+                </div>
+
+                <div class="text-left md:text-right">
+                  <p class="text-red-500 font-black text-xl capitalize">${item.estado || "pendiente"}</p>
+                  <p class="text-gray-400 text-sm mt-1">${formatDate(item.fecha)}</p>
+                  <p class="text-gray-400 text-sm">${item.hora || "Sin hora"}</p>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <p class="text-gray-500 text-xs uppercase font-black">Estado</p>
+                  <p class="font-black mt-2 capitalize">${item.estado || "pendiente"}</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <p class="text-gray-500 text-xs uppercase font-black">Precio vehículo</p>
+                  <p class="font-black mt-2">${formatMoney(precioVehiculo)}</p>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                  <p class="text-gray-500 text-xs uppercase font-black">Registro</p>
+                  <p class="font-black mt-2">#${item.id_test_drive || "-"}</p>
+                </div>
+              </div>
+
+              <p class="text-gray-300 mt-5 leading-relaxed">
+                ${item.mensaje || "Sin mensaje adicional."}
+              </p>
+            </article>
+          `;
+        })
+        .join("");
+
+      renderActividadReciente();
+    } catch (error) {
+      console.error(error);
+
+      testDriveCount.textContent = "0";
+
+      testDriveContainer.innerHTML = `
+        <div class="bg-red-500/10 border border-red-500/30 rounded-3xl p-8 text-center text-red-300">
+          No se pudieron cargar los test drive.
+        </div>
+      `;
+
+      renderActividadReciente();
+    }
+  }
+
+  function renderActividadReciente() {
+    const actividades = [
+      ...cotizacionesRecientes.map((item) => ({
+        tipo: "Cotización",
+        icono: "🚘",
+        fecha: item.fecha,
+        estado: item.estado || "pendiente",
+        titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
+      })),
+      ...configuracionesRecientes.map((item) => ({
+        tipo: "Mi Compra",
+        icono: "🧾",
+        fecha: item.fecha,
+        estado: item.estado || "pendiente",
+        titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
+      })),
+      ...testDrivesRecientes.map((item) => ({
+        tipo: "Test Drive",
+        icono: "📅",
+        fecha: item.fecha,
+        hora: item.hora,
+        estado: item.estado || "pendiente",
+        titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
+      })),
+    ]
+      .sort((a, b) => getDateValue(b.fecha) - getDateValue(a.fecha))
+      .slice(0, 5);
+
+    if (!actividades.length) {
+      actividadContainer.innerHTML = `
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+          Todavía no tienes actividad reciente.
+        </div>
+      `;
+      return;
+    }
+
+    actividadContainer.innerHTML = actividades
+      .map((item) => `
+        <article class="bg-[#171820] border border-white/10 rounded-3xl p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-5 hover:border-red-500 transition">
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-2xl bg-red-600/15 border border-red-600/30 flex items-center justify-center text-2xl">
+              ${item.icono}
+            </div>
+
+            <div>
+              <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">${item.tipo}</p>
+              <h3 class="font-black text-lg mt-1">${item.titulo}</h3>
+              <p class="text-gray-400 text-sm">${formatDate(item.fecha)} ${item.hora ? "· " + item.hora : ""}</p>
+            </div>
+          </div>
+
+          <span class="bg-white/5 border border-white/10 text-gray-300 px-4 py-2 rounded-full text-xs font-black capitalize">
+            ${item.estado}
+          </span>
+        </article>
+      `)
+      .join("");
+  }
+
+  function renderHistorial(items, container, emptyText) {
+    if (!items.length) {
+      container.innerHTML = `
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+          ${emptyText}
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = items
+      .map((item) => {
+        const vehiculo = item.vehiculo || {};
+        const marca = vehiculo.marca || "Marca no disponible";
+        const modelo = vehiculo.modelo || "Modelo no disponible";
+        const ano = vehiculo.ano || "-";
+        const precioVehiculo = vehiculo.precio_venta || item.precio_estimado || 0;
+
+        return `
+          <article class="bg-[#171820] border border-white/10 rounded-3xl p-6 hover:border-red-500 transition">
+            <div class="flex justify-between flex-wrap gap-4">
+              <div>
+                <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">
+                  ${item.tipo_historial === "configuracion_compra" ? "Mi Compra" : "Cotización"}
+                </p>
+
+                <h3 class="text-2xl font-black mt-2">${marca} ${modelo}</h3>
+                <p class="text-gray-400 mt-1">Año ${ano}</p>
+              </div>
+
+              <div class="text-left md:text-right">
+                <p class="text-red-500 font-black text-xl">${formatMoney(item.precio_estimado || precioVehiculo)}</p>
+                <p class="text-gray-400 text-sm mt-1">${formatDate(item.fecha)}</p>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 mt-6">
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-gray-500 text-xs uppercase font-black">Estado</p>
+                <p class="font-black mt-2 capitalize">${item.estado || "pendiente"}</p>
+              </div>
+
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-gray-500 text-xs uppercase font-black">Precio vehículo</p>
+                <p class="font-black mt-2">${formatMoney(precioVehiculo)}</p>
+              </div>
+
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-gray-500 text-xs uppercase font-black">Registro</p>
+                <p class="font-black mt-2">#${item.id_cotizacion}</p>
+              </div>
+            </div>
+
+            <p class="text-gray-300 mt-5 leading-relaxed">
+              ${item.mensaje || "Sin mensaje adicional."}
+            </p>
+          </article>
+        `;
+      })
+      .join("");
+  }
+
+  cargarPerfil();
+  cargarHistorial();
+  cargarTestDrives();
+
+  openSettingsBtn?.addEventListener("click", abrirModal);
+  closeSettingsBtn?.addEventListener("click", cerrarModal);
+
+  settingsModal?.addEventListener("click", (e) => {
+    if (e.target === settingsModal) {
+      cerrarModal();
+    }
+  });
+
+  profileForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    profileSuccess.classList.add("hidden");
+    profileError.classList.add("hidden");
+
+    const nombre = nombreInput.value.trim();
+    const apellido = apellidoInput.value.trim();
+    const correo = correoInput.value.trim();
+
+    if (!nombre || !apellido || !correo) {
+      profileError.textContent = "❌ Todos los campos son obligatorios.";
+      profileError.classList.remove("hidden");
+      return;
+    }
+
+    saveProfileBtn.textContent = "Guardando...";
+    saveProfileBtn.disabled = true;
+
+    try {
+      const response = await fetch(`${API_URL}/auth/profile_update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nombre, apellido, correo }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.mensaje || "Error al actualizar perfil");
+      }
+
+      pintarPerfil(data.perfil);
+
+      profileSuccess.textContent = "✅ Perfil actualizado correctamente.";
+      profileSuccess.classList.remove("hidden");
+
+      setTimeout(() => {
+        cerrarModal();
+      }, 1200);
+    } catch (error) {
+      console.error(error);
+      profileError.textContent = "❌ No se pudo actualizar el perfil.";
+      profileError.classList.remove("hidden");
+    } finally {
+      saveProfileBtn.textContent = "Guardar cambios";
+      saveProfileBtn.disabled = false;
+    }
+  });
+
+  logoutBtn?.addEventListener("click", cerrarSesion);
+</script>

@@ -1,85 +1,52 @@
-<section class="relative overflow-hidden bg-white">
-  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.12),transparent_35%)]"></div>
+<section class="relative min-h-screen overflow-hidden bg-black">
+  <div
+    class="absolute inset-0 bg-cover bg-center scale-105 animate-[heroZoom_8s_ease-out_forwards]"
+    style="background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=2200');"
+  ></div>
 
-  <div class="relative max-w-7xl mx-auto px-6 py-20 lg:py-28">
-    <div class="grid lg:grid-cols-2 gap-14 items-center">
-      
-      <div>
-        <span class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
-          <span class="h-2 w-2 rounded-full bg-red-600"></span>
-          Concesionaria oficial CC Motors
-        </span>
+  <div class="absolute inset-0 bg-black/65"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-black/20"></div>
 
-        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-950 mt-6 leading-tight tracking-tight">
-          Tu próximo vehículo comienza aquí
-        </h1>
-
-        <p class="text-gray-600 text-lg md:text-xl mt-6 max-w-xl leading-relaxed">
-          Compra vehículos nuevos y usados certificados con asesoría personalizada,
-          opciones de financiamiento y una experiencia moderna desde la cotización
-          hasta la entrega.
+  <div class="relative z-10 min-h-screen flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 w-full pt-24 md:pt-28">
+      <div class="max-w-5xl">
+        <p class="hero-kicker text-white/80 text-xs sm:text-sm md:text-base font-black uppercase tracking-[0.25em] mb-5">
+          Casanova Contreras Motors
         </p>
 
-        <div class="flex flex-wrap gap-4 mt-10">
+        <h1 class="hero-title text-white text-5xl sm:text-6xl md:text-8xl lg:text-[8.5rem] font-black uppercase leading-[0.9] tracking-tight">
+          Tu vehículo
+          <span class="block text-red-600">
+            ideal espera
+          </span>
+        </h1>
+
+        <p class="hero-text text-white/80 text-base sm:text-lg md:text-xl max-w-2xl mt-7 leading-relaxed">
+          Compra, cotiza y descubre vehículos certificados con una experiencia
+          moderna, rápida y profesional.
+        </p>
+
+        <div class="hero-actions flex flex-col sm:flex-row gap-4 mt-9 max-w-md sm:max-w-none">
           <a
             href="/catalogo"
-            class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-2xl transition font-bold shadow-lg shadow-red-600/20"
+            class="bg-red-600 hover:bg-red-700 text-white px-7 py-4 rounded-xl transition font-black shadow-2xl shadow-red-600/30 text-center"
           >
-            Explorar catálogo
+            Explorar modelos
           </a>
 
           <a
             href="/cotizacion"
-            class="border border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-gray-900 px-8 py-4 rounded-2xl transition font-bold"
+            class="border border-white/30 hover:bg-white hover:text-black text-white px-7 py-4 rounded-xl transition font-black backdrop-blur-sm text-center"
           >
-            Cotizar ahora
+            Agendar cotización
           </a>
         </div>
-
-        <div class="grid grid-cols-3 gap-6 mt-14 max-w-xl">
-          <div class="border-l-4 border-red-600 pl-4">
-            <h3 class="text-3xl font-black text-gray-950">500+</h3>
-            <p class="text-sm text-gray-500 font-medium">Vehículos</p>
-          </div>
-
-          <div class="border-l-4 border-red-600 pl-4">
-            <h3 class="text-3xl font-black text-gray-950">10+</h3>
-            <p class="text-sm text-gray-500 font-medium">Años</p>
-          </div>
-
-          <div class="border-l-4 border-red-600 pl-4">
-            <h3 class="text-3xl font-black text-gray-950">24h</h3>
-            <p class="text-sm text-gray-500 font-medium">Cotización</p>
-          </div>
-        </div>
       </div>
-
-      <div class="relative">
-        <div class="absolute -top-8 -right-8 h-72 w-72 bg-red-100 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-8 -left-8 h-64 w-64 bg-gray-200 rounded-full blur-3xl"></div>
-
-        <div class="relative bg-gray-100 rounded-[2rem] p-3 shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1800"
-            alt="Vehículo deportivo en CC Motors"
-            class="rounded-[1.5rem] w-full h-[420px] object-cover"
-          />
-
-          <div class="absolute left-6 bottom-6 right-6 bg-white/90 backdrop-blur-xl rounded-2xl p-5 shadow-lg">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <p class="text-sm text-gray-500 font-semibold">Vehículo destacado</p>
-                <h3 class="text-xl font-black text-gray-950">Ford Mustang 2024</h3>
-              </div>
-
-              <span class="bg-red-600 text-white px-4 py-2 rounded-xl font-bold">
-                Disponible
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+  </div>
+
+  <div class="hidden sm:block absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/70 text-center">
+    <p class="text-xs uppercase tracking-[0.35em] mb-2">Scroll</p>
+    <div class="mx-auto h-8 w-px bg-white/40 animate-pulse"></div>
   </div>
 </section>

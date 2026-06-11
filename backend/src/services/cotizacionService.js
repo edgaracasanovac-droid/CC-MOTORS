@@ -37,11 +37,17 @@ const borrarCotizacion = async (id) => {
   return await cotizacionModel.eliminarCotizacion(id);
 };
 
+const listarMisCotizaciones = async (correo) => {
+  return await cotizacionModel.obtenerMisCotizaciones(correo);
+};
+
 module.exports = {
   registrarCotizacion,
   registrarCotizacionPublica,
   listarCotizaciones,
+  listarMisCotizaciones,
   buscarCotizacionPorId,
   editarCotizacion,
   borrarCotizacion
+
 };

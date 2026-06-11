@@ -5,7 +5,9 @@ const vehicles = [
     year: "2024",
     type: "Sedán",
     transmission: "Automático",
+    engine: "1.8L",
     price: "$24,900",
+    tag: "Disponible",
     image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200",
   },
   {
@@ -13,7 +15,9 @@ const vehicles = [
     year: "2024",
     type: "Deportivo",
     transmission: "Automático",
+    engine: "5.0L",
     price: "$49,900",
+    tag: "Más buscado",
     image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
   },
   {
@@ -21,99 +25,107 @@ const vehicles = [
     year: "2025",
     type: "SUV",
     transmission: "Automático",
+    engine: "5.3L",
     price: "$58,900",
+    tag: "Tope de gama",
     image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
   },
 ];
 ---
 
-<section class="py-24 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
-      <div>
-        <span class="inline-flex bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-bold">
-          Catálogo destacado
-        </span>
+<section id="modelos" class="relative py-28 bg-[#07070a] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.14),transparent_35%)]"></div>
 
-        <h2 class="text-4xl md:text-5xl font-black text-gray-950 mt-4">
-          Vehículos seleccionados
-        </h2>
+  <div class="relative max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+        Configura y reserva
+      </p>
 
-        <p class="text-gray-600 mt-4 max-w-2xl text-lg">
-          Modelos destacados por diseño, rendimiento y disponibilidad.
-        </p>
-      </div>
+      <h2 class="text-5xl md:text-6xl font-black mt-5">
+        Elige tu <span class="text-red-600">modelo</span>
+      </h2>
 
-      <a
-        href="/catalogo"
-        class="inline-flex w-fit border border-gray-300 hover:bg-white px-6 py-3 rounded-xl font-bold transition"
-      >
-        Ver catálogo completo
-      </a>
+      <p class="text-gray-300 text-lg mt-5">
+        Selecciona el vehículo ideal, revisa sus características y solicita una cotización directamente con CC Motors.
+      </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid lg:grid-cols-3 gap-8">
       {vehicles.map((vehicle) => (
-        <article class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition duration-300 border border-gray-100">
-          <div class="relative">
+        <article class="group bg-[#171820] border border-red-600/35 rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-3 hover:border-red-500 hover:shadow-[0_0_50px_rgba(220,38,38,0.25)]">
+          <div class="relative h-72 overflow-hidden">
             <img
               src={vehicle.image}
               alt={vehicle.name}
-              class="h-64 w-full object-cover"
+              class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
             />
 
-            <span class="absolute top-5 left-5 bg-white/90 backdrop-blur-md text-gray-950 px-4 py-2 rounded-full text-sm font-bold">
-              Disponible
+            <div class="absolute inset-0 bg-gradient-to-t from-[#171820] via-transparent to-transparent"></div>
+
+            <span class="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-full text-xs font-black uppercase">
+              {vehicle.tag}
             </span>
           </div>
 
           <div class="p-7">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <h3 class="text-2xl font-black text-gray-950">
-                  {vehicle.name}
-                </h3>
+            <h3 class="text-2xl font-black">
+              {vehicle.name}
+            </h3>
 
-                <p class="text-gray-500 mt-1">
-                  {vehicle.year} · {vehicle.type}
-                </p>
-              </div>
+            <p class="text-gray-400 mt-2 text-sm">
+              {vehicle.engine} · {vehicle.transmission} · {vehicle.type}
+            </p>
 
-              <span class="text-red-600 font-black text-xl whitespace-nowrap">
-                {vehicle.price}
+            <p class="text-gray-300 mt-5 leading-relaxed">
+              Vehículo certificado por CC Motors, ideal para quienes buscan seguridad,
+              rendimiento y una experiencia de compra profesional.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mt-6">
+              <span class="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs text-gray-300">
+                {vehicle.engine}
+              </span>
+
+              <span class="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs text-gray-300">
+                {vehicle.transmission}
+              </span>
+
+              <span class="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs text-gray-300">
+                {vehicle.year}
               </span>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 mt-6">
-              <div class="bg-gray-50 rounded-xl p-3">
-                <p class="text-xs text-gray-500">Transmisión</p>
-                <p class="font-bold text-gray-900">{vehicle.transmission}</p>
-              </div>
+            <div class="border-t border-white/10 mt-7 pt-6 flex items-end justify-between gap-4">
+              <div>
+                <p class="text-gray-500 text-xs uppercase font-bold">
+                  Precio estimado
+                </p>
 
-              <div class="bg-gray-50 rounded-xl p-3">
-                <p class="text-xs text-gray-500">Condición</p>
-                <p class="font-bold text-gray-900">Certificado</p>
+                <p class="text-3xl font-black text-red-600">
+                  {vehicle.price}
+                </p>
               </div>
-            </div>
-
-            <div class="flex gap-3 mt-7">
-              <a
-                href="/catalogo"
-                class="flex-1 text-center bg-gray-950 hover:bg-black text-white px-4 py-3 rounded-xl font-bold transition"
-              >
-                Ver detalles
-              </a>
 
               <a
                 href="/cotizacion"
-                class="flex-1 text-center bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-xl font-bold transition"
+                class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-black transition shadow-lg shadow-red-600/20"
               >
-                Cotizar
+                Reservar
               </a>
             </div>
           </div>
         </article>
       ))}
+    </div>
+
+    <div class="text-center mt-14">
+      <a
+        href="/catalogo"
+        class="inline-flex border border-white/20 hover:bg-white hover:text-black text-white px-8 py-4 rounded-xl font-black transition"
+      >
+        Ver catálogo completo
+      </a>
     </div>
   </div>
 </section>

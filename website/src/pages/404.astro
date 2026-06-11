@@ -1,0 +1,79 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+---
+
+<MainLayout
+  title="404 | CC Motors"
+  description="Página no encontrada"
+>
+  <Navbar />
+
+  <section class="relative min-h-screen bg-[#07070a] text-white flex items-center justify-center overflow-hidden px-6">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.18),transparent_35%)]"></div>
+
+    <div class="relative max-w-4xl mx-auto text-center">
+      <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+        Error 404
+      </p>
+
+      <h1 class="text-8xl md:text-[12rem] font-black text-red-600 leading-none mt-4">
+        404
+      </h1>
+
+      <h2 class="text-4xl md:text-6xl font-black mt-6">
+        Vehículo no encontrado
+      </h2>
+
+      <p class="text-gray-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed">
+        La página que intentas visitar no existe o fue movida.
+        Puedes regresar al inicio o explorar nuestro catálogo de vehículos.
+      </p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+        <a
+          href="/"
+          class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-black transition"
+        >
+          Volver al inicio
+        </a>
+
+        <a
+          href="/catalogo"
+          class="border border-white/20 hover:border-white/40 text-white px-8 py-4 rounded-xl font-black transition"
+        >
+          Ver catálogo
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-16">
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+          <div class="text-4xl mb-3">🚘</div>
+          <h3 class="font-black">Catálogo</h3>
+          <p class="text-gray-400 text-sm mt-2">
+            Explora nuestros vehículos disponibles.
+          </p>
+        </div>
+
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+          <div class="text-4xl mb-3">📅</div>
+          <h3 class="font-black">Test Drive</h3>
+          <p class="text-gray-400 text-sm mt-2">
+            Agenda una prueba de manejo.
+          </p>
+        </div>
+
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+          <div class="text-4xl mb-3">💰</div>
+          <h3 class="font-black">Cotización</h3>
+          <p class="text-gray-400 text-sm mt-2">
+            Solicita información personalizada.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>

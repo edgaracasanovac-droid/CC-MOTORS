@@ -6,26 +6,89 @@ import Hero from "../components/home/Hero.astro";
 import Footer from "../components/common/Footer.astro";
 import FeaturedVehicles from "../components/home/FeaturedVehicles.astro";
 import Benefits from "../components/home/Benefits.astro";
-import Stats from "../components/home/Stats.astro";
 import Testimonials from "../components/home/Testimonials.astro";
 import CTA from "../components/home/CTA.astro";
 import Brands from "../components/home/Brands.astro";
 
+import Gallery from "../components/home/Gallery.astro";
+import Financing from "../components/home/Financing.astro";
+import FAQ from "../components/home/FAQ.astro";
+
+import { getVehiculos } from "../services/api";
+
+const vehiculos = await getVehiculos();
+
+const totalVehiculos = vehiculos.length;
+const marcasDisponibles = [...new Set(vehiculos.map((v) => v.nombre_marca))].length;
+const vehiculosDisponibles = vehiculos.filter((v) => v.estado === "disponible").length;
+const vehiculosVendidos = vehiculos.filter((v) => v.estado === "vendido").length;
 ---
 
 <MainLayout
-  title="CC Motors"
-  description="Casanova Contreras Motors"
+  title="CC Motors | Casanova Contreras Motors"
+  description="Concesionaria moderna de vehículos nuevos y usados certificados."
 >
   <Navbar />
 
   <Hero />
 
   <FeaturedVehicles />
- 
+
+  <section class="relative bg-[#07070a] text-white py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.12),transparent_35%)]"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 md:px-6">
+      <div class="text-center mb-12">
+        <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
+          Estadísticas reales
+        </p>
+
+        <h2 class="text-4xl md:text-6xl font-black mt-4">
+          CC Motors en <span class="text-red-600">números</span>
+        </h2>
+
+        <p class="text-gray-400 mt-4 text-lg">
+          Datos conectados directamente al catálogo del sistema.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6 text-center">
+          <p class="text-4xl md:text-5xl font-black text-red-600">
+            {totalVehiculos}
+          </p>
+          <p class="text-gray-400 mt-3 font-bold">Vehículos registrados</p>
+        </div>
+
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6 text-center">
+          <p class="text-4xl md:text-5xl font-black text-red-600">
+            {vehiculosDisponibles}
+          </p>
+          <p class="text-gray-400 mt-3 font-bold">Disponibles</p>
+        </div>
+
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6 text-center">
+          <p class="text-4xl md:text-5xl font-black text-red-600">
+            {marcasDisponibles}
+          </p>
+          <p class="text-gray-400 mt-3 font-bold">Marcas publicadas</p>
+        </div>
+
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-6 text-center">
+          <p class="text-4xl md:text-5xl font-black text-red-600">
+            {vehiculosVendidos}
+          </p>
+          <p class="text-gray-400 mt-3 font-bold">Vehículos vendidos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Gallery />
+
+  <Financing />
+
   <Benefits />
-  
-  <Stats />
 
   <Brands />
 
@@ -33,6 +96,7 @@ import Brands from "../components/home/Brands.astro";
 
   <CTA />
 
-  <Footer />
+  <FAQ />
 
+  <Footer />
 </MainLayout>

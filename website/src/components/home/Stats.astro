@@ -2,7 +2,7 @@
 const stats = [
   {
     value: "500+",
-    label: "Vehículos registrados",
+    label: "Vehículos gestionados",
   },
   {
     value: "1.200+",
@@ -14,29 +14,29 @@ const stats = [
   },
   {
     value: "24h",
-    label: "Respuesta a cotizaciones",
+    label: "Respuesta de cotización",
   },
 ];
 ---
 
-<section class="py-20 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="bg-white border border-gray-100 rounded-[2rem] shadow-sm p-8 md:p-12">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {stats.map((stat) => (
-          <div class="text-center lg:text-left">
-            <h3 class="text-4xl md:text-5xl font-black text-gray-950">
-              {stat.value}
-            </h3>
+<section class="relative py-24 bg-[#07070a] text-white overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(220,38,38,0.10),transparent_38%)]"></div>
 
-            <p class="text-gray-500 font-medium mt-2">
-              {stat.label}
-            </p>
+  <div class="relative max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-6">
+      {stats.map((stat) => (
+        <article class="group bg-[#171820] border border-white/10 rounded-3xl p-8 text-center transition-all duration-500 hover:-translate-y-2 hover:border-red-500 hover:shadow-[0_0_40px_rgba(220,38,38,0.18)]">
+          <h3 class="text-5xl md:text-6xl font-black text-white group-hover:text-red-600 transition">
+            {stat.value}
+          </h3>
 
-            <div class="h-1 w-12 bg-red-600 mt-5 mx-auto lg:mx-0 rounded-full"></div>
-          </div>
-        ))}
-      </div>
+          <div class="h-1 w-12 bg-red-600 mx-auto my-5 rounded-full"></div>
+
+          <p class="text-gray-400 font-semibold">
+            {stat.label}
+          </p>
+        </article>
+      ))}
     </div>
   </div>
 </section>
