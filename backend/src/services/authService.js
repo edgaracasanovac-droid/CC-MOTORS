@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const { Resend } = require('resend');
 
 const usuarioModel = require('../models/usuarioModel');
 
@@ -59,33 +59,21 @@ const recuperarContrasena = async (correo) => {
   const token = crypto.randomBytes(32).toString('hex');
   const resetTokenExpira = new Date(Date.now() + 15 * 60 * 1000);
 
-  await usuarioModel.guardarResetToken(
-    correo,
-    token,
-    resetTokenExpira
-  );
+  await usuarioModel.guardarResetToken(correo, token, resetTokenExpira);
 
   const frontendUrl =
     process.env.FRONTEND_URL || 'http://localhost:4322';
 
   const enlace = `${frontendUrl}/restablecer-contrasena?token=${token}`;
 
- const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  requireTLS: true,
-  family: 4,
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-  auth: {
-    user: process.env.EMAIL_USER || process.env.SMTP_USER,
-    pass: process.env.EMAIL_PASS || process.env.SMTP_PASS,
-  },
-});
-  await transporter.sendMail({
-    from: `"CC Motors" <${process.env.EMAIL_USER || process.env.SMTP_USER}>`,
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('Falta configurar RESEND_API_KEY en Render');
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  await resend.emails.send({
+    from: 'CC Motors <onboarding@resend.dev>',
     to: correo,
     subject: 'Restablecer contraseña - CC Motors',
     text: `
