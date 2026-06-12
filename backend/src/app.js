@@ -1,8 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 
-
-
 const vehiculoRoutes = require('./routes/vehiculoRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
@@ -19,11 +17,32 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 const testDriveRoutes = require('./routes/testDriveRoutes');
 
-
-
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:4321',
+  'http://localhost:4322',
+  'https://fabulous-lolly-0db08b.netlify.app',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`Origen no permitido por CORS: ${origin}`));
+    },
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
+);
+
+app.options('*', cors());
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -44,6 +63,5 @@ app.use('/api/marcas', marcaRoutes);
 app.use('/api/modelos', modeloRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/test-drive', testDriveRoutes);
-
 
 module.exports = app;

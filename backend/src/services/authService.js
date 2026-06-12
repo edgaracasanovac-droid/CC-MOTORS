@@ -3,11 +3,9 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
-
 const usuarioModel = require('../models/usuarioModel');
 
 const login = async (correo, contrasena) => {
-
   const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo);
 
   if (!usuario) {
@@ -26,11 +24,11 @@ const login = async (correo, contrasena) => {
   const token = jwt.sign(
     {
       id_usuario: usuario.id_usuario,
-      correo: usuario.correo
+      correo: usuario.correo,
     },
-    'secret_key',
+    process.env.JWT_SECRET || 'secret_key',
     {
-      expiresIn: '2h'
+      expiresIn: '2h',
     }
   );
 
@@ -40,18 +38,16 @@ const login = async (correo, contrasena) => {
     usuario: {
       id_usuario: usuario.id_usuario,
       nombre: usuario.nombre,
-      correo: usuario.correo
-    }
+      apellido: usuario.apellido,
+      correo: usuario.correo,
+    },
   };
-};
-
-const generarContrasenaTemporal = () => {
-  return Math.random().toString(36).slice(-8);
 };
 
 const recuperarContrasena = async (correo) => {
   const mensajeGenerico = {
-    mensaje: 'Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.'
+    mensaje:
+      'Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.',
   };
 
   const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo);
@@ -69,21 +65,23 @@ const recuperarContrasena = async (correo) => {
     resetTokenExpira
   );
 
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4322';
+  const frontendUrl =
+    process.env.FRONTEND_URL || 'http://localhost:4322';
+
   const enlace = `${frontendUrl}/restablecer-contrasena?token=${token}`;
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: Number(process.env.SMTP_PORT) || 465,
     secure: true,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+      user: process.env.EMAIL_USER || process.env.SMTP_USER,
+      pass: process.env.EMAIL_PASS || process.env.SMTP_PASS,
+    },
   });
 
   await transporter.sendMail({
-    from: `"CC Motors" <${process.env.EMAIL_USER}>`,
+    from: `"CC Motors" <${process.env.EMAIL_USER || process.env.SMTP_USER}>`,
     to: correo,
     subject: 'Restablecer contraseña - CC Motors',
     text: `
@@ -98,7 +96,7 @@ ${enlace}
 Este enlace expirará en 15 minutos.
 
 Si no solicitaste este cambio, puedes ignorar este mensaje.
-    `
+    `,
   });
 
   return mensajeGenerico;
@@ -125,7 +123,9 @@ const actualizarPerfil = async (idUsuario, datos) => {
 };
 
 const register = async (datos) => {
-  const usuarioExistente = await usuarioModel.obtenerUsuarioPorCorreo(datos.correo);
+  const usuarioExistente = await usuarioModel.obtenerUsuarioPorCorreo(
+    datos.correo
+  );
 
   if (usuarioExistente) {
     throw new Error('El correo ya está registrado');
@@ -138,7 +138,7 @@ const register = async (datos) => {
     apellido: datos.apellido,
     correo: datos.correo,
     contrasena: contrasenaEncriptada,
-    id_rol: 2
+    id_rol: 2,
   });
 
   return nuevoUsuario;
@@ -159,10 +159,9 @@ const restablecerContrasena = async (token, nuevaContrasena) => {
   );
 
   return {
-    mensaje: 'Contraseña restablecida correctamente'
+    mensaje: 'Contraseña restablecida correctamente',
   };
 };
-
 
 module.exports = {
   login,
@@ -170,5 +169,5 @@ module.exports = {
   obtenerPerfil,
   actualizarPerfil,
   register,
-  restablecerContrasena
+  restablecerContrasena,
 };
