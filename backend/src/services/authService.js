@@ -74,10 +74,15 @@ const recuperarContrasena = async (correo) => {
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
   port: Number(process.env.SMTP_PORT) || 587,
   secure: false,
+  requireTLS: true,
+  family: 4,
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
+    user: process.env.EMAIL_USER || process.env.SMTP_USER,
+    pass: process.env.EMAIL_PASS || process.env.SMTP_PASS,
+  },
 });
   await transporter.sendMail({
     from: `"CC Motors" <${process.env.EMAIL_USER || process.env.SMTP_USER}>`,
