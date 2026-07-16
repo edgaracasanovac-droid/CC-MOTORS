@@ -17,7 +17,7 @@ const vehiculos = await getVehiculos();
   <section class="relative min-h-screen bg-[#07070a] text-white overflow-hidden">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.16),transparent_35%)]"></div>
 
-    <div class="grid lg:grid-cols-2 min-h-screen">
+    <div class="grid min-h-screen lg:grid-cols-2">
       <div class="relative hidden lg:block">
         <img
           src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=1800"
@@ -28,25 +28,25 @@ const vehiculos = await getVehiculos();
         <div class="absolute inset-0 bg-black/65"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent"></div>
 
-        <div class="relative z-10 h-full flex items-end p-12">
+        <div class="relative z-10 h-full flex items-end p-6 sm:p-8 lg:p-12">
           <div>
             <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
               CC Motors
             </p>
 
-            <h1 class="text-6xl xl:text-7xl font-black mt-5 leading-[0.9] uppercase">
+            <h1 class="text-5xl sm:text-6xl xl:text-7xl font-black mt-5 leading-[0.9] uppercase">
               Solicita
               <span class="block text-red-600">
                 tu cotización
               </span>
             </h1>
 
-            <p class="text-gray-300 text-lg mt-6 max-w-xl leading-relaxed">
+            <p class="text-gray-300 text-base sm:text-lg mt-6 max-w-xl leading-relaxed">
               Completa tus datos, elige tu vehículo de interés y nuestro equipo
               recibirá tu solicitud directamente en el sistema.
             </p>
 
-            <div class="grid grid-cols-3 gap-4 mt-10 max-w-xl">
+            <div class="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3 sm:mt-10 max-w-xl">
               <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-md">
                 <p class="text-2xl font-black">24h</p>
                 <p class="text-gray-400 text-sm">Respuesta</p>
@@ -66,7 +66,7 @@ const vehiculos = await getVehiculos();
         </div>
       </div>
 
-      <div class="relative flex items-center justify-center px-4 sm:px-6 py-28 lg:py-20">
+      <div class="relative flex items-center justify-center px-3 sm:px-6 py-20 sm:py-24 lg:py-20">
         <div class="w-full max-w-2xl">
           <div class="mb-10 lg:hidden">
             <p class="text-red-500 uppercase tracking-[0.35em] text-xs font-black">
@@ -83,7 +83,7 @@ const vehiculos = await getVehiculos();
             </p>
           </div>
 
-          <div class="bg-white/5 border border-white/10 rounded-[2rem] p-6 sm:p-8 md:p-10 backdrop-blur-xl shadow-[0_0_60px_rgba(220,38,38,0.10)]">
+          <div class="bg-white/5 border border-white/10 rounded-[2rem] p-5 sm:p-8 md:p-10 backdrop-blur-xl shadow-[0_0_60px_rgba(220,38,38,0.10)]">
             <div class="mb-8 hidden lg:block">
               <p class="text-red-500 uppercase tracking-[0.35em] text-xs font-black">
                 Cotización online
@@ -99,7 +99,7 @@ const vehiculos = await getVehiculos();
             </div>
 
             <form id="cotizacionForm" class="space-y-5">
-              <div class="grid md:grid-cols-2 gap-5">
+              <div class="grid gap-5 md:grid-cols-2">
                 <div>
                   <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
                   <input name="nombre" required type="text" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
@@ -111,7 +111,7 @@ const vehiculos = await getVehiculos();
                 </div>
               </div>
 
-              <div class="grid md:grid-cols-2 gap-5">
+              <div class="grid gap-5 md:grid-cols-2">
                 <div>
                   <label class="block text-sm font-bold mb-2 text-gray-300">Documento</label>
                   <input name="documento" required type="text" placeholder="V12345678" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
@@ -123,7 +123,7 @@ const vehiculos = await getVehiculos();
                 </div>
               </div>
 
-              <div class="grid md:grid-cols-2 gap-5">
+              <div class="grid gap-5 md:grid-cols-2">
                 <div>
                   <label class="block text-sm font-bold mb-2 text-gray-300">Correo</label>
                   <input name="correo" required type="email" placeholder="correo@ejemplo.com" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />

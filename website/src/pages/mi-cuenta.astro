@@ -7,7 +7,7 @@ import { API_URL } from "../services/api";
 
 <MainLayout title="Mi Cuenta | CC Motors" description="Panel de cliente CC Motors">
   <Navbar />
-<section class="relative min-h-screen bg-[#07070a] text-white px-4 md:px-6 py-24 md:py-32 overflow-hidden">  
+<section class="relative min-h-screen bg-[#07070a] text-white px-3 sm:px-4 md:px-6 py-20 sm:py-24 md:py-32 overflow-hidden">  
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.16),transparent_35%)]"></div>
 
     <div class="relative max-w-7xl mx-auto">
@@ -23,8 +23,8 @@ import { API_URL } from "../services/api";
         </p>
       </div>
 
-      <div class="grid lg:grid-cols-3 gap-8 mb-12">
-        <div class="bg-[#171820] border border-white/10 rounded-3xl p-8">
+      <div class="grid gap-8 mb-12 lg:grid-cols-3">
+        <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8">
           <div class="h-20 w-20 rounded-full bg-red-600/15 border border-red-600/30 flex items-center justify-center text-4xl mb-6">
             👤
           </div>
@@ -45,8 +45,8 @@ import { API_URL } from "../services/api";
           </button>
         </div>
 
-        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
+        <div class="grid gap-5 sm:grid-cols-2 lg:col-span-2">
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-6">
             <p class="text-gray-400 text-sm uppercase tracking-wider">Cotizaciones</p>
             <p id="cotizacionesCount" class="text-4xl font-black text-red-500 mt-3">0</p>
           </div>
@@ -69,10 +69,10 @@ import { API_URL } from "../services/api";
       </div>
 
       <section class="mb-12">
-        <h2 class="text-3xl font-black mb-6">Actividad Reciente</h2>
+        <h2 class="text-2xl sm:text-3xl font-black mb-6">Actividad Reciente</h2>
 
         <div id="actividadContainer" class="grid gap-4">
-          <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+          <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
             Cargando actividad reciente...
           </div>
         </div>
@@ -80,27 +80,27 @@ import { API_URL } from "../services/api";
 
       <div class="space-y-10">
         <section>
-          <h2 class="text-3xl font-black mb-6">Mis Cotizaciones</h2>
+          <h2 class="text-2xl sm:text-3xl font-black mb-6">Mis Cotizaciones</h2>
           <div id="cotizacionesContainer" class="grid gap-5">
-            <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+            <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
               Cargando cotizaciones...
             </div>
           </div>
         </section>
 
         <section>
-          <h2 class="text-3xl font-black mb-6">Mis Configuraciones de Compra</h2>
+          <h2 class="text-2xl sm:text-3xl font-black mb-6">Mis Configuraciones de Compra</h2>
           <div id="configuracionesContainer" class="grid gap-5">
-            <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+            <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
               Cargando configuraciones...
             </div>
           </div>
         </section>
 
         <section>
-          <h2 class="text-3xl font-black mb-6">Mis Test Drive</h2>
+          <h2 class="text-2xl sm:text-3xl font-black mb-6">Mis Test Drive</h2>
           <div id="testDriveContainer" class="grid gap-5">
-            <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
+            <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
               Cargando solicitudes...
             </div>
           </div>
@@ -109,9 +109,9 @@ import { API_URL } from "../services/api";
     </div>
   </section>
 
-  <div id="settingsModal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl items-center justify-center px-6">
-    <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#171820] border border-white/10 rounded-[2rem] p-8 shadow-[0_0_70px_rgba(220,38,38,0.18)]">
-      <div class="flex items-start justify-between gap-6 mb-8">
+  <div id="settingsModal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl items-center justify-center px-3 sm:px-6">
+    <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#171820] border border-white/10 rounded-[2rem] p-5 sm:p-8 shadow-[0_0_70px_rgba(220,38,38,0.18)]">
+      <div class="flex items-start justify-between gap-4 sm:gap-6 mb-8">
         <div>
           <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">Configuración</p>
           <h2 class="text-4xl font-black mt-3">Configurar cuenta</h2>
@@ -124,7 +124,7 @@ import { API_URL } from "../services/api";
       </div>
 
       <form id="profileForm" class="space-y-5">
-        <div class="grid md:grid-cols-2 gap-5">
+        <div class="grid gap-5 md:grid-cols-2">
           <div>
             <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
             <input id="nombreInput" name="nombre" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />

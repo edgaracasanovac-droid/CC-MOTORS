@@ -1,5 +1,7 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import api from "../../lib/api";
+import { esCorreoValido, obtenerMensajeError } from "../../lib/validaciones";
 
 export default function RecuperarContrasenaForm() {
   const [correo, setCorreo] = useState("");
@@ -9,25 +11,38 @@ export default function RecuperarContrasenaForm() {
 
   const enviarSolicitud = async (e) => {
     e.preventDefault();
+    const correoNormalizado = correo.trim();
+
+    if (!correoNormalizado) {
+      const mensaje = "El correo es obligatorio";
+      setError(mensaje);
+      toast.error(mensaje);
+      return;
+    }
+
+    if (!esCorreoValido(correoNormalizado)) {
+      const mensaje = "Ingresa un correo electrónico válido";
+      setError(mensaje);
+      toast.error(mensaje);
+      return;
+    }
+
     setMensaje("");
     setError("");
     setCargando(true);
 
     try {
       const respuesta = await api.post("/auth/recuperar-contrasena", {
-        correo,
+        correo: correoNormalizado,
       });
 
       setMensaje(respuesta.data.mensaje || "Solicitud enviada correctamente");
       setCorreo("");
+      toast.success("Solicitud enviada correctamente");
     } catch (error) {
-      console.error(error.response?.data || error);
-
-      setError(
-        error.response?.data?.mensaje ||
-          error.response?.data?.error ||
-          "Error al recuperar la contraseña"
-      );
+      const mensaje = obtenerMensajeError(error, "Error al recuperar la contraseña");
+      setError(mensaje);
+      toast.error(mensaje);
     } finally {
       setCargando(false);
     }

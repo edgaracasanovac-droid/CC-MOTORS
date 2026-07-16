@@ -25,8 +25,8 @@ const imagenDefault =
   <section class="relative min-h-screen bg-[#07070a] text-white overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.16),transparent_35%)]"></div>
 
-    <div class="relative max-w-7xl mx-auto px-4 md:px-6">
-      <div class="text-center max-w-4xl mx-auto mb-10 md:mb-14">
+    <div class="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+      <div class="text-center max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-14">
         <p class="text-red-500 uppercase tracking-[0.25em] sm:tracking-[0.35em] text-xs sm:text-sm font-black">
           Mi Compra CC Motors
         </p>
@@ -41,7 +41,7 @@ const imagenDefault =
         </p>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start">
+      <div class="grid gap-8 lg:grid-cols-2 lg:gap-10 lg:items-start">
         <div class="bg-[#171820] border border-white/10 rounded-[2rem] overflow-hidden">
           <div class="relative h-[260px] sm:h-[320px] lg:h-[420px] bg-black">
             <img
@@ -69,7 +69,7 @@ const imagenDefault =
           </div>
 
           <div class="p-5 sm:p-8">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
                 <p class="text-gray-500 text-xs uppercase font-black">Año</p>
                 <p id="vehicleYear" class="text-lg sm:text-xl font-black mt-2">{vehiculos[0]?.ano || "-"}</p>
@@ -91,7 +91,7 @@ const imagenDefault =
                 Resumen financiero
               </p>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">
+              <div class="grid grid-cols-1 gap-4 mt-5 sm:grid-cols-3">
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
                   <p class="text-gray-500 text-xs uppercase font-black">Inicial</p>
                   <p id="initialAmount" class="text-xl sm:text-2xl font-black text-red-500 mt-2">$0.00</p>
@@ -115,7 +115,7 @@ const imagenDefault =
           </div>
         </div>
 
-        <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-5 sm:p-8">
+        <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-4 sm:p-8">
           <form id="configForm" class="space-y-5">
             <div>
               <label class="block text-sm font-bold mb-2 text-gray-300">Vehículo</label>
@@ -204,7 +204,7 @@ const imagenDefault =
               Si tienes sesión iniciada, tus datos básicos se completarán automáticamente.
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
                 <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
                 <input name="nombre" required type="text" class="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />
@@ -216,7 +216,7 @@ const imagenDefault =
               </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
                 <label class="block text-sm font-bold mb-2 text-gray-300">Documento</label>
                 <input name="documento" required type="text" placeholder="V12345678" class="w-full bg-white/5 border border-white/10 text-white placeholder:text-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:border-red-500" />

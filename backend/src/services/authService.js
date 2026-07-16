@@ -9,7 +9,7 @@ const login = async (correo, contrasena) => {
   const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo);
 
   if (!usuario) {
-    throw new Error('Usuario no encontrado');
+    throw new Error('Credenciales inválidas');
   }
 
   const passwordCorrecta = await bcrypt.compare(
@@ -18,7 +18,7 @@ const login = async (correo, contrasena) => {
   );
 
   if (!passwordCorrecta) {
-    throw new Error('Contraseña incorrecta');
+    throw new Error('Credenciales inválidas');
   }
 
   const token = jwt.sign(

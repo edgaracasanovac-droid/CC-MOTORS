@@ -11,7 +11,7 @@ import Footer from "../components/common/Footer.astro";
   <Navbar />
 
   <main class="bg-[#07070a] text-white overflow-hidden">
-    <section class="relative min-h-[80vh] flex items-end">
+    <section class="relative min-h-[70vh] sm:min-h-[80vh] flex items-end">
       <img
         src="https://images.unsplash.com/photo-1562141961-3086c9cf9d9a?q=80&w=2200"
         alt="Contacto CC Motors"
@@ -21,19 +21,19 @@ import Footer from "../components/common/Footer.astro";
       <div class="absolute inset-0 bg-black/75"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-[#07070a] via-black/55 to-black/10"></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-16 pt-28 sm:pb-20 sm:pt-36 w-full">
         <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
           Contacto
         </p>
 
-        <h1 class="text-6xl md:text-8xl font-black mt-5 leading-[0.9] uppercase max-w-5xl">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mt-5 leading-[0.9] uppercase max-w-5xl">
           Hablemos de tu
           <span class="block text-red-600">
             próximo vehículo
           </span>
         </h1>
 
-        <p class="text-gray-300 text-lg md:text-xl mt-8 max-w-3xl leading-relaxed">
+        <p class="text-gray-300 text-base sm:text-lg md:text-xl mt-6 sm:mt-8 max-w-3xl leading-relaxed">
           Escríbenos para recibir información sobre disponibilidad, precios,
           financiamiento o cotizaciones personalizadas.
         </p>
@@ -43,9 +43,9 @@ import Footer from "../components/common/Footer.astro";
     <section class="relative py-28">
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.14),transparent_35%)]"></div>
 
-      <div class="relative max-w-7xl mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-10">
-          <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-[0_0_60px_rgba(220,38,38,0.10)]">
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="grid gap-8 lg:grid-cols-2 lg:gap-10">
+          <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-5 sm:p-8 md:p-10 shadow-[0_0_60px_rgba(220,38,38,0.10)]">
             <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">
               Escríbenos
             </p>
@@ -59,7 +59,7 @@ import Footer from "../components/common/Footer.astro";
             </p>
 
             <form id="contactForm" class="space-y-5 mt-8">
-              <div class="grid md:grid-cols-2 gap-5">
+              <div class="grid gap-5 md:grid-cols-2">
                 <div>
                   <label class="block text-sm font-bold mb-2 text-gray-300">Nombre</label>
                   <input
@@ -134,7 +134,7 @@ import Footer from "../components/common/Footer.astro";
           </div>
 
           <div class="space-y-6">
-            <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-8 md:p-10">
+            <div class="bg-[#171820] border border-white/10 rounded-[2rem] p-5 sm:p-8 md:p-10">
               <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">
                 Información
               </p>
@@ -166,7 +166,7 @@ import Footer from "../components/common/Footer.astro";
               </div>
             </div>
 
-            <div class="relative min-h-[320px] rounded-[2rem] overflow-hidden border border-white/10">
+            <div class="relative min-h-[260px] sm:min-h-[320px] rounded-[2rem] overflow-hidden border border-white/10">
               <img
                 src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600"
                 alt="Atención personalizada CC Motors"
@@ -175,7 +175,7 @@ import Footer from "../components/common/Footer.astro";
 
               <div class="absolute inset-0 bg-black/70"></div>
 
-              <div class="relative z-10 p-8 md:p-10 h-full flex flex-col justify-end">
+              <div class="relative z-10 p-5 sm:p-8 md:p-10 h-full flex flex-col justify-end">
                 <h3 class="text-3xl font-black">
                   Atención personalizada
                 </h3>
@@ -194,7 +194,7 @@ import Footer from "../components/common/Footer.astro";
               </div>
             </div>
 
-            <div class="bg-red-600 rounded-[2rem] p-8 md:p-10">
+            <div class="bg-red-600 rounded-[2rem] p-5 sm:p-8 md:p-10">
               <h3 class="text-3xl font-black">
                 ¿Prefieres una prueba?
               </h3>
@@ -213,8 +213,8 @@ import Footer from "../components/common/Footer.astro";
           </div>
         </div>
 
-        <div class="mt-10 bg-[#171820] border border-white/10 rounded-[2rem] p-8 md:p-10">
-          <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div class="mt-8 sm:mt-10 bg-[#171820] border border-white/10 rounded-[2rem] p-5 sm:p-8 md:p-10">
+          <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
             <div>
               <p class="text-red-500 uppercase tracking-[0.30em] text-xs font-black">
                 Ubicación
@@ -230,7 +230,7 @@ import Footer from "../components/common/Footer.astro";
               </p>
             </div>
 
-            <div class="min-h-[260px] bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center text-center p-8">
+            <div class="min-h-[220px] sm:min-h-[260px] bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center text-center p-6 sm:p-8">
               <div>
                 <p class="text-6xl mb-4">📍</p>
                 <p class="text-2xl font-black">San Cristóbal, Táchira</p>

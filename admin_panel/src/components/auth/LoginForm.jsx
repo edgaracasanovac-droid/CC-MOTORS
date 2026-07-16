@@ -1,6 +1,8 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import api from "../../lib/api";
-import { guardarToken } from "../../lib/auth";
+import { guardarToken, guardarUsuario } from "../../lib/auth";
+import { esCorreoValido, obtenerMensajeError } from "../../lib/validaciones";
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -32,48 +34,94 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (cargando) return;
+
+    const correo = form.correo.trim();
+    const contrasena = form.contrasena;
+
+    if (!correo || !contrasena) {
+      const mensaje = "Correo y contraseña son obligatorios";
+      setError(mensaje);
+      toast.error(mensaje);
+      return;
+    }
+
+    if (!esCorreoValido(correo)) {
+      const mensaje = "Ingresa un correo electrónico válido";
+      setError(mensaje);
+      toast.error(mensaje);
+      return;
+    }
+
     setError("");
     setCargando(true);
 
     try {
-      const respuesta = await api.post("/auth/login", form);
+      const datosLogin = {
+        correo,
+        contrasena,
+      };
 
-      guardarToken(respuesta.data.token);
+      const respuesta = await api.post("/auth/login", datosLogin);
 
-      window.location.href = "/dashboard";
+      const token = respuesta.data?.token;
+      const usuario = respuesta.data?.usuario;
+
+      if (!token) {
+        throw new Error("El backend no devolvió un token válido");
+      }
+
+      guardarToken(token);
+
+      if (usuario) {
+        guardarUsuario(usuario);
+      }
+
+      toast.success("Inicio de sesión correcto");
+
+      setTimeout(() => {
+        window.location.replace("/dashboard");
+      }, 500);
     } catch (error) {
-      console.error(error);
+      const mensaje = obtenerMensajeError(error, "Correo o contraseña incorrectos");
 
-      setError("Correo o contraseña incorrectos");
+      setError(mensaje);
+      toast.error(mensaje);
     } finally {
       setCargando(false);
     }
   };
 
   return (
-    <Card className="w-full border-0 bg-white shadow-2xl">
+    <Card className="w-full border-0 bg-white shadow-none">
       <CardHeader className="pb-2 text-center">
-       <div className="mb-6 flex justify-center">
-  <img
-    src="/logo-cc-motors.png"
-    alt="CC Motors"
-    className="h-24 w-24 object-contain"
-  />
-</div>
+        <div className="mb-6 flex justify-center">
+          <div className="flex h-28 w-28 items-center justify-center rounded-3xl bg-black shadow-xl">
+            <img
+              src="/logo-cc-motors.png"
+              alt="CC Motors"
+              className="h-24 w-24 object-contain"
+            />
+          </div>
+        </div>
 
-        <CardTitle className="text-3xl font-bold text-black">
+        <p className="text-sm font-bold uppercase tracking-widest text-red-600">
+          Panel administrativo
+        </p>
+
+        <CardTitle className="mt-2 text-3xl font-black text-black">
           Bienvenido
         </CardTitle>
 
         <p className="mt-2 text-sm text-slate-500">
-          Inicia sesión para acceder al panel administrativo
+          Inicia sesión para acceder al sistema administrativo de CC Motors.
         </p>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <Label className="mb-2 block font-medium">
+            <Label className="mb-2 block font-semibold text-slate-700">
               Correo electrónico
             </Label>
 
@@ -85,11 +133,12 @@ export default function LoginForm() {
               onChange={handleChange}
               className="h-12 rounded-xl border-slate-300 focus:border-red-600 focus:ring-red-600"
               required
+              autoComplete="email"
             />
           </div>
 
           <div>
-            <Label className="mb-2 block font-medium">
+            <Label className="mb-2 block font-semibold text-slate-700">
               Contraseña
             </Label>
 
@@ -101,11 +150,12 @@ export default function LoginForm() {
               onChange={handleChange}
               className="h-12 rounded-xl border-slate-300 focus:border-red-600 focus:ring-red-600"
               required
+              autoComplete="current-password"
             />
           </div>
 
           {error && (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-600">
               {error}
             </div>
           )}
@@ -113,14 +163,14 @@ export default function LoginForm() {
           <Button
             type="submit"
             disabled={cargando}
-            className="h-12 w-full rounded-xl bg-red-600 text-base font-semibold text-white hover:bg-red-700"
+            className="h-12 w-full rounded-xl bg-red-600 text-base font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {cargando ? "Ingresando..." : "Entrar al sistema"}
           </Button>
 
           <a
             href="/recuperar-contrasena"
-            className="block text-center text-sm text-slate-500 transition hover:text-red-600"
+            className="block text-center text-sm font-semibold text-slate-500 transition hover:text-red-600"
           >
             ¿Olvidaste tu contraseña?
           </a>

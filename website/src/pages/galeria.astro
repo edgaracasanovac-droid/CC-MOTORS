@@ -60,41 +60,41 @@ const images = [
       <div class="absolute inset-0 bg-black/75"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-[#07070a] via-black/55 to-black/10"></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-16 pt-28 sm:pb-20 sm:pt-36 w-full">
         <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
           Galería Premium
         </p>
 
-        <h1 class="text-6xl md:text-8xl font-black mt-5 leading-[0.9] uppercase max-w-5xl">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mt-5 leading-[0.9] uppercase max-w-5xl">
           Experiencia visual
           <span class="block text-red-600">
             CC Motors
           </span>
         </h1>
 
-        <p class="text-gray-300 text-lg md:text-xl mt-8 max-w-3xl leading-relaxed">
+        <p class="text-base sm:text-lg md:text-xl mt-6 sm:mt-8 max-w-3xl leading-relaxed">
           Explora una selección visual de vehículos destacados con diseño,
           presencia y estilo profesional.
         </p>
       </div>
     </section>
 
-    <section class="relative py-28">
+    <section class="relative py-20 sm:py-24 lg:py-28">
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.14),transparent_35%)]"></div>
 
-      <div class="relative max-w-7xl mx-auto px-6">
-        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col gap-8 mb-8 sm:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-red-500 uppercase tracking-[0.35em] text-sm font-black">
               Colección
             </p>
 
-            <h2 class="text-5xl md:text-6xl font-black mt-5">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black mt-5">
               Vehículos en
               <span class="text-red-600"> exhibición</span>
             </h2>
 
-            <p class="text-gray-400 text-lg mt-5 max-w-2xl">
+            <p class="text-base sm:text-lg text-gray-400 mt-5 max-w-2xl">
               Imágenes seleccionadas para representar la experiencia visual de la concesionaria.
             </p>
           </div>
@@ -118,7 +118,7 @@ const images = [
           </div>
         </div>
 
-        <div id="galleryGrid" class="grid md:grid-cols-2 lg:grid-cols-4 auto-rows-[260px] gap-6">
+        <div id="galleryGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[220px] sm:auto-rows-[260px]">
           {images.map((image) => (
             <article
               class={`gallery-item group relative rounded-3xl overflow-hidden border border-white/10 bg-white/5 cursor-pointer ${image.size}`}
@@ -157,7 +157,7 @@ const images = [
           </h3>
         </div>
 
-        <div class="mt-16 grid md:grid-cols-2 gap-6">
+        <div class="mt-10 sm:mt-16 grid gap-6 md:grid-cols-2">
           <a
             href="/catalogo"
             class="bg-red-600 hover:bg-red-700 text-white text-center py-5 rounded-xl font-black text-lg transition shadow-2xl shadow-red-600/20"
@@ -177,7 +177,7 @@ const images = [
 
     <div
       id="lightbox"
-      class="hidden fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl items-center justify-center px-6"
+      class="hidden fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl items-center justify-center px-3 sm:px-6"
     >
       <button
         id="closeLightbox"

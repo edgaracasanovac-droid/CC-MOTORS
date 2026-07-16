@@ -3,6 +3,7 @@ const router = express.Router();
 
 const cotizacionController = require('../controllers/cotizacionController');
 const { verificarToken } = require('../middlewares/authMiddleware');
+const { publicFormsLimiter } = require('../middlewares/rateLimiters');
 
 /**
  * @swagger
@@ -13,7 +14,7 @@ const { verificarToken } = require('../middlewares/authMiddleware');
  *     tags:
  *       - Cotizaciones
  */
-router.post('/publica', cotizacionController.postCotizacionPublica);
+router.post('/publica', publicFormsLimiter, cotizacionController.postCotizacionPublica);
 
 /**
  * @swagger

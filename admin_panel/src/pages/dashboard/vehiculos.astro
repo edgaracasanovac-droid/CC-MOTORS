@@ -7,7 +7,21 @@ import VehiculosList from "../../components/vehiculos/VehiculosList.jsx";
 <DashboardLayout>
   <ProtectedRoute client:load />
 
-  <h1 class="mb-6 text-4xl font-bold">Gestión de vehículos</h1>
+  <div class="space-y-6">
+    <div>
+      <p class="mb-2 text-sm font-bold uppercase tracking-widest text-red-600">
+        CC Motors
+      </p>
 
-  <VehiculosList client:load />
+      <h1 class="text-4xl font-black text-black">
+        Gestión de vehículos
+      </h1>
+
+      <p class="mt-2 text-slate-600">
+        Administra el inventario de vehículos que alimenta el catálogo público y las operaciones internas.
+      </p>
+    </div>
+
+    <VehiculosList client:load />
+  </div>
 </DashboardLayout>

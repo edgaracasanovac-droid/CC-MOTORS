@@ -127,4 +127,23 @@
   html {
     @apply font-sans;
     }
+  body {
+    @apply min-w-0 overflow-x-hidden;
+  }
+  img, video, svg, canvas {
+    @apply max-w-full;
+  }
+  input, select, textarea, button {
+    @apply text-base;
+  }
+} 
+
+@layer utilities {
+  .container-safe {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .responsive-stack {
+    @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+  }
 }

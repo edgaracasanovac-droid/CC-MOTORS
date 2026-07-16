@@ -70,8 +70,7 @@ const recuperarContrasena = async (req, res) => {
   } catch (error) {
     console.error('Error en recuperarContrasena:', error);
     res.status(500).json({
-      mensaje: 'Error al recuperar contraseña',
-      error: error.message
+      mensaje: 'Error al procesar la solicitud'
     });
   }
 };

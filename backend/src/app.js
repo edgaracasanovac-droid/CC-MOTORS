@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+
+const { globalLimiter, bannedIpMiddleware, requestLogger } = require('./middlewares/rateLimiters');
 
 const vehiculoRoutes = require('./routes/vehiculoRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
@@ -19,17 +22,27 @@ const testDriveRoutes = require('./routes/testDriveRoutes');
 
 const app = express();
 
+// Trust proxy (necesario para leer IP real detrás de Render/Cloudflare/Nginx)
+app.set('trust proxy', 1);
+
+// Headers de seguridad HTTP
+app.use(helmet());
+
 const allowedOrigins = [
   'http://localhost:4321',
   'http://localhost:4322',
   'https://fabulous-lolly-0db08b.netlify.app',
   process.env.FRONTEND_URL,
+  process.env.WEBSITE_URL,
+  process.env.ADMIN_PANEL_URL,
 ].filter(Boolean);
+
+const isNetlifyOrigin = (origin) => /^https:\/\/[a-z0-9-]+\.netlify\.app$/i.test(origin);
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin) || isNetlifyOrigin(origin)) {
         return callback(null, true);
       }
 
@@ -44,6 +57,15 @@ app.use(
 //app.options('*', cors());
 
 app.use(express.json());
+
+// Logging de requests
+app.use(requestLogger);
+
+// Verificar IP baneada/bloqueada antes de cualquier ruta
+app.use(bannedIpMiddleware);
+
+// Rate limit global
+app.use(globalLimiter);
 
 app.get('/', (req, res) => {
   res.send('API RESTful de concesionaria funcionando');

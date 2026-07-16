@@ -3,6 +3,7 @@ const router = express.Router();
 
 const authController = require('../controllers/authController');
 const { verificarToken } = require('../middlewares/authMiddleware');
+const { loginLimiter, passwordRecoveryLimiter, registerLimiter } = require('../middlewares/rateLimiters');
 
 /**
  * @swagger
@@ -13,7 +14,7 @@ const { verificarToken } = require('../middlewares/authMiddleware');
  *     tags:
  *       - Auth
  */
-router.post('/register', authController.register);
+router.post('/register', registerLimiter, authController.register);
 
 /**
  * @swagger
@@ -23,7 +24,7 @@ router.post('/register', authController.register);
  *     tags:
  *       - Auth
  */
-router.post('/login', authController.login);
+router.post('/login', loginLimiter, authController.login);
 
 /**
  * @swagger
@@ -34,7 +35,7 @@ router.post('/login', authController.login);
  *     tags:
  *       - Auth
  */
-router.post('/recuperar-contrasena', authController.recuperarContrasena);
+router.post('/recuperar-contrasena', passwordRecoveryLimiter, authController.recuperarContrasena);
 
 /**
  * @swagger
