@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const { Resend } = require('resend');
 
 const usuarioModel = require('../models/usuarioModel');
+const clienteModel = require('../models/clienteModel');
+const testDriveModel = require('../models/testDriveModel');
 
 const login = async (correo, contrasena) => {
   const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo);
@@ -132,6 +134,19 @@ const register = async (datos) => {
     contrasena: contrasenaEncriptada,
     id_rol: 2,
   });
+
+  const clienteExistente = await testDriveModel.buscarClientePorCorreo(datos.correo);
+
+  if (!clienteExistente) {
+    await clienteModel.crearCliente({
+      nombre: datos.nombre,
+      apellido: datos.apellido,
+      documento: null,
+      telefono: null,
+      correo: datos.correo,
+      direccion: null,
+    });
+  }
 
   return nuevoUsuario;
 };
