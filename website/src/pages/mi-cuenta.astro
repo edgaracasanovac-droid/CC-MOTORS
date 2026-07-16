@@ -57,11 +57,6 @@ import { API_URL } from "../services/api";
           </div>
 
           <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
-            <p class="text-gray-400 text-sm uppercase tracking-wider">Test Drive</p>
-            <p id="testDriveCount" class="text-4xl font-black text-red-500 mt-3">0</p>
-          </div>
-
-          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
             <p class="text-gray-400 text-sm uppercase tracking-wider">Cuenta</p>
             <p class="text-xl font-black text-green-500 mt-4">Activa</p>
           </div>
@@ -93,15 +88,6 @@ import { API_URL } from "../services/api";
           <div id="configuracionesContainer" class="grid gap-5">
             <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
               Cargando configuraciones...
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 class="text-2xl sm:text-3xl font-black mb-6">Mis Test Drive</h2>
-          <div id="testDriveContainer" class="grid gap-5">
-            <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
-              Cargando solicitudes...
             </div>
           </div>
         </section>
@@ -187,15 +173,12 @@ import { API_URL } from "../services/api";
   const actividadContainer = document.getElementById("actividadContainer");
   const cotizacionesContainer = document.getElementById("cotizacionesContainer");
   const configuracionesContainer = document.getElementById("configuracionesContainer");
-  const testDriveContainer = document.getElementById("testDriveContainer");
 
   const cotizacionesCount = document.getElementById("cotizacionesCount");
   const comprasCount = document.getElementById("comprasCount");
-  const testDriveCount = document.getElementById("testDriveCount");
 
   let cotizacionesRecientes = [];
   let configuracionesRecientes = [];
-  let testDrivesRecientes = [];
 
   function cerrarSesion() {
     localStorage.removeItem("cc_motors_token");
@@ -335,98 +318,6 @@ import { API_URL } from "../services/api";
     }
   }
 
-  async function cargarTestDrives() {
-    try {
-      const response = await fetch(`${API_URL}/test-drive/mis-solicitudes`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data?.mensaje || "Error cargando test drives");
-      }
-
-      const registros = Array.isArray(data.testDrives) ? data.testDrives : [];
-
-      testDrivesRecientes = registros;
-      testDriveCount.textContent = registros.length;
-
-      if (!registros.length) {
-        testDriveContainer.innerHTML = `
-          <div class="bg-[#171820] border border-white/10 rounded-3xl p-8 text-center text-gray-400">
-            No tienes solicitudes de test drive registradas.
-          </div>
-        `;
-        renderActividadReciente();
-        return;
-      }
-
-      testDriveContainer.innerHTML = registros
-        .map((item) => {
-          const vehiculo = item.vehiculo || {};
-          const marca = vehiculo.marca || "Marca no disponible";
-          const modelo = vehiculo.modelo || "Modelo no disponible";
-          const ano = vehiculo.ano || "-";
-          const precioVehiculo = vehiculo.precio_venta || 0;
-
-          return `
-            <article class="bg-[#171820] border border-white/10 rounded-3xl p-6 hover:border-red-500 transition">
-              <div class="flex justify-between flex-wrap gap-4">
-                <div>
-                  <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">Test Drive</p>
-                  <h3 class="text-2xl font-black mt-2">${marca} ${modelo}</h3>
-                  <p class="text-gray-400 mt-1">Año ${ano}</p>
-                </div>
-
-                <div class="text-left md:text-right">
-                  <p class="text-red-500 font-black text-xl capitalize">${item.estado || "pendiente"}</p>
-                  <p class="text-gray-400 text-sm mt-1">${formatDate(item.fecha)}</p>
-                  <p class="text-gray-400 text-sm">${item.hora || "Sin hora"}</p>
-                </div>
-              </div>
-
-              <div class="grid md:grid-cols-3 gap-4 mt-6">
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <p class="text-gray-500 text-xs uppercase font-black">Estado</p>
-                  <p class="font-black mt-2 capitalize">${item.estado || "pendiente"}</p>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <p class="text-gray-500 text-xs uppercase font-black">Precio vehículo</p>
-                  <p class="font-black mt-2">${formatMoney(precioVehiculo)}</p>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <p class="text-gray-500 text-xs uppercase font-black">Registro</p>
-                  <p class="font-black mt-2">#${item.id_test_drive || "-"}</p>
-                </div>
-              </div>
-
-              <p class="text-gray-300 mt-5 leading-relaxed">
-                ${item.mensaje || "Sin mensaje adicional."}
-              </p>
-            </article>
-          `;
-        })
-        .join("");
-
-      renderActividadReciente();
-    } catch (error) {
-      console.error(error);
-
-      testDriveCount.textContent = "0";
-
-      testDriveContainer.innerHTML = `
-        <div class="bg-red-500/10 border border-red-500/30 rounded-3xl p-8 text-center text-red-300">
-          No se pudieron cargar los test drive.
-        </div>
-      `;
-
-      renderActividadReciente();
-    }
-  }
-
   function renderActividadReciente() {
     const actividades = [
       ...cotizacionesRecientes.map((item) => ({
@@ -440,14 +331,6 @@ import { API_URL } from "../services/api";
         tipo: "Mi Compra",
         icono: "🧾",
         fecha: item.fecha,
-        estado: item.estado || "pendiente",
-        titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
-      })),
-      ...testDrivesRecientes.map((item) => ({
-        tipo: "Test Drive",
-        icono: "📅",
-        fecha: item.fecha,
-        hora: item.hora,
         estado: item.estado || "pendiente",
         titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
       })),
@@ -551,7 +434,6 @@ import { API_URL } from "../services/api";
 
   cargarPerfil();
   cargarHistorial();
-  cargarTestDrives();
 
   openSettingsBtn?.addEventListener("click", abrirModal);
   closeSettingsBtn?.addEventListener("click", cerrarModal);

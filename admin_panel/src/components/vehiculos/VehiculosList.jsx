@@ -31,6 +31,7 @@ export default function VehiculosList() {
     estado: "disponible",
     precio_compra: "",
     precio_venta: "",
+    imagen: "",
     id_marca: "",
     id_modelo: "",
     id_proveedor: "",
@@ -84,6 +85,7 @@ export default function VehiculosList() {
       estado: "disponible",
       precio_compra: "",
       precio_venta: "",
+      imagen: "",
       id_marca: "",
       id_modelo: "",
       id_proveedor: "",
@@ -127,6 +129,7 @@ export default function VehiculosList() {
       estado: form.estado,
       precio_compra: Number(form.precio_compra),
       precio_venta: Number(form.precio_venta),
+      imagen: form.imagen.trim() || null,
       id_marca: Number(form.id_marca),
       id_modelo: Number(form.id_modelo),
       id_proveedor: Number(form.id_proveedor),
@@ -344,6 +347,7 @@ export default function VehiculosList() {
       estado: vehiculo.estado || "disponible",
       precio_compra: vehiculo.precio_compra || "",
       precio_venta: vehiculo.precio_venta || "",
+      imagen: vehiculo.imagen || "",
       id_marca: vehiculo.id_marca || "",
       id_modelo: vehiculo.id_modelo || "",
       id_proveedor: vehiculo.id_proveedor || "",
@@ -665,6 +669,22 @@ export default function VehiculosList() {
               </select>
             </div>
 
+            <div className="md:col-span-2">
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
+                URL de imagen (opcional)
+              </label>
+              <input
+                name="imagen"
+                placeholder="https://ejemplo.com/imagen.jpg"
+                value={form.imagen}
+                onChange={handleChange}
+                className="h-12 w-full rounded-xl border border-slate-300 px-4 outline-none transition focus:border-red-600"
+              />
+              <p className="mt-1 text-xs text-slate-400">
+                Pega la URL de una imagen del vehículo. Si se deja vacío, se muestra una imagen por defecto.
+              </p>
+            </div>
+
             {error && (
               <div className="md:col-span-2 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
                 {error}
@@ -877,6 +897,17 @@ export default function VehiculosList() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
+              {vehiculoDetalle.imagen && (
+                <div className="md:col-span-2 rounded-2xl overflow-hidden border border-slate-200">
+                  <img
+                    src={vehiculoDetalle.imagen}
+                    alt={`${obtenerNombreMarca(vehiculoDetalle)} ${obtenerNombreModelo(vehiculoDetalle)}`}
+                    className="h-48 w-full object-cover"
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                </div>
+              )}
+
               <div className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-xs font-bold uppercase text-slate-500">Marca</p>
                 <p className="mt-1 font-bold text-black">

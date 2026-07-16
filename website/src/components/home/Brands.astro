@@ -1,12 +1,8 @@
 ---
-const brands = [
-  "Toyota",
-  "Ford",
-  "Chevrolet",
-  "Nissan",
-  "Hyundai",
-  "BMW",
-];
+import { getMarcas } from "../../services/api";
+
+const marcasResponse = await getMarcas();
+const brands = marcasResponse.map((m) => m.nombre || m);
 ---
 
 <section class="relative py-24 bg-[#0b0c11] text-white overflow-hidden">

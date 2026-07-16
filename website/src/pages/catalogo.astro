@@ -3,20 +3,9 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 
-import { getVehiculos, formatPrice, API_URL } from "../services/api";
+import { getVehiculos, formatPrice, getPlaceholderImage } from "../services/api";
 
 const vehiculos = await getVehiculos();
-
-const imagenesVehiculos = {
-  Toyota: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1400",
-  Ford: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1400",
-  Chevrolet: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400",
-  Hyundai: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
-  BMW: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1400",
-};
-
-const imagenDefault =
-  "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1400";
 
 const marcas = [...new Set(vehiculos.map((v) => v.nombre_marca).filter(Boolean))];
 ---
@@ -143,19 +132,10 @@ const marcas = [...new Set(vehiculos.map((v) => v.nombre_marca).filter(Boolean))
               >
                 <div class="relative h-56 sm:h-64 lg:h-72 bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
                   <img
-                    src={imagenesVehiculos[vehiculo.nombre_marca] || imagenDefault}
+                    src={vehiculo.imagen || getPlaceholderImage(vehiculo.nombre_marca, vehiculo.nombre_modelo)}
                     alt={`${vehiculo.nombre_marca} ${vehiculo.nombre_modelo}`}
                     class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                   />
-
-                  <div class="hidden absolute inset-0 items-center justify-center text-white text-center p-6">
-                    <div>
-                      <div class="text-6xl mb-3">🚘</div>
-                      <p class="font-black text-xl">{vehiculo.nombre_marca}</p>
-                      <p class="text-gray-300">{vehiculo.nombre_modelo}</p>
-                    </div>
-                  </div>
 
                   <div class="absolute inset-0 bg-gradient-to-t from-[#171820] via-transparent to-transparent"></div>
 
@@ -253,16 +233,7 @@ const marcas = [...new Set(vehiculos.map((v) => v.nombre_marca).filter(Boolean))
   <Footer />
 </MainLayout>
 
-<script define:vars={{ API_URL }}>
-  fetch(`${API_URL}/vehiculos`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Vehículos traídos desde el backend:", data);
-    })
-    .catch((error) => {
-      console.error("Error consultando backend:", error);
-    });
-
+<script>
   const buscarInput = document.getElementById("buscarInput");
   const marcaFilter = document.getElementById("marcaFilter");
   const ordenFilter = document.getElementById("ordenFilter");

@@ -1,36 +1,8 @@
 ---
-const vehicles = [
-  {
-    name: "Toyota Corolla",
-    year: "2024",
-    type: "Sedán",
-    transmission: "Automático",
-    engine: "1.8L",
-    price: "$24,900",
-    tag: "Disponible",
-    image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200",
-  },
-  {
-    name: "Ford Mustang",
-    year: "2024",
-    type: "Deportivo",
-    transmission: "Automático",
-    engine: "5.0L",
-    price: "$49,900",
-    tag: "Más buscado",
-    image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
-  },
-  {
-    name: "Chevrolet Tahoe",
-    year: "2025",
-    type: "SUV",
-    transmission: "Automático",
-    engine: "5.3L",
-    price: "$58,900",
-    tag: "Tope de gama",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200",
-  },
-];
+import { getVehiculos, formatPrice, getPlaceholderImage } from "../../services/api";
+
+const allVehicles = await getVehiculos();
+const vehicles = allVehicles.slice(0, 3);
 ---
 
 <section id="modelos" class="relative py-20 sm:py-24 lg:py-28 bg-[#07070a] text-white overflow-hidden">
@@ -56,43 +28,43 @@ const vehicles = [
         <article class="group bg-[#171820] border border-red-600/35 rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-3 hover:border-red-500 hover:shadow-[0_0_50px_rgba(220,38,38,0.25)]">
           <div class="relative h-72 overflow-hidden">
             <img
-              src={vehicle.image}
-              alt={vehicle.name}
+              src={vehicle.imagen || getPlaceholderImage(vehicle.nombre_marca, vehicle.nombre_modelo)}
+              alt={`${vehicle.nombre_marca} ${vehicle.nombre_modelo}`}
               class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
             />
 
             <div class="absolute inset-0 bg-gradient-to-t from-[#171820] via-transparent to-transparent"></div>
 
             <span class="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-full text-xs font-black uppercase">
-              {vehicle.tag}
+              {vehicle.estado}
             </span>
           </div>
 
           <div class="p-7">
             <h3 class="text-2xl font-black">
-              {vehicle.name}
+              {vehicle.nombre_marca}
             </h3>
 
             <p class="text-gray-400 mt-2 text-sm">
-              {vehicle.engine} · {vehicle.transmission} · {vehicle.type}
+              {vehicle.nombre_modelo} · {vehicle.color} · {vehicle.ano}
             </p>
 
             <p class="text-gray-300 mt-5 leading-relaxed">
-              Vehículo certificado por CC Motors, ideal para quienes buscan seguridad,
+              Vehículo certificado por CC Motors, ideal quienes buscan seguridad,
               rendimiento y una experiencia de compra profesional.
             </p>
 
             <div class="flex flex-wrap gap-2 mt-6">
               <span class="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs text-gray-300">
-                {vehicle.engine}
+                {vehicle.color}
               </span>
 
               <span class="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs text-gray-300">
-                {vehicle.transmission}
+                {vehicle.kilometraje} km
               </span>
 
               <span class="bg-white/5 border border-white/10 px-3 py-2 rounded-lg text-xs text-gray-300">
-                {vehicle.year}
+                {vehicle.ano}
               </span>
             </div>
 
@@ -103,15 +75,15 @@ const vehicles = [
                 </p>
 
                 <p class="text-3xl font-black text-red-600">
-                  {vehicle.price}
+                  {formatPrice(vehicle.precio_venta)}
                 </p>
               </div>
 
               <a
-                href="/cotizacion"
+                href={`/vehiculo/${vehicle.id_vehiculo}`}
                 class="w-full text-center sm:w-auto bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-black transition shadow-lg shadow-red-600/20"
               >
-                Reservar
+                Ver detalles
               </a>
             </div>
           </div>

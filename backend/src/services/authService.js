@@ -5,7 +5,7 @@ const { Resend } = require('resend');
 
 const usuarioModel = require('../models/usuarioModel');
 const clienteModel = require('../models/clienteModel');
-const testDriveModel = require('../models/testDriveModel');
+
 
 const login = async (correo, contrasena) => {
   const usuario = await usuarioModel.obtenerUsuarioPorCorreo(correo);
@@ -135,7 +135,7 @@ const register = async (datos) => {
     id_rol: 2,
   });
 
-  const clienteExistente = await testDriveModel.buscarClientePorCorreo(datos.correo);
+  const clienteExistente = await clienteModel.buscarClientePorCorreo(datos.correo);
 
   if (!clienteExistente) {
     await clienteModel.crearCliente({

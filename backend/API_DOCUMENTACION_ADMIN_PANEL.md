@@ -1305,113 +1305,6 @@ Documento generado a partir del código real existente en el backend de CC Motor
   - En la ruta de creación normal no se asigna estado explícitamente en el código; el estado depende del valor que mande el cliente o del valor por defecto de la tabla
   - No existe validación explícita de enum para estado en la validación de cotizaciones
 
-### MÓDULO: Test Drive
-
-#### POST /api/test-drive
-- Método: POST
-- Ruta: /api/test-drive
-- Protegido con JWT: Sí
-- Middleware usado: verificarToken
-- Rol requerido: No
-- Body esperado:
-  ```json
-  {
-    "id_vehiculo": 1,
-    "fecha": "2026-01-10",
-    "hora": "16:00",
-    "mensaje": "Quiero verlo"
-  }
-  ```
-- Query params disponibles: Ninguno
-- Respuesta exitosa:
-  ```json
-  {
-    "mensaje": "Solicitud de test drive registrada correctamente",
-    "testDrive": { }
-  }
-  ```
-- Respuesta con error:
-  ```json
-  {
-    "mensaje": "id_vehiculo, fecha y hora son obligatorios"
-  }
-  ```
-  o
-  ```json
-  {
-    "mensaje": "Vehículo no encontrado"
-  }
-  ```
-- Archivo route: backend/src/routes/testDriveRoutes.js
-- Archivo controller: backend/src/controllers/testDriveController.js
-- Archivo service: backend/src/services/testDriveService.js
-- Archivo model: backend/src/models/testDriveModel.js
-
-#### GET /api/test-drive/mis-solicitudes
-- Método: GET
-- Ruta: /api/test-drive/mis-solicitudes
-- Protegido con JWT: Sí
-- Middleware usado: verificarToken
-- Rol requerido: No
-- Body esperado: Ninguno
-- Query params disponibles: Ninguno
-- Respuesta exitosa:
-  ```json
-  {
-    "mensaje": "Solicitudes de test drive obtenidas correctamente",
-    "testDrives": [
-      {
-        "id_test_drive": 1,
-        "fecha": "2026-01-10",
-        "hora": "16:00",
-        "estado": "pendiente",
-        "mensaje": "Quiero verlo",
-        "creado_en": "2026-01-01T00:00:00.000Z",
-        "vehiculo": { }
-      }
-    ]
-  }
-  ```
-- Respuesta con error:
-  ```json
-  {
-    "mensaje": "Error al obtener solicitudes de test drive",
-    "error": "..."
-  }
-  ```
-- Archivo route: backend/src/routes/testDriveRoutes.js
-- Archivo controller: backend/src/controllers/testDriveController.js
-- Archivo service: backend/src/services/testDriveService.js
-- Archivo model: backend/src/models/testDriveModel.js
-
-#### Confirmación de endpoints existentes y no existentes para Test Drive
-- POST /api/test-drive: Sí existe
-- GET /api/test-drive/mis-solicitudes: Sí existe
-- GET /api/test-drive: No existe endpoint para esta acción actualmente.
-- GET /api/test-drive/:id: No existe endpoint para esta acción actualmente.
-- PUT /api/test-drive/:id: No existe endpoint para esta acción actualmente.
-- DELETE /api/test-drive/:id: No existe endpoint para esta acción actualmente.
-- Listar todas las solicitudes: No existe endpoint administrativo para esta acción actualmente.
-- Ver detalle de una solicitud: No existe endpoint administrativo para esta acción actualmente.
-- Cambiar estado: No existe endpoint administrativo para esta acción actualmente.
-- Aceptar: No existe endpoint administrativo para esta acción actualmente.
-- Rechazar: No existe endpoint administrativo para esta acción actualmente.
-- Reprogramar: No existe endpoint administrativo para esta acción actualmente.
-- Cambiar fecha: No existe endpoint administrativo para esta acción actualmente.
-- Cambiar hora: No existe endpoint administrativo para esta acción actualmente.
-- Asignar asesor: No existe endpoint administrativo para esta acción actualmente.
-- Agregar observaciones: No existe endpoint administrativo para esta acción actualmente.
-- Marcar como realizado: No existe endpoint administrativo para esta acción actualmente.
-- Cancelar: No existe endpoint administrativo para esta acción actualmente.
-- Eliminar: No existe endpoint administrativo para esta acción actualmente.
-
-#### Detalles especiales de Test Drive
-- Body esperado para crear test drive: id_vehiculo, fecha, hora, mensaje (opcional)
-- Respuesta real al crear test drive: mensaje + testDrive
-- Respuesta real al listar mis solicitudes: mensaje + testDrives
-- Campos disponibles: id_test_drive, fecha, hora, estado, mensaje, creado_en, vehiculo
-- Estados válidos usados por el backend: se inserta 'pendiente' al crear una solicitud; no existe validación explícita de enum
-
 ### MÓDULO: Ventas
 
 #### GET /api/ventas
@@ -1953,7 +1846,6 @@ Documento generado a partir del código real existente en el backend de CC Motor
 | Módulo | Estado(s) explícitamente validados en backend | Observación |
 | --- | --- | --- |
 | Cotizaciones | No hay validación explícita de estados en backend | Se recibe como string o se asigna por defecto en la inserción pública |
-| Test Drive | No hay validación explícita de estados en backend | Al crear se guarda 'pendiente' |
 | Vehículos | disponible, vendido, mantenimiento | Definido en validation/vehiculoValidation.js |
 | Ventas | No hay validación explícita de estados en backend | El estado se recibe como string y se usa en updates |
 | Pagos | No hay validación explícita de estados en backend | El estado se recibe como string y se usa en updates |
@@ -2071,32 +1963,6 @@ Documento generado a partir del código real existente en el backend de CC Motor
 }
 ```
 
-### GET /api/test-drive/mis-solicitudes
-```json
-{
-  "mensaje": "Solicitudes de test drive obtenidas correctamente",
-  "testDrives": [
-    {
-      "id_test_drive": 1,
-      "fecha": "2026-01-10",
-      "hora": "16:00",
-      "estado": "pendiente",
-      "mensaje": "Quiero verlo",
-      "creado_en": "2026-01-01T00:00:00.000Z",
-      "vehiculo": {
-        "id_vehiculo": 1,
-        "placa": "ABC123",
-        "marca": "Toyota",
-        "modelo": "Corolla",
-        "ano": 2024,
-        "color": "Negro",
-        "precio_venta": "15000.00"
-      }
-    }
-  ]
-}
-```
-
 ### GET /api/ventas
 ```json
 [
@@ -2181,7 +2047,6 @@ El dashboard del admin-panel deberá calcular estadísticas consumiendo los mód
 - GET /api/clientes
 - GET /api/usuarios
 - GET /api/cotizaciones
-- GET /api/test-drive/mis-solicitudes
 - GET /api/ventas
 - GET /api/pagos
 - GET /api/cuotas
@@ -2192,21 +2057,6 @@ El dashboard del admin-panel deberá calcular estadísticas consumiendo los mód
 ## 8. Endpoints faltantes recomendados para el admin-panel
 
 > Esta sección solo es una recomendación para el desarrollo futuro. No modifica el backend actual.
-
-### Test Drive
-- GET /api/test-drive
-- GET /api/test-drive/:id
-- PUT /api/test-drive/:id
-- DELETE /api/test-drive/:id
-- PATCH /api/test-drive/:id/estado
-- POST /api/test-drive/:id/aceptar
-- POST /api/test-drive/:id/rechazar
-- POST /api/test-drive/:id/reprogramar
-- PATCH /api/test-drive/:id/fecha
-- PATCH /api/test-drive/:id/hora
-- PATCH /api/test-drive/:id/observaciones
-- PATCH /api/test-drive/:id/realizado
-- POST /api/test-drive/:id/cancelar
 
 ### Cotizaciones
 - PATCH /api/cotizaciones/:id/estado
@@ -2223,7 +2073,6 @@ El dashboard del admin-panel deberá calcular estadísticas consumiendo los mód
 
 - La API actual ya expone CRUD básico para usuarios, clientes, vehículos, marcas, modelos, proveedores, ventas, pagos, planes y cuotas.
 - Para cotizaciones, el backend ya permite crear, listar, consultar por id, editar, eliminar y consultar el historial del cliente autenticado.
-- Para test drive, el backend actual solo permite registrar una solicitud y listar las solicitudes del cliente autenticado.
 - No existen endpoints administrativos para aprobar, rechazar, cambiar estado, asignar asesor o convertir cotizaciones en ventas.
 - No existe dashboard ni bitácora en el backend actual.
 - El admin-panel puede construir la mayoría de vistas con los endpoints actuales, aunque algunas acciones de negocio más complejas requerirán nuevas rutas en el backend.

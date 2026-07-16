@@ -3,9 +3,10 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 
-import { getVehiculos, API_URL } from "../services/api";
+import { getVehiculos, API_URL, getDecorativePlaceholder } from "../services/api";
 
 const vehiculos = await getVehiculos();
+const heroBg = getDecorativePlaceholder();
 ---
 
 <MainLayout
@@ -20,7 +21,7 @@ const vehiculos = await getVehiculos();
     <div class="grid min-h-screen lg:grid-cols-2">
       <div class="relative hidden lg:block">
         <img
-          src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=1800"
+          src={heroBg}
           alt="Cotización CC Motors"
           class="absolute inset-0 h-full w-full object-cover"
         />

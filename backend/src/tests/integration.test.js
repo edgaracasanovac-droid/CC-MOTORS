@@ -142,15 +142,6 @@ describe('Integration tests - API Concesionaria', () => {
     if (response.body.length > 0) {
       saleSchema.parse(response.body[0]);
     }
-  });
-
-  test('GET /api/test-drive debe exigir autenticación para panel administrativo', async () => {
-    const response = await request(app).get('/api/test-drive');
-
-    expect(response.statusCode).toBe(401);
-    expect(response.body).toEqual(expect.objectContaining({ mensaje: expect.any(String) }));
-  });
-
 });
 
 afterAll(async () => {

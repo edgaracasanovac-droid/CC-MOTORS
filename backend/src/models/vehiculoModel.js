@@ -11,6 +11,7 @@ const obtenerVehiculos = async () => {
       v.estado,
       v.precio_compra,
       v.precio_venta,
+      v.imagen,
       v.id_marca,
       v.id_modelo,
       v.id_proveedor,
@@ -39,6 +40,7 @@ const obtenerVehiculoPorId = async (id) => {
       v.estado,
       v.precio_compra,
       v.precio_venta,
+      v.imagen,
       v.id_marca,
       v.id_modelo,
       v.id_proveedor,
@@ -66,6 +68,7 @@ const crearVehiculo = async (vehiculo) => {
     estado,
     precio_compra,
     precio_venta,
+    imagen,
     id_marca,
     id_modelo,
     id_proveedor
@@ -74,8 +77,8 @@ const crearVehiculo = async (vehiculo) => {
   const result = await pool.query(
     `
     INSERT INTO vehiculo
-    (placa, color, ano, kilometraje, estado, precio_compra, precio_venta, id_marca, id_modelo, id_proveedor)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    (placa, color, ano, kilometraje, estado, precio_compra, precio_venta, imagen, id_marca, id_modelo, id_proveedor)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
     RETURNING *
     `,
     [
@@ -86,6 +89,7 @@ const crearVehiculo = async (vehiculo) => {
       estado,
       precio_compra,
       precio_venta,
+      imagen || null,
       id_marca,
       id_modelo,
       id_proveedor || null
@@ -104,6 +108,7 @@ const actualizarVehiculo = async (id, vehiculo) => {
     estado,
     precio_compra,
     precio_venta,
+    imagen,
     id_marca,
     id_modelo,
     id_proveedor
@@ -119,10 +124,11 @@ const actualizarVehiculo = async (id, vehiculo) => {
         estado = $5,
         precio_compra = $6,
         precio_venta = $7,
-        id_marca = $8,
-        id_modelo = $9,
-        id_proveedor = $10
-    WHERE id_vehiculo = $11
+        imagen = $8,
+        id_marca = $9,
+        id_modelo = $10,
+        id_proveedor = $11
+    WHERE id_vehiculo = $12
     RETURNING *
     `,
     [
@@ -133,6 +139,7 @@ const actualizarVehiculo = async (id, vehiculo) => {
       estado,
       precio_compra,
       precio_venta,
+      imagen || null,
       id_marca,
       id_modelo,
       id_proveedor || null,

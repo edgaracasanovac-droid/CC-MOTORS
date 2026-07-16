@@ -1,36 +1,15 @@
 ---
-const images = [
-  {
-    src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600",
-    alt: "Vehículo deportivo CC Motors",
-    title: "Diseño deportivo",
-    size: "lg:col-span-2 lg:row-span-2",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400",
-    alt: "Vehículo premium CC Motors",
-    title: "Presencia premium",
-    size: "",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1400",
-    alt: "Detalle frontal vehículo CC Motors",
-    title: "Detalles modernos",
-    size: "",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=1400",
-    alt: "Vehículo elegante CC Motors",
-    title: "Estilo ejecutivo",
-    size: "",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1400",
-    alt: "SUV CC Motors",
-    title: "Potencia y confort",
-    size: "",
-  },
-];
+import { getVehiculos, getGalleryPlaceholderImage } from "../../services/api";
+
+const allVehicles = await getVehiculos();
+const galleryVehicles = allVehicles.slice(0, 5);
+
+const images = galleryVehicles.map((v, i) => ({
+  src: v.imagen || getGalleryPlaceholderImage(v.nombre_marca, v.nombre_modelo, i),
+  alt: `${v.nombre_marca} ${v.nombre_modelo} CC Motors`,
+  title: `${v.nombre_marca} ${v.nombre_modelo}`,
+  size: i === 0 ? "lg:col-span-2 lg:row-span-2" : "",
+}));
 ---
 
 <section id="galeria" class="relative py-28 bg-[#07070a] text-white overflow-hidden">

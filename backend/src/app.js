@@ -18,7 +18,6 @@ const marcaRoutes = require('./routes/marcaRoutes');
 const modeloRoutes = require('./routes/modeloRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
-const testDriveRoutes = require('./routes/testDriveRoutes');
 
 const app = express();
 
@@ -84,6 +83,5 @@ app.use('/api/proveedores', proveedorRoutes);
 app.use('/api/marcas', marcaRoutes);
 app.use('/api/modelos', modeloRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/api/test-drive', testDriveRoutes);
 
 module.exports = app;

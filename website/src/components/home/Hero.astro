@@ -1,7 +1,13 @@
+---
+import { getHeroPlaceholder } from "../../services/api";
+
+const heroBg = getHeroPlaceholder();
+---
+
 <section class="relative min-h-screen overflow-hidden bg-black">
   <div
     class="absolute inset-0 bg-cover bg-center scale-105 animate-[heroZoom_8s_ease-out_forwards]"
-    style="background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=2200');"
+    style={`background-image: url('${heroBg}');`}
   ></div>
 
   <div class="absolute inset-0 bg-black/65"></div>

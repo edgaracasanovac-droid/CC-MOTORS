@@ -89,10 +89,24 @@ const eliminarCliente = async (id) => {
   return result.rows[0];
 };
 
+const buscarClientePorCorreo = async (correo) => {
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM cliente
+    WHERE correo = $1
+    `,
+    [correo]
+  );
+
+  return result.rows[0];
+};
+
 module.exports = {
   obtenerClientes,
   obtenerClientePorId,
   crearCliente,
   actualizarCliente,
-  eliminarCliente
+  eliminarCliente,
+  buscarClientePorCorreo
 };

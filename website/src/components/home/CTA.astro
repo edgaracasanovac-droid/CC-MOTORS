@@ -1,7 +1,13 @@
+---
+import { getDecorativePlaceholder } from "../../services/api";
+
+const bg = getDecorativePlaceholder();
+---
+
 <section class="relative min-h-[70vh] bg-black text-white overflow-hidden">
   <div
     class="absolute inset-0 bg-cover bg-center scale-105"
-    style="background-image: url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=2200');"
+    style={`background-image: url('${bg}');`}
   ></div>
 
   <div class="absolute inset-0 bg-black/70"></div>

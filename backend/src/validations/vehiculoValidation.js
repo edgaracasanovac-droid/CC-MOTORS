@@ -8,6 +8,7 @@ const vehiculoSchema = z.object({
   estado: z.enum(['disponible', 'vendido', 'mantenimiento']),
   precio_compra: z.number(),
   precio_venta: z.number(),
+  imagen: z.string().nullable().optional(),
   id_marca: z.number(),
   id_modelo: z.number(),
   id_proveedor: z.number().nullable().optional()

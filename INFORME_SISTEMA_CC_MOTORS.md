@@ -22,7 +22,7 @@ El panel administrativo permite:
 - controlar vehículos y modelos,
 - registrar ventas y pagos,
 - revisar cotizaciones,
-- manejar test drives y planes de financiamiento.
+- manejar planes de financiamiento.
 
 ### 3.2 Website público
 
@@ -69,13 +69,6 @@ Incluye:
 - planes de financiamiento,
 - cuotas,
 - pagos.
-
-### 4.4 Test drive y procesos complementarios
-
-Permite registrar y administrar:
-- solicitudes de test drive,
-- seguimiento de procesos,
-- interacción con clientes.
 
 ## 5. Seguridad implementada en el sistema
 

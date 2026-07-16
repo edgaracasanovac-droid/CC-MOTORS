@@ -2,6 +2,10 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
+
+import { getDecorativePlaceholder } from "../services/api";
+
+const heroBg = getDecorativePlaceholder();
 ---
 
 <MainLayout
@@ -13,7 +17,7 @@ import Footer from "../components/common/Footer.astro";
   <main class="bg-[#07070a] text-white overflow-hidden">
     <section class="relative min-h-[70vh] sm:min-h-[80vh] flex items-end">
       <img
-        src="https://images.unsplash.com/photo-1562141961-3086c9cf9d9a?q=80&w=2200"
+        src={heroBg}
         alt="Contacto CC Motors"
         class="absolute inset-0 h-full w-full object-cover"
       />
@@ -168,7 +172,7 @@ import Footer from "../components/common/Footer.astro";
 
             <div class="relative min-h-[260px] sm:min-h-[320px] rounded-[2rem] overflow-hidden border border-white/10">
               <img
-                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600"
+                src={getDecorativePlaceholder(1600, 320)}
                 alt="Atención personalizada CC Motors"
                 class="absolute inset-0 h-full w-full object-cover"
               />
@@ -192,23 +196,6 @@ import Footer from "../components/common/Footer.astro";
                   Solicitar cotización
                 </a>
               </div>
-            </div>
-
-            <div class="bg-red-600 rounded-[2rem] p-5 sm:p-8 md:p-10">
-              <h3 class="text-3xl font-black">
-                ¿Prefieres una prueba?
-              </h3>
-
-              <p class="text-red-50 mt-4">
-                Agenda una visita o test drive y nuestro equipo confirmará tu solicitud.
-              </p>
-
-              <a
-                href="/test-drive"
-                class="inline-flex mt-6 bg-white text-black px-6 py-3 rounded-xl font-black hover:bg-gray-100 transition"
-              >
-                Agendar Test Drive
-              </a>
             </div>
           </div>
         </div>

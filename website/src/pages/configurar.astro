@@ -3,20 +3,9 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 
-import { getVehiculos, API_URL, formatPrice } from "../services/api";
+import { getVehiculos, API_URL, formatPrice, getPlaceholderImage } from "../services/api";
 
 const vehiculos = await getVehiculos();
-
-const imagenesVehiculos = {
-  Toyota: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1600",
-  Ford: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600",
-  Chevrolet: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600",
-  Hyundai: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1600",
-  BMW: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=1600",
-};
-
-const imagenDefault =
-  "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1600";
 ---
 
 <MainLayout title="Mi Compra | CC Motors" description="Configura tu compra y solicita una cotización">
@@ -46,7 +35,7 @@ const imagenDefault =
           <div class="relative h-[260px] sm:h-[320px] lg:h-[420px] bg-black">
             <img
               id="vehicleImage"
-              src={vehiculos[0] ? (imagenesVehiculos[vehiculos[0].nombre_marca] || imagenDefault) : imagenDefault}
+              src={vehiculos[0]?.imagen || (vehiculos[0] ? getPlaceholderImage(vehiculos[0].nombre_marca, vehiculos[0].nombre_modelo) : getPlaceholderImage("CC Motors", ""))}
               alt="Vehículo seleccionado"
               class="h-full w-full object-cover"
             />
@@ -269,7 +258,13 @@ const imagenDefault =
   <Footer />
 </MainLayout>
 
-<script define:vars={{ API_URL, imagenesVehiculos, imagenDefault }}>
+<script define:vars={{ API_URL }}>
+  function getPlaceholderImage(marca, modelo) {
+    const label = ((marca || "") + " " + (modelo || "")).trim();
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23111217"/><stop offset="100%" stop-color="%23171820"/></linearGradient><linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="%23dc2626"/><stop offset="100%" stop-color="%23991b1b"/></linearGradient></defs><rect width="800" height="600" fill="url(%23bg)"/><rect x="0" y="560" width="800" height="4" fill="url(%23accent)" opacity="0.6"/><g transform="translate(400,250)" fill="none" stroke="%23dc2626" stroke-width="3" opacity="0.5"><path d="M-120,40 L-100,0 L-40,-20 L40,-20 L100,0 L120,40 L120,60 L-120,60 Z" fill="%23dc2626" fill-opacity="0.08"/><circle cx="-70" cy="60" r="22" fill="%23171820"/><circle cx="-70" cy="60" r="12"/><circle cx="70" cy="60" r="22" fill="%23171820"/><circle cx="70" cy="60" r="12"/><line x1="-40" y1="-20" x2="-30" y2="-45" stroke-width="2"/><line x1="40" y1="-20" x2="30" y2="-45" stroke-width="2"/><line x1="-30" y1="-45" x2="30" y2="-45" stroke-width="2"/></g><text x="400" y="370" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="28" fill="%23ffffff" opacity="0.9">${label.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</text><text x="400" y="405" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="%23dc2626" letter-spacing="4">CC MOTORS</text></svg>`;
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  }
+
   const form = document.getElementById("configForm");
   const vehicleSelect = form?.querySelector('select[name="vehiculo"]');
 
@@ -401,7 +396,7 @@ const imagenDefault =
       inicial.disabled = false;
     }
 
-    vehicleImage.src = imagenesVehiculos[vehiculo.nombre_marca] || imagenDefault;
+    vehicleImage.src = vehiculo.imagen || getPlaceholderImage(vehiculo.nombre_marca, vehiculo.nombre_modelo);
     vehicleTitle.textContent = `${vehiculo.nombre_marca} ${vehiculo.nombre_modelo}`;
     vehiclePrice.textContent = formatMoney(precio);
     vehicleYear.textContent = vehiculo.ano || "-";

@@ -2,6 +2,10 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
+
+import { getDecorativePlaceholder } from "../services/api";
+
+const heroBg = getDecorativePlaceholder();
 ---
 
 <MainLayout
@@ -13,7 +17,7 @@ import Footer from "../components/common/Footer.astro";
   <main class="bg-[#07070a] text-white overflow-hidden">
     <section class="relative min-h-screen flex items-end">
       <img
-        src="https://images.unsplash.com/photo-1562141961-3086c9cf9d9a?q=80&w=2200"
+        src={heroBg}
         alt="Concesionaria CC Motors"
         class="absolute inset-0 h-full w-full object-cover"
       />
@@ -74,7 +78,7 @@ import Footer from "../components/common/Footer.astro";
 
           <div class="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(220,38,38,0.12)]">
             <img
-              src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=1600"
+              src={getDecorativePlaceholder(1600, 520)}
               alt="Vehículos CC Motors"
               class="h-[320px] sm:h-[420px] lg:h-[520px] w-full object-cover"
             />
@@ -168,7 +172,7 @@ import Footer from "../components/common/Footer.astro";
 
     <section class="relative min-h-[60vh] flex items-center overflow-hidden">
       <img
-        src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=2200"
+        src={getDecorativePlaceholder()}
         alt="Vehículo CC Motors"
         class="absolute inset-0 h-full w-full object-cover"
       />
