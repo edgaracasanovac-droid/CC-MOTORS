@@ -64,7 +64,92 @@ const getMisTestDrives = async (req, res) => {
   }
 };
 
+const getTestDrivesAdmin = async (req, res) => {
+  try {
+    const testDrives = await testDriveService.listarTestDrivesAdmin();
+
+    res.json({
+      mensaje: 'Solicitudes de test drive obtenidas correctamente',
+      testDrives
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al obtener solicitudes de test drive',
+      error: error.message
+    });
+  }
+};
+
+const getTestDrivePorIdAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const testDrive = await testDriveService.obtenerTestDrivePorIdAdmin(id);
+
+    if (!testDrive) {
+      return res.status(404).json({ mensaje: 'Solicitud de test drive no encontrada' });
+    }
+
+    res.json({
+      mensaje: 'Solicitud de test drive obtenida correctamente',
+      testDrive
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al obtener la solicitud de test drive',
+      error: error.message
+    });
+  }
+};
+
+const actualizarTestDriveAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const campos = req.body;
+
+    const testDrive = await testDriveService.actualizarTestDriveAdmin(id, campos);
+
+    if (!testDrive) {
+      return res.status(404).json({ mensaje: 'Solicitud de test drive no encontrada' });
+    }
+
+    res.json({
+      mensaje: 'Solicitud de test drive actualizada correctamente',
+      testDrive
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al actualizar la solicitud de test drive',
+      error: error.message
+    });
+  }
+};
+
+const eliminarTestDriveAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const testDrive = await testDriveService.eliminarTestDriveAdmin(id);
+
+    if (!testDrive) {
+      return res.status(404).json({ mensaje: 'Solicitud de test drive no encontrada' });
+    }
+
+    res.json({
+      mensaje: 'Solicitud de test drive eliminada correctamente',
+      testDrive
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al eliminar la solicitud de test drive',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   postTestDrive,
-  getMisTestDrives
+  getMisTestDrives,
+  getTestDrivesAdmin,
+  getTestDrivePorIdAdmin,
+  actualizarTestDriveAdmin,
+  eliminarTestDriveAdmin
 };

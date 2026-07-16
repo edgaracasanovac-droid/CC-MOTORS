@@ -26,7 +26,27 @@ const listarMisTestDrives = async (correoUsuario) => {
   return await testDriveModel.obtenerMisTestDrives(correoUsuario);
 };
 
+const listarTestDrivesAdmin = async () => {
+  return await testDriveModel.obtenerTodasLasSolicitudes();
+};
+
+const obtenerTestDrivePorIdAdmin = async (id) => {
+  return await testDriveModel.obtenerSolicitudPorId(id);
+};
+
+const actualizarTestDriveAdmin = async (id, campos) => {
+  return await testDriveModel.actualizarSolicitud(id, campos);
+};
+
+const eliminarTestDriveAdmin = async (id) => {
+  return await testDriveModel.eliminarSolicitud(id);
+};
+
 module.exports = {
   registrarTestDrive,
-  listarMisTestDrives
+  listarMisTestDrives,
+  listarTestDrivesAdmin,
+  obtenerTestDrivePorIdAdmin,
+  actualizarTestDriveAdmin,
+  eliminarTestDriveAdmin
 };

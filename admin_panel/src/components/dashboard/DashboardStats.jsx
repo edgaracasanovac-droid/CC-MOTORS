@@ -11,6 +11,7 @@ export default function DashboardStats() {
     cotizaciones: [],
     cuotas: [],
     planes: [],
+    testDrives: [],
   });
 
   const [cargando, setCargando] = useState(true);
@@ -27,6 +28,7 @@ export default function DashboardStats() {
     if (Array.isArray(respuesta.data?.cotizaciones)) return respuesta.data.cotizaciones;
     if (Array.isArray(respuesta.data?.cuotas)) return respuesta.data.cuotas;
     if (Array.isArray(respuesta.data?.planes)) return respuesta.data.planes;
+    if (Array.isArray(respuesta.data?.testDrives)) return respuesta.data.testDrives;
 
     return [];
   };
@@ -45,6 +47,7 @@ export default function DashboardStats() {
         cotizacionesRes,
         cuotasRes,
         planesRes,
+        testDrivesRes,
       ] = await Promise.all([
         api.get("/vehiculos"),
         api.get("/clientes"),
@@ -54,6 +57,7 @@ export default function DashboardStats() {
         api.get("/cotizaciones"),
         api.get("/cuotas"),
         api.get("/planes-financiamiento"),
+        api.get("/test-drive"),
       ]);
 
       setData({
@@ -65,6 +69,7 @@ export default function DashboardStats() {
         cotizaciones: obtenerArray(cotizacionesRes),
         cuotas: obtenerArray(cuotasRes),
         planes: obtenerArray(planesRes),
+        testDrives: obtenerArray(testDrivesRes),
       });
     } catch (error) {
       console.error(error.response?.data || error);
@@ -120,6 +125,14 @@ export default function DashboardStats() {
       (cuota) => cuota.estado?.toLowerCase() === "pagado"
     );
 
+    const testDrivesPendientes = data.testDrives.filter(
+      (td) => td.estado?.toLowerCase() === "pendiente"
+    );
+
+    const testDrivesConfirmados = data.testDrives.filter(
+      (td) => td.estado?.toLowerCase() === "confirmado"
+    );
+
     const ingresosVentas = data.ventas.reduce((total, venta) => {
       return total + Number(venta.precio_final || 0);
     }, 0);
@@ -150,6 +163,9 @@ export default function DashboardStats() {
       cuotasPagadas: cuotasPagadas.length,
       cuotasPorCobrar,
       planes: data.planes.length,
+      testDrives: data.testDrives.length,
+      testDrivesPendientes: testDrivesPendientes.length,
+      testDrivesConfirmados: testDrivesConfirmados.length,
     };
   }, [data]);
 
@@ -159,6 +175,7 @@ export default function DashboardStats() {
   const cuotasPendientesLista = data.cuotas
     .filter((cuota) => cuota.estado?.toLowerCase() === "pendiente")
     .slice(0, 5);
+  const ultimosTestDrives = [...data.testDrives].slice(0, 5);
 
   const kpis = [
     {
@@ -230,6 +247,13 @@ export default function DashboardStats() {
       icono: "🏦",
       descripcion: "Planes de financiamiento",
       detalle: "Opciones activas",
+    },
+    {
+      titulo: "Test Drives",
+      valor: stats.testDrives,
+      icono: "🚗",
+      descripcion: "Solicitudes de prueba",
+      detalle: `${stats.testDrivesPendientes} pendientes`,
     },
   ];
 
@@ -417,33 +441,62 @@ export default function DashboardStats() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-red-200 bg-red-50 p-6 shadow-sm">
-          <p className="text-sm font-bold uppercase tracking-widest text-red-700">
-            Pendiente Backend
-          </p>
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="text-xl font-black">🚗 Últimos test drives</h2>
+            <a
+              href="/dashboard/test-drive"
+              className="text-sm font-semibold text-red-600 hover:text-black"
+            >
+              Ver todo
+            </a>
+          </div>
 
-          <h2 className="mt-2 text-2xl font-black text-black">
-            Test Drive Administrativo
-          </h2>
+          {ultimosTestDrives.length > 0 ? (
+            <div className="space-y-4">
+              {ultimosTestDrives.map((td) => (
+                <div
+                  key={td.id_test_drive || td.id}
+                  className="rounded-2xl border border-slate-200 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-bold text-black">
+                        {td.cliente?.nombre || ""} {td.cliente?.apellido || ""}
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        {td.vehiculo?.marca || ""}{" "}
+                        {td.vehiculo?.modelo || ""} ·{" "}
+                        {td.vehiculo?.placa || ""}
+                      </p>
+                    </div>
 
-          <p className="mt-3 text-sm leading-6 text-slate-700">
-            La website ya puede registrar solicitudes de test drive, pero el
-            backend actual no tiene endpoints administrativos para listar,
-            aceptar, rechazar o reprogramar solicitudes desde el panel.
-          </p>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold ${
+                        td.estado === "confirmado"
+                          ? "bg-green-100 text-green-700"
+                          : td.estado === "cancelado"
+                            ? "bg-red-100 text-red-700"
+                            : td.estado === "realizado"
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {td.estado || "pendiente"}
+                    </span>
+                  </div>
 
-          <div className="mt-6 rounded-2xl bg-white p-4 text-sm text-slate-700">
-            <p className="font-bold text-black">Endpoints existentes:</p>
-            <p className="mt-2 font-mono text-xs">POST /api/test-drive</p>
-            <p className="font-mono text-xs">
-              GET /api/test-drive/mis-solicitudes
+                  <p className="mt-3 text-sm font-semibold text-slate-700">
+                    {td.fecha || "Sin fecha"} · {td.hora || "Sin hora"}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-2xl bg-slate-50 p-6 text-center text-slate-500">
+              No hay solicitudes de test drive.
             </p>
-          </div>
-
-          <div className="mt-4 rounded-2xl bg-black p-4 text-sm text-white">
-            Estado del módulo: visualmente preparado, administración completa
-            pendiente de backend.
-          </div>
+          )}
         </div>
       </section>
 
