@@ -47,7 +47,6 @@ export default function DashboardStats() {
         cotizacionesRes,
         cuotasRes,
         planesRes,
-        testDrivesRes,
       ] = await Promise.all([
         api.get("/vehiculos"),
         api.get("/clientes"),
@@ -57,7 +56,6 @@ export default function DashboardStats() {
         api.get("/cotizaciones"),
         api.get("/cuotas"),
         api.get("/planes-financiamiento"),
-        api.get("/test-drive"),
       ]);
 
       setData({
@@ -69,8 +67,18 @@ export default function DashboardStats() {
         cotizaciones: obtenerArray(cotizacionesRes),
         cuotas: obtenerArray(cuotasRes),
         planes: obtenerArray(planesRes),
-        testDrives: obtenerArray(testDrivesRes),
+        testDrives: [],
       });
+
+      try {
+        const testDrivesRes = await api.get("/test-drive");
+        setData((prev) => ({
+          ...prev,
+          testDrives: obtenerArray(testDrivesRes),
+        }));
+      } catch {
+        console.warn("No se pudieron cargar test drives");
+      }
     } catch (error) {
       console.error(error.response?.data || error);
       setError("Error al cargar el dashboard. Verifica que el backend esté activo.");

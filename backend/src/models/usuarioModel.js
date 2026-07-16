@@ -78,28 +78,30 @@ const crearUsuario = async (usuario) => {
 };
 
 const actualizarUsuario = async (id, usuario) => {
-  const {
-    nombre,
-    apellido,
-    correo,
-    contrasena,
-    estado,
-    id_rol
-  } = usuario;
+  const camposPermitidos = ['nombre', 'apellido', 'correo', 'contrasena', 'estado', 'id_rol'];
+  const entries = Object.entries(usuario || {}).filter(([key]) => camposPermitidos.includes(key));
 
+  if (entries.length === 0) {
+    return null;
+  }
+
+  const sets = [];
+  const values = [];
+
+  entries.forEach(([key, value], index) => {
+    sets.push(`${key} = $${index + 1}`);
+    values.push(value);
+  });
+
+  values.push(id);
   const result = await pool.query(
     `
     UPDATE usuario
-    SET nombre = $1,
-        apellido = $2,
-        correo = $3,
-        contrasena = $4,
-        estado = $5,
-        id_rol = $6
-    WHERE id_usuario = $7
+    SET ${sets.join(', ')}
+    WHERE id_usuario = $${values.length}
     RETURNING id_usuario, nombre, apellido, correo, estado, id_rol
     `,
-    [nombre, apellido, correo, contrasena, estado, id_rol, id]
+    values
   );
 
   return result.rows[0];

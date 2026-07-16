@@ -21,12 +21,11 @@ const registrarUsuario = async (usuario) => {
 };
 
 const editarUsuario = async (id, usuario) => {
-  const passwordHash = await bcrypt.hash(
-    usuario.contrasena,
-    10
-  );
-
-  usuario.contrasena = passwordHash;
+  if (usuario.contrasena) {
+    usuario.contrasena = await bcrypt.hash(usuario.contrasena, 10);
+  } else {
+    delete usuario.contrasena;
+  }
 
   return await usuarioModel.actualizarUsuario(id, usuario);
 };

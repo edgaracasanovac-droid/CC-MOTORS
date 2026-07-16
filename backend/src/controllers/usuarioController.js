@@ -65,13 +65,17 @@ const putUsuario = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const validacion = usuarioUpdateSchema.safeParse(req.body);
+    const limpio = Object.fromEntries(
+      Object.entries(req.body).filter(([, v]) => v !== undefined && v !== null && v !== "")
+    );
+
+    const validacion = usuarioUpdateSchema.safeParse(limpio);
 
     if (!validacion.success) {
       return res.status(400).json(validacion.error);
     }
 
-    const usuario = await usuarioService.editarUsuario(id, req.body);
+    const usuario = await usuarioService.editarUsuario(id, limpio);
 
     if (!usuario) {
       return res.status(404).json({
