@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import ToastProvider from "../components/ui/ToastProvider.jsx";
+import { ClientRouter } from "astro:transitions";
 
 const currentPath = Astro.url.pathname;
 
@@ -133,6 +134,7 @@ const getLinkClass = (href) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>CC Motors | Sistema Administrativo</title>
+    <ClientRouter />
   </head>
 
   <body class="bg-slate-100">
@@ -206,7 +208,7 @@ const getLinkClass = (href) => {
           </div>
         </div>
 
-        <nav class="flex-1 overflow-y-auto px-4 py-5">
+        <nav class="flex-1 overflow-y-auto px-4 py-5 scrollbar-none">
           {
             menuSections.map((section) => (
               <div class="mb-6">
