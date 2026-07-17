@@ -90,12 +90,12 @@ function requestLogger(req, res, next) {
 }
 
 const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 30 * 1000,
+  max: 50,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    mensaje: 'Demasiadas solicitudes desde esta IP. Intenta nuevamente más tarde.',
+    mensaje: 'Demasiadas solicitudes desde esta IP. Intenta nuevamente en 30 segundos.',
   },
 });
 
@@ -115,27 +115,27 @@ const loginLimiter = rateLimit({
 
 // ── Rate Limit para recuperación de contraseña ──────────────────────
 const passwordRecoveryLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 30 * 1000,
   max: 3,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    mensaje: 'Demasiadas solicitudes de recuperación. Intenta nuevamente más tarde.',
+    mensaje: 'Demasiadas solicitudes de recuperación. Intenta nuevamente en 30 segundos.',
   },
   handler: (req, res, _next, options) => {
-    blockIpTemporarily(req.ip, 15 * 60 * 1000);
+    blockIpTemporarily(req.ip, 30 * 1000);
     res.status(options.statusCode).json(options.message);
   },
 });
 
 // ── Rate Limit para formularios públicos ────────────────────────────
 const publicFormsLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
+  windowMs: 30 * 1000,
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    mensaje: 'Demasiadas solicitudes desde esta IP. Intenta nuevamente más tarde.',
+    mensaje: 'Demasiadas solicitudes desde esta IP. Intenta nuevamente en 30 segundos.',
   },
 });
 
