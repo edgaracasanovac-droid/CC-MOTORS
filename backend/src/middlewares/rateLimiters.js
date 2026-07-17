@@ -11,8 +11,7 @@ const failedAttempts = new Map();
 
 const LOGIN_WINDOW_MS = 30 * 1000;
 const LOGIN_MAX_ATTEMPTS = 3;
-const LOGIN_BLOCK_DURATION_MS = 15 * 60 * 1000;
-const MAX_BLOCK_CYCLES = 2;
+const LOGIN_BLOCK_DURATION_MS = 60 * 1000;
 
 function blockIpTemporarily(ip, durationMs) {
   const expiresAt = Date.now() + durationMs;
@@ -34,7 +33,7 @@ function isIpBlocked(ip) {
 
 function registrarIntentoFallido(ip) {
   const ahora = Date.now();
-  const registro = failedAttempts.get(ip) || { conteo: 0, bloqueos: 0, ventanaInicio: ahora };
+  const registro = failedAttempts.get(ip) || { conteo: 0, ventanaInicio: ahora };
 
   if (ahora - registro.ventanaInicio > LOGIN_WINDOW_MS) {
     registro.conteo = 1;
@@ -46,20 +45,10 @@ function registrarIntentoFallido(ip) {
   failedAttempts.set(ip, registro);
 
   if (registro.conteo >= LOGIN_MAX_ATTEMPTS) {
-    registro.bloqueos += 1;
     registro.conteo = 0;
     registro.ventanaInicio = ahora;
-
-    if (registro.bloqueos >= MAX_BLOCK_CYCLES) {
-      bannedIps.add(ip);
-      failedAttempts.delete(ip);
-      blockedIps.delete(ip);
-      console.error(`[SEGURIDAD] IP BANEADA PERMANENTEMENTE por intentos repetidos: ${ip}`);
-      return { accion: 'baneado', mensaje: 'IP baneada permanentemente por actividad sospechosa.' };
-    }
-
     blockIpTemporarily(ip, LOGIN_BLOCK_DURATION_MS);
-    return { accion: 'bloqueado', mensaje: 'IP bloqueada temporalmente por 15 minutos.' };
+    return { accion: 'bloqueado', mensaje: 'IP bloqueada temporalmente por 1 minuto.' };
   }
 
   return { accion: 'registrado', intentosRestantes: LOGIN_MAX_ATTEMPTS - registro.conteo };

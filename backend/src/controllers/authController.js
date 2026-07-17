@@ -32,15 +32,9 @@ const login = async (req, res) => {
   } catch (error) {
     const resultado = registrarIntentoFallido(ip);
 
-    if (resultado.accion === 'baneado') {
-      return res.status(403).json({
-        mensaje: 'Cuenta bloqueada permanentemente por actividad sospechosa.',
-      });
-    }
-
     if (resultado.accion === 'bloqueado') {
       return res.status(429).json({
-        mensaje: 'IP bloqueada temporalmente por 15 minutos por múltiples intentos fallidos.',
+        mensaje: 'IP bloqueada temporalmente por 1 minuto por múltiples intentos fallidos.',
       });
     }
 
