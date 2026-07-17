@@ -6,99 +6,122 @@ import { ClientRouter } from "astro:transitions";
 
 const currentPath = Astro.url.pathname;
 
+const ROL_ADMIN = 1;
+const ROL_GERENTE = 3;
+const ROL_VENDEDOR = 4;
+
 const menuSections = [
   {
     title: "Panel principal",
+    roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
     items: [
       {
         label: "Dashboard",
         href: "/dashboard",
         icon: "📊",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
     ],
   },
   {
     title: "Gestión comercial",
+    roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
     items: [
       {
-        label: "Monitoreo de Cotizaciones",
+        label: "Cotizaciones",
         href: "/dashboard/cotizaciones",
         icon: "📡",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
       {
         label: "Clientes",
         href: "/dashboard/clientes",
         icon: "👥",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
       {
         label: "Vehículos",
         href: "/dashboard/vehiculos",
         icon: "🚘",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
       {
         label: "Ventas",
         href: "/dashboard/ventas",
         icon: "💰",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
     ],
   },
   {
     title: "Finanzas",
+    roles: [ROL_ADMIN, ROL_GERENTE],
     items: [
       {
         label: "Pagos",
         href: "/dashboard/pagos",
         icon: "💳",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
       {
         label: "Cuotas",
         href: "/dashboard/cuotas",
         icon: "📆",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
       {
         label: "Planes de financiamiento",
         href: "/dashboard/planes-financiamiento",
         icon: "🏦",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
     ],
   },
   {
     title: "Catálogo",
+    roles: [ROL_ADMIN, ROL_GERENTE],
     items: [
       {
         label: "Marcas",
         href: "/dashboard/marcas",
         icon: "🏷️",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
       {
         label: "Modelos",
         href: "/dashboard/modelos",
         icon: "🚙",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
       {
         label: "Proveedores",
         href: "/dashboard/proveedores",
         icon: "🏭",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
     ],
   },
   {
     title: "Administración",
+    roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
     items: [
       {
         label: "Usuarios",
         href: "/dashboard/usuarios",
         icon: "👤",
+        roles: [ROL_ADMIN, ROL_GERENTE],
       },
       {
         label: "Mi perfil",
         href: "/dashboard/perfil",
         icon: "⚙️",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
       {
         label: "Acerca del sistema",
         href: "/dashboard/acerca",
         icon: "ℹ️",
+        roles: [ROL_ADMIN, ROL_GERENTE, ROL_VENDEDOR],
       },
     ],
   },
@@ -210,28 +233,13 @@ const getLinkClass = (href) => {
           </div>
         </div>
 
-        <nav class="flex-1 overflow-y-auto px-4 py-5 scrollbar-none">
-          {
-            menuSections.map((section) => (
-              <div class="mb-6">
-                <p class="mb-2 px-3 text-xs font-black uppercase tracking-widest text-red-500">
-                  {section.title}
-                </p>
-
-                <div class="space-y-1">
-                  {section.items.map((item) => (
-                    <a href={item.href} class={getLinkClass(item.href)}>
-                      <span class="text-lg">{item.icon}</span>
-                      <span>{item.label}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ))
-          }
+        <nav class="flex-1 overflow-y-auto px-4 py-5 scrollbar-none" id="sidebarNav">
         </nav>
 
         <div class="border-t border-slate-800 p-4">
+          <div id="rolBadge" class="mb-3 hidden rounded-xl bg-white/5 px-4 py-2 text-center text-xs font-semibold text-slate-400">
+          </div>
+
           <button
             id="logoutBtn"
             class="w-full rounded-xl bg-red-600 px-4 py-3 font-bold text-white transition hover:bg-red-700"
@@ -249,11 +257,139 @@ const getLinkClass = (href) => {
     </div>
 
     <script>
+      const ROL = {
+        ADMIN: 1,
+        CLIENTE: 2,
+        GERENTE: 3,
+        VENDEDOR: 4,
+      };
+
+      const menuData = [
+        {
+          title: "Panel principal",
+          roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR],
+          items: [
+            { label: "Dashboard", href: "/dashboard", icon: "\u{1F4CA}", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+          ],
+        },
+        {
+          title: "Gesti\u00F3n comercial",
+          roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR],
+          items: [
+            { label: "Cotizaciones", href: "/dashboard/cotizaciones", icon: "\u{1F4E1}", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+            { label: "Clientes", href: "/dashboard/clientes", icon: "\u{1F465}", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+            { label: "Veh\u00EDculos", href: "/dashboard/vehiculos", icon: "\u{1F698}", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+            { label: "Ventas", href: "/dashboard/ventas", icon: "\u{1F4B0}", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+          ],
+        },
+        {
+          title: "Finanzas",
+          roles: [ROL.ADMIN, ROL.GERENTE],
+          items: [
+            { label: "Pagos", href: "/dashboard/pagos", icon: "\u{1F4B3}", roles: [ROL.ADMIN, ROL.GERENTE] },
+            { label: "Cuotas", href: "/dashboard/cuotas", icon: "\u{1F4C6}", roles: [ROL.ADMIN, ROL.GERENTE] },
+            { label: "Planes de financiamiento", href: "/dashboard/planes-financiamiento", icon: "\u{1F3E6}", roles: [ROL.ADMIN, ROL.GERENTE] },
+          ],
+        },
+        {
+          title: "Cat\u00E1logo",
+          roles: [ROL.ADMIN, ROL.GERENTE],
+          items: [
+            { label: "Marcas", href: "/dashboard/marcas", icon: "\u{1F3F7}\uFE0F", roles: [ROL.ADMIN, ROL.GERENTE] },
+            { label: "Modelos", href: "/dashboard/modelos", icon: "\u{1F699}", roles: [ROL.ADMIN, ROL.GERENTE] },
+            { label: "Proveedores", href: "/dashboard/proveedores", icon: "\u{1F3ED}", roles: [ROL.ADMIN, ROL.GERENTE] },
+          ],
+        },
+        {
+          title: "Administraci\u00F3n",
+          roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR],
+          items: [
+            { label: "Usuarios", href: "/dashboard/usuarios", icon: "\u{1F464}", roles: [ROL.ADMIN, ROL.GERENTE] },
+            { label: "Mi perfil", href: "/dashboard/perfil", icon: "\u{2699}\uFE0F", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+            { label: "Acerca del sistema", href: "/dashboard/acerca", icon: "\u2139\uFE0F", roles: [ROL.ADMIN, ROL.GERENTE, ROL.VENDEDOR] },
+          ],
+        },
+      ];
+
+      const rolLabels = {
+        [ROL.ADMIN]: "Administrador",
+        [ROL.GERENTE]: "Gerente",
+        [ROL.VENDEDOR]: "Vendedor",
+      };
+
       const logoutBtn = document.getElementById("logoutBtn");
       const openSidebarBtn = document.getElementById("openSidebarBtn");
       const closeSidebarBtn = document.getElementById("closeSidebarBtn");
       const sidebar = document.getElementById("sidebar");
       const sidebarOverlay = document.getElementById("sidebarOverlay");
+      const sidebarNav = document.getElementById("sidebarNav");
+      const rolBadge = document.getElementById("rolBadge");
+
+      const getUsuario = () => {
+        try {
+          return JSON.parse(localStorage.getItem("usuario"));
+        } catch {
+          return null;
+        }
+      };
+
+      const getIdRol = () => {
+        const usuario = getUsuario();
+        return usuario?.id_rol;
+      };
+
+      const buildSidebar = (idRol) => {
+        if (!sidebarNav) return;
+        sidebarNav.innerHTML = "";
+
+        const currentPath = window.location.pathname;
+
+        const isActive = (href) => {
+          if (href === "/dashboard") return currentPath === "/dashboard";
+          return currentPath.startsWith(href);
+        };
+
+        menuData.forEach((section) => {
+          if (!section.roles.includes(idRol)) return;
+
+          const filteredItems = section.items.filter((item) =>
+            item.roles.includes(idRol)
+          );
+
+          if (filteredItems.length === 0) return;
+
+          const sectionDiv = document.createElement("div");
+          sectionDiv.className = "mb-6";
+
+          const title = document.createElement("p");
+          title.className = "mb-2 px-3 text-xs font-black uppercase tracking-widest text-red-500";
+          title.textContent = section.title;
+          sectionDiv.appendChild(title);
+
+          const itemsDiv = document.createElement("div");
+          itemsDiv.className = "space-y-1";
+
+          filteredItems.forEach((item) => {
+            const a = document.createElement("a");
+            const isItemActive = isActive(item.href);
+            a.href = item.href;
+            a.className = isItemActive
+              ? "mb-1 flex items-center gap-3 rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-red-900/30 transition"
+              : "mb-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-red-950/50 hover:text-red-400";
+
+            a.innerHTML = `<span style="font-size:1.125rem">${item.icon}</span><span>${item.label}</span>`;
+
+            a.addEventListener("click", () => {
+              if (window.innerWidth < 1024) closeSidebar();
+            });
+
+            itemsDiv.appendChild(a);
+          });
+
+          sectionDiv.appendChild(itemsDiv);
+          sidebarNav.appendChild(sectionDiv);
+        });
+      };
 
       const openSidebar = () => {
         sidebar?.classList.remove("-translate-x-full");
@@ -269,16 +405,26 @@ const getLinkClass = (href) => {
       closeSidebarBtn?.addEventListener("click", closeSidebar);
       sidebarOverlay?.addEventListener("click", closeSidebar);
 
-      document.querySelectorAll("#sidebar a").forEach((link) => {
-        link.addEventListener("click", () => {
-          if (window.innerWidth < 1024) closeSidebar();
-        });
-      });
-
       logoutBtn?.addEventListener("click", () => {
         localStorage.removeItem("token");
         localStorage.removeItem("usuario");
         window.location.href = "/login";
+      });
+
+      const idRol = getIdRol();
+      buildSidebar(idRol);
+
+      if (rolBadge && idRol) {
+        const label = rolLabels[idRol] || `Rol #${idRol}`;
+        rolBadge.textContent = `Rol: ${label}`;
+        rolBadge.classList.remove("hidden");
+      }
+
+      window.addEventListener("focus", () => {
+        const newIdRol = getIdRol();
+        if (newIdRol !== idRol) {
+          buildSidebar(newIdRol);
+        }
       });
     </script>
 

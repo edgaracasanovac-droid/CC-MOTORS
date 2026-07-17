@@ -27,6 +27,7 @@ const login = async (correo, contrasena) => {
     {
       id_usuario: usuario.id_usuario,
       correo: usuario.correo,
+      id_rol: usuario.id_rol,
     },
     process.env.JWT_SECRET || 'secret_key',
     {
@@ -42,6 +43,7 @@ const login = async (correo, contrasena) => {
       nombre: usuario.nombre,
       apellido: usuario.apellido,
       correo: usuario.correo,
+      id_rol: usuario.id_rol,
     },
   };
 };

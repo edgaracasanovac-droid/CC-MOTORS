@@ -16,6 +16,7 @@ const cuotaRoutes = require('./routes/cuotaRoutes');
 const proveedorRoutes = require('./routes/proveedorRoutes');
 const marcaRoutes = require('./routes/marcaRoutes');
 const modeloRoutes = require('./routes/modeloRoutes');
+const rolRoutes = require('./routes/rolRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -82,6 +83,7 @@ app.use('/api/cuotas', cuotaRoutes);
 app.use('/api/proveedores', proveedorRoutes);
 app.use('/api/marcas', marcaRoutes);
 app.use('/api/modelos', modeloRoutes);
+app.use('/api/roles', rolRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authController = require('../controllers/authController');
-const { verificarToken } = require('../middlewares/authMiddleware');
+const { verificarToken, verificarRol } = require('../middlewares/authMiddleware');
 const { loginLimiter, passwordRecoveryLimiter, registerLimiter } = require('../middlewares/rateLimiters');
 
 /**
@@ -89,7 +89,7 @@ router.put('/profile_update', verificarToken, authController.profileUpdate);
 // ── Rutas de gestión de IPs baneadas (solo para admin autenticado) ──
 const { bannedIps, blockedIps, failedAttempts } = require('../middlewares/rateLimiters');
 
-router.get('/ips-bloqueadas', verificarToken, (req, res) => {
+router.get('/ips-bloqueadas', verificarToken, verificarRol(1), (req, res) => {
   const ahora = Date.now();
   const bloqueosActivos = {};
 
@@ -109,7 +109,7 @@ router.get('/ips-bloqueadas', verificarToken, (req, res) => {
   });
 });
 
-router.post('/banear-ip', verificarToken, (req, res) => {
+router.post('/banear-ip', verificarToken, verificarRol(1), (req, res) => {
   const { ip } = req.body;
 
   if (!ip) {
@@ -125,7 +125,7 @@ router.post('/banear-ip', verificarToken, (req, res) => {
   res.json({ mensaje: `IP ${ip} baneada permanentemente.` });
 });
 
-router.post('/desbanear-ip', verificarToken, (req, res) => {
+router.post('/desbanear-ip', verificarToken, verificarRol(1), (req, res) => {
   const { ip } = req.body;
 
   if (!ip) {

@@ -79,6 +79,18 @@ export default function LoginForm() {
 
       toast.success("Inicio de sesión correcto");
 
+      const idRol = usuario?.id_rol;
+
+      if (idRol === undefined || idRol === null || idRol === 2) {
+        const mensaje = "No tienes permisos para acceder al panel administrativo.";
+        setError(mensaje);
+        toast.error(mensaje);
+        guardarToken(null);
+        guardarUsuario(null);
+        setCargando(false);
+        return;
+      }
+
       setTimeout(() => {
         window.location.replace("/dashboard");
       }, 500);

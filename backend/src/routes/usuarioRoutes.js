@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const usuarioController = require('../controllers/usuarioController');
+const { verificarToken, verificarRol } = require('../middlewares/authMiddleware');
 
 /**
  * @swagger
@@ -25,7 +26,7 @@ const usuarioController = require('../controllers/usuarioController');
  *                 id_rol: 1
  *                 rol: admin
  */
-router.get('/', usuarioController.getUsuarios);
+router.get('/', verificarToken, verificarRol(1, 3), usuarioController.getUsuarios);
 
 /**
  * @swagger
@@ -48,7 +49,7 @@ router.get('/', usuarioController.getUsuarios);
  *       404:
  *         description: Usuario no encontrado
  */
-router.get('/:id', usuarioController.getUsuarioPorId);
+router.get('/:id', verificarToken, verificarRol(1, 3), usuarioController.getUsuarioPorId);
 
 /**
  * @swagger
@@ -91,7 +92,7 @@ router.get('/:id', usuarioController.getUsuarioPorId);
  *       400:
  *         description: Datos inválidos
  */
-router.post('/', usuarioController.postUsuario);
+router.post('/', verificarToken, verificarRol(1), usuarioController.postUsuario);
 
 /**
  * @swagger
@@ -136,7 +137,7 @@ router.post('/', usuarioController.postUsuario);
  *       404:
  *         description: Usuario no encontrado
  */
-router.put('/:id', usuarioController.putUsuario);
+router.put('/:id', verificarToken, verificarRol(1), usuarioController.putUsuario);
 
 /**
  * @swagger
@@ -159,6 +160,6 @@ router.put('/:id', usuarioController.putUsuario);
  *       404:
  *         description: Usuario no encontrado
  */
-router.delete('/:id', usuarioController.deleteUsuario);
+router.delete('/:id', verificarToken, verificarRol(1), usuarioController.deleteUsuario);
 
 module.exports = router;
