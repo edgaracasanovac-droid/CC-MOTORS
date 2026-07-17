@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import ToastProvider from "../components/ui/ToastProvider.jsx";
+import NotificationPanel from "../components/dashboard/NotificationPanel.jsx";
 import { ClientRouter } from "astro:transitions";
 
 const currentPath = Astro.url.pathname;
@@ -20,9 +21,9 @@ const menuSections = [
     title: "Gestión comercial",
     items: [
       {
-        label: "Cotizaciones",
+        label: "Monitoreo de Cotizaciones",
         href: "/dashboard/cotizaciones",
-        icon: "🧾",
+        icon: "📡",
       },
       {
         label: "Clientes",
@@ -150,12 +151,15 @@ const getLinkClass = (href) => {
           </div>
         </div>
 
-        <button
-          id="openSidebarBtn"
-          class="shrink-0 rounded-xl bg-red-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-red-700 sm:px-4"
-        >
-          ☰
-        </button>
+        <div class="flex items-center gap-2">
+          <NotificationPanel client:load />
+          <button
+            id="openSidebarBtn"
+            class="shrink-0 rounded-xl bg-red-600 px-3 py-2 text-sm font-bold text-white transition hover:bg-red-700 sm:px-4"
+          >
+            ☰
+          </button>
+        </div>
       </div>
 
       <div
@@ -194,12 +198,15 @@ const getLinkClass = (href) => {
               </div>
             </div>
 
-            <button
-              id="closeSidebarBtn"
-              class="rounded-lg bg-red-600 px-3 py-2 text-white transition hover:bg-red-700 lg:hidden"
-            >
-              ✕
-            </button>
+            <div class="flex items-center gap-2">
+              <NotificationPanel client:load />
+              <button
+                id="closeSidebarBtn"
+                class="rounded-lg bg-red-600 px-3 py-2 text-white transition hover:bg-red-700 lg:hidden"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         </div>
 

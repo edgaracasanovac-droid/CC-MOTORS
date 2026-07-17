@@ -39,13 +39,6 @@ export async function getVehiculoPorId(id) {
   }
 }
 
-export async function crearCotizacionPublica(datosCotizacion) {
-  return await request("/cotizaciones/publica", {
-    method: "POST",
-    body: JSON.stringify(datosCotizacion),
-  });
-}
-
 export function formatPrice(value) {
   const number = Number(value);
 

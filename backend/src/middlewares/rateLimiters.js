@@ -84,12 +84,12 @@ const globalLimiter = rateLimit({
 
 // ── Rate Limit para Login ───────────────────────────────────────────
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 30 * 1000,
   max: 5,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    mensaje: 'Demasiados intentos de inicio de sesión. Intenta nuevamente en 15 minutos.',
+    mensaje: 'Demasiados intentos de inicio de sesión. Intenta nuevamente en 30 segundos.',
   },
   handler: (req, res, _next, options) => {
     blockIpTemporarily(req.ip, 15 * 60 * 1000);
@@ -125,12 +125,12 @@ const publicFormsLimiter = rateLimit({
 
 // ── Rate Limit para registro ────────────────────────────────────────
 const registerLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 30 * 1000,
   max: 5,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
-    mensaje: 'Demasiados intentos de registro. Intenta nuevamente más tarde.',
+    mensaje: 'Demasiados intentos de registro. Intenta nuevamente en 30 segundos.',
   },
 });
 

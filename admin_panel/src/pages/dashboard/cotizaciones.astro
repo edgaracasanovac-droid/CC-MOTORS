@@ -6,22 +6,5 @@ import CotizacionesList from "../../components/cotizaciones/CotizacionesList.jsx
 
 <DashboardLayout>
   <ProtectedRoute client:load />
-
-  <div class="space-y-6">
-    <div>
-      <p class="mb-2 text-sm font-bold uppercase tracking-widest text-red-600">
-        CC Motors
-      </p>
-
-      <h1 class="text-4xl font-black text-black">
-        Gestión de cotizaciones
-      </h1>
-
-      <p class="mt-2 text-slate-600">
-        Administra las cotizaciones registradas desde el panel y las solicitudes recibidas desde la website.
-      </p>
-    </div>
-
-    <CotizacionesList client:load />
-  </div>
+  <CotizacionesList client:load />
 </DashboardLayout>

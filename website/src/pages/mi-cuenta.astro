@@ -52,11 +52,6 @@ import { API_URL } from "../services/api";
           </div>
 
           <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
-            <p class="text-gray-400 text-sm uppercase tracking-wider">Compras</p>
-            <p id="comprasCount" class="text-4xl font-black text-red-500 mt-3">0</p>
-          </div>
-
-          <div class="bg-[#171820] border border-white/10 rounded-3xl p-6">
             <p class="text-gray-400 text-sm uppercase tracking-wider">Cuenta</p>
             <p class="text-xl font-black text-green-500 mt-4">Activa</p>
           </div>
@@ -79,15 +74,6 @@ import { API_URL } from "../services/api";
           <div id="cotizacionesContainer" class="grid gap-5">
             <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
               Cargando cotizaciones...
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 class="text-2xl sm:text-3xl font-black mb-6">Mis Configuraciones de Compra</h2>
-          <div id="configuracionesContainer" class="grid gap-5">
-            <div class="bg-[#171820] border border-white/10 rounded-3xl p-5 sm:p-8 text-center text-gray-400">
-              Cargando configuraciones...
             </div>
           </div>
         </section>
@@ -172,13 +158,10 @@ import { API_URL } from "../services/api";
 
   const actividadContainer = document.getElementById("actividadContainer");
   const cotizacionesContainer = document.getElementById("cotizacionesContainer");
-  const configuracionesContainer = document.getElementById("configuracionesContainer");
 
   const cotizacionesCount = document.getElementById("cotizacionesCount");
-  const comprasCount = document.getElementById("comprasCount");
 
   let cotizacionesRecientes = [];
-  let configuracionesRecientes = [];
 
   function cerrarSesion() {
     localStorage.removeItem("cc_motors_token");
@@ -284,31 +267,20 @@ import { API_URL } from "../services/api";
 
       const registros = Array.isArray(data.cotizaciones) ? data.cotizaciones : [];
 
-      const cotizaciones = registros.filter((item) => item.tipo_historial === "cotizacion");
-      const configuraciones = registros.filter((item) => item.tipo_historial === "configuracion_compra");
+      const cotizaciones = registros;
 
       cotizacionesRecientes = cotizaciones;
-      configuracionesRecientes = configuraciones;
 
       cotizacionesCount.textContent = cotizaciones.length;
-      comprasCount.textContent = configuraciones.length;
 
       renderHistorial(cotizaciones, cotizacionesContainer, "No tienes cotizaciones registradas.");
-      renderHistorial(configuraciones, configuracionesContainer, "No tienes configuraciones de compra registradas.");
       renderActividadReciente();
     } catch (error) {
       console.error(error);
 
       cotizacionesCount.textContent = "0";
-      comprasCount.textContent = "0";
 
       cotizacionesContainer.innerHTML = `
-        <div class="bg-red-500/10 border border-red-500/30 rounded-3xl p-8 text-center text-red-300">
-          No se pudo cargar el historial.
-        </div>
-      `;
-
-      configuracionesContainer.innerHTML = `
         <div class="bg-red-500/10 border border-red-500/30 rounded-3xl p-8 text-center text-red-300">
           No se pudo cargar el historial.
         </div>
@@ -323,13 +295,6 @@ import { API_URL } from "../services/api";
       ...cotizacionesRecientes.map((item) => ({
         tipo: "Cotización",
         icono: "🚘",
-        fecha: item.fecha,
-        estado: item.estado || "pendiente",
-        titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
-      })),
-      ...configuracionesRecientes.map((item) => ({
-        tipo: "Mi Compra",
-        icono: "🧾",
         fecha: item.fecha,
         estado: item.estado || "pendiente",
         titulo: `${item.vehiculo?.marca || "Vehículo"} ${item.vehiculo?.modelo || ""}`,
@@ -393,7 +358,7 @@ import { API_URL } from "../services/api";
             <div class="flex justify-between flex-wrap gap-4">
               <div>
                 <p class="text-red-500 uppercase tracking-[0.25em] text-xs font-black">
-                  ${item.tipo_historial === "configuracion_compra" ? "Mi Compra" : "Cotización"}
+                  Cotización
                 </p>
 
                 <h3 class="text-2xl font-black mt-2">${marca} ${modelo}</h3>
