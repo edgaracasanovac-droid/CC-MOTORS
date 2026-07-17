@@ -1,6 +1,5 @@
 const authService = require('../services/authService');
 
-
 const {
   loginSchema,
   recoverPasswordSchema,
@@ -9,28 +8,45 @@ const {
   resetPasswordSchema
 } = require('../validations/authValidation');
 
+const { registrarIntentoFallido, limpiarIntentoFallido } = require('../middlewares/rateLimiters');
+
 const login = async (req, res) => {
+  const ip = req.ip;
 
   try {
-
     const validacion = loginSchema.safeParse(req.body);
 
     if (!validacion.success) {
+      registrarIntentoFallido(ip);
       return res.status(400).json(validacion.error);
     }
 
     const { correo, contrasena } = req.body;
 
-    const resultado = await authService.login(
-      correo,
-      contrasena
-    );
+    const resultado = await authService.login(correo, contrasena);
+
+    limpiarIntentoFallido(ip);
 
     res.json(resultado);
 
   } catch (error) {
+    const resultado = registrarIntentoFallido(ip);
+
+    if (resultado.accion === 'baneado') {
+      return res.status(403).json({
+        mensaje: 'Cuenta bloqueada permanentemente por actividad sospechosa.',
+      });
+    }
+
+    if (resultado.accion === 'bloqueado') {
+      return res.status(429).json({
+        mensaje: 'IP bloqueada temporalmente por 15 minutos por múltiples intentos fallidos.',
+      });
+    }
+
     res.status(401).json({
-      mensaje: error.message
+      mensaje: error.message,
+      intentosRestantes: resultado.intentosRestantes,
     });
   }
 };

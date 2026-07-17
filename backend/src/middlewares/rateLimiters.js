@@ -1,31 +1,25 @@
 const rateLimit = require('express-rate-limit');
 
 // ── Lista de IPs baneadas (en memoria) ──────────────────────────────
-// Agregar IPs manualmente aquí para bloqueo permanente.
-// Ejemplo: bannedIps.add('192.168.1.100');
 const bannedIps = new Set();
 
 // ── Bloqueo temporal automático (en memoria) ────────────────────────
-// Almacena IPs bloqueadas temporalmente con timestamp de expiración.
 const blockedIps = new Map();
 
-/**
- * Registra un bloqueo temporal para una IP.
- * @param {string} ip
- * @param {number} durationMs - duración en milisegundos
- */
+// ── Contador de intentos fallidos por IP (para baneo progresivo) ────
+const failedAttempts = new Map();
+
+const LOGIN_WINDOW_MS = 30 * 1000;
+const LOGIN_MAX_ATTEMPTS = 3;
+const LOGIN_BLOCK_DURATION_MS = 15 * 60 * 1000;
+const MAX_BLOCK_CYCLES = 2;
+
 function blockIpTemporarily(ip, durationMs) {
   const expiresAt = Date.now() + durationMs;
   blockedIps.set(ip, expiresAt);
   console.warn(`[SEGURIDAD] IP bloqueada temporalmente: ${ip} hasta ${new Date(expiresAt).toISOString()}`);
 }
 
-/**
- * Verifica si una IP está bloqueada temporalmente.
- * Limpia entradas expiradas automáticamente.
- * @param {string} ip
- * @returns {boolean}
- */
 function isIpBlocked(ip) {
   const expiresAt = blockedIps.get(ip);
   if (!expiresAt) return false;
@@ -38,7 +32,43 @@ function isIpBlocked(ip) {
   return true;
 }
 
-// ── Middleware: verificar IP baneada ─────────────────────────────────
+function registrarIntentoFallido(ip) {
+  const ahora = Date.now();
+  const registro = failedAttempts.get(ip) || { conteo: 0, bloqueos: 0, ventanaInicio: ahora };
+
+  if (ahora - registro.ventanaInicio > LOGIN_WINDOW_MS) {
+    registro.conteo = 1;
+    registro.ventanaInicio = ahora;
+  } else {
+    registro.conteo += 1;
+  }
+
+  failedAttempts.set(ip, registro);
+
+  if (registro.conteo >= LOGIN_MAX_ATTEMPTS) {
+    registro.bloqueos += 1;
+    registro.conteo = 0;
+    registro.ventanaInicio = ahora;
+
+    if (registro.bloqueos >= MAX_BLOCK_CYCLES) {
+      bannedIps.add(ip);
+      failedAttempts.delete(ip);
+      blockedIps.delete(ip);
+      console.error(`[SEGURIDAD] IP BANEADA PERMANENTEMENTE por intentos repetidos: ${ip}`);
+      return { accion: 'baneado', mensaje: 'IP baneada permanentemente por actividad sospechosa.' };
+    }
+
+    blockIpTemporarily(ip, LOGIN_BLOCK_DURATION_MS);
+    return { accion: 'bloqueado', mensaje: 'IP bloqueada temporalmente por 15 minutos.' };
+  }
+
+  return { accion: 'registrado', intentosRestantes: LOGIN_MAX_ATTEMPTS - registro.conteo };
+}
+
+function limpiarIntentoFallido(ip) {
+  failedAttempts.delete(ip);
+}
+
 function bannedIpMiddleware(req, res, next) {
   const ip = req.ip;
 
@@ -50,14 +80,13 @@ function bannedIpMiddleware(req, res, next) {
 
   if (isIpBlocked(ip)) {
     return res.status(429).json({
-      mensaje: 'IP bloqueada temporalmente por actividad sospechosa.',
+      mensaje: 'IP bloqueada temporalmente por actividad sospechosa. Intenta más tarde.',
     });
   }
 
   next();
 }
 
-// ── Middleware: logging de requests ──────────────────────────────────
 function requestLogger(req, res, next) {
   const ip = req.ip;
   const origin = req.headers.origin || 'N/A';
@@ -71,7 +100,6 @@ function requestLogger(req, res, next) {
   next();
 }
 
-// ── Rate Limit Global ───────────────────────────────────────────────
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -82,17 +110,16 @@ const globalLimiter = rateLimit({
   },
 });
 
-// ── Rate Limit para Login ───────────────────────────────────────────
 const loginLimiter = rateLimit({
-  windowMs: 30 * 1000,
-  max: 5,
+  windowMs: LOGIN_WINDOW_MS,
+  max: LOGIN_MAX_ATTEMPTS,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
     mensaje: 'Demasiados intentos de inicio de sesión. Intenta nuevamente en 30 segundos.',
   },
   handler: (req, res, _next, options) => {
-    blockIpTemporarily(req.ip, 15 * 60 * 1000);
+    blockIpTemporarily(req.ip, LOGIN_BLOCK_DURATION_MS);
     res.status(options.statusCode).json(options.message);
   },
 });
@@ -143,6 +170,11 @@ module.exports = {
   bannedIpMiddleware,
   requestLogger,
   bannedIps,
+  blockedIps,
+  failedAttempts,
   blockIpTemporarily,
   isIpBlocked,
+  registrarIntentoFallido,
+  limpiarIntentoFallido,
+  LOGIN_BLOCK_DURATION_MS,
 };

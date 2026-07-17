@@ -86,4 +86,59 @@ router.get('/profile', verificarToken, authController.profile);
  */
 router.put('/profile_update', verificarToken, authController.profileUpdate);
 
+// ── Rutas de gestión de IPs baneadas (solo para admin autenticado) ──
+const { bannedIps, blockedIps, failedAttempts } = require('../middlewares/rateLimiters');
+
+router.get('/ips-bloqueadas', verificarToken, (req, res) => {
+  const ahora = Date.now();
+  const bloqueosActivos = {};
+
+  for (const [ip, expiresAt] of blockedIps) {
+    if (ahora < expiresAt) {
+      bloqueosActivos[ip] = {
+        expira: new Date(expiresAt).toISOString(),
+        tiempoRestanteMs: expiresAt - ahora,
+      };
+    }
+  }
+
+  res.json({
+    ipsBaneadasPermanentes: Array.from(bannedIps),
+    ipsBloqueadasTemporales: bloqueosActivos,
+    intentosFallidos: Object.fromEntries(failedAttempts),
+  });
+});
+
+router.post('/banear-ip', verificarToken, (req, res) => {
+  const { ip } = req.body;
+
+  if (!ip) {
+    return res.status(400).json({ mensaje: 'Se requiere una dirección IP.' });
+  }
+
+  bannedIps.add(ip);
+  blockedIps.delete(ip);
+  failedAttempts.delete(ip);
+
+  console.error(`[SEGURIDAD] IP baneada manualmente por admin: ${ip}`);
+
+  res.json({ mensaje: `IP ${ip} baneada permanentemente.` });
+});
+
+router.post('/desbanear-ip', verificarToken, (req, res) => {
+  const { ip } = req.body;
+
+  if (!ip) {
+    return res.status(400).json({ mensaje: 'Se requiere una dirección IP.' });
+  }
+
+  bannedIps.delete(ip);
+  blockedIps.delete(ip);
+  failedAttempts.delete(ip);
+
+  console.log(`[SEGURIDAD] IP desbaneada manualmente por admin: ${ip}`);
+
+  res.json({ mensaje: `IP ${ip} desbaneada correctamente.` });
+});
+
 module.exports = router;
